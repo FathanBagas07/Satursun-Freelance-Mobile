@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
-import 'screens/get_started_screen.dart';
-import 'screens/sign_in_screen.dart';
+import 'modules/auth/screens/splash_screen.dart';
+import 'modules/auth/screens/get_started_screen.dart';
+import 'modules/auth/screens/sign_in_screen.dart';
 
 void main() {
   runApp(SatursunApp());
