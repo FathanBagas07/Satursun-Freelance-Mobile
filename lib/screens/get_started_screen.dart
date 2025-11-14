@@ -4,53 +4,73 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Bagian Gambar
-            Expanded(
-              child: Stack(
+      body: Stack(
+        children: [
+          // Gambar Latar Belakang (Diposisikan 50 piksel ke bawah)
+          Positioned(
+            top: 50,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Image.asset(
+              'assets/get_started.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // Overlay Gradasi di Bagian Bawah Gambar
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 250,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.0),
+                    Colors.white.withOpacity(0.9),
+                    Colors.white,
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Konten ATAS (Hanya Logo Satursun)
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0),
+              child: Column(
                 children: [
-                  Image.asset(
-                    'assets/get_started.png', // gambar dari desainmu
-                    fit: BoxFit.cover,
-                  ),
-                  // Overlay/Efek di bagian bawah gambar (opsional, untuk tampilan gradasi)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.white.withOpacity(0.9),
-                            Colors.white,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  Image.asset('assets/logo.png', height: 200),
+                  SizedBox(height: 10),
+                  // Tagline sudah dipindahkan dari sini
                 ],
               ),
             ),
-            // Bagian Teks & Tombol
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+          ),
+
+          // Konten BAWAH (Tagline & Tombol "Ayo Mulai")
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 30, right: 30, bottom: 50),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  // Tagline dipindahkan ke sini
                   Text(
-                    "Teman Freelance Pemula Akhir Pekan", // Teks sesuai desain
+                    "Teman Freelance Pemula Akhir Pekan",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 30), // Jarak antara teks dan tombol
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -63,16 +83,15 @@ class GetStartedScreen extends StatelessWidget {
                       Navigator.pushNamed(context, '/sign-in');
                     },
                     child: Text(
-                      "Ayo Mulai", // Teks tombol sesuai desain
+                      "Ayo Mulai",
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
-                  SizedBox(height: 30),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

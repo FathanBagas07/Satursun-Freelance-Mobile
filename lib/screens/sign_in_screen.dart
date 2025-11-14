@@ -7,34 +7,29 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color primaryBlue = Colors.blue; 
+    Color primaryOrange = Colors.orange;
     
     return Scaffold(
       backgroundColor: primaryBlue, 
-      appBar: AppBar(
-        backgroundColor: primaryBlue, 
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), 
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 0), 
               Center(
-                child: Image.asset('assets/logo.png', height: 70), 
+                child: Image.asset('assets/logo.png', height: 170),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 0),
               Center(
                 child: Text(
                   "Selamat Datang", 
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
               ),
 
@@ -44,8 +39,8 @@ class SignInScreen extends StatelessWidget {
                 controller: emailUsernameController,
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
-                  hintText: "Email / Nama Pengguna", // Sesuai desain
-                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  hintText: "Email / Nama Pengguna",
+                  hintStyle: TextStyle(color: Colors.black),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -64,7 +59,7 @@ class SignInScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Sandi",
-                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  hintStyle: TextStyle(color: Colors.black),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -78,12 +73,12 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20),
               
               Center(
-                child: Text("— Atau —", style: TextStyle(color: Colors.white70)), // Teks "Atau"
+                child: Text("— Atau —", style: TextStyle(color: Colors.white70)),
               ),
 
               SizedBox(height: 20),
               
-              ElevatedButton.icon(
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, 
                   minimumSize: Size(double.infinity, 45),
@@ -92,10 +87,22 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {},
-                icon: Icon(Icons.public, color: primaryBlue), 
-                label: Text(
-                  "Lanjutkan dengan Google", // Sesuai desain
-                  style: TextStyle(color: primaryBlue, fontSize: 16),
+                // Logo Google di kiri, teks di tengah menggunakan Stack
+                child: Stack( 
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12.0), // Jarak dari kiri
+                        child: Image.asset('assets/google.png', height: 20), // Asumsi nama file Google logo adalah google.png
+                      ),
+                    ),
+                    Text(
+                      "Lanjutkan dengan Google", 
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
 
@@ -104,7 +111,7 @@ class SignInScreen extends StatelessWidget {
               // Tombol Masuk
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange, // Latar belakang oranye
+                  backgroundColor: primaryOrange, 
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -112,8 +119,8 @@ class SignInScreen extends StatelessWidget {
                 ),
                 onPressed: () {},
                 child: Text(
-                  "Masuk", // Teks "Masuk"
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  "Masuk", 
+                  style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold), 
                 ),
               ),
 
@@ -123,11 +130,11 @@ class SignInScreen extends StatelessWidget {
                 child: Text.rich(
                   TextSpan(
                     text: 'Lupa kata sandi? ',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: const Color.fromARGB(179, 0, 0, 0)),
                     children: [
                       TextSpan(
-                        text: 'Klik disini', // Teks "Klik disini"
-                        style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                        text: 'Klik disini',
+                        style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -140,11 +147,11 @@ class SignInScreen extends StatelessWidget {
                 child: Text.rich(
                   TextSpan(
                     text: 'Belum punya akun? ',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: const Color.fromARGB(179, 1, 1, 1)),
                     children: [
                       TextSpan(
-                        text: 'Daftar', // Teks "Daftar"
-                        style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                        text: 'Daftar',
+                        style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

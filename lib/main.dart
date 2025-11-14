@@ -16,7 +16,7 @@ class SatursunApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
       ),
-      initialRoute: '/get-started', // <-- Perubahan ada di baris ini
+      initialRoute: '/get-started',
       routes: {
         '/get-started': (context) => GetStartedScreen(),
         '/sign-in': (context) => SignInScreen(),
