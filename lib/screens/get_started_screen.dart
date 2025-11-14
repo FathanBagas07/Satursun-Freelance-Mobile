@@ -8,37 +8,69 @@ class GetStartedScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Bagian Gambar
             Expanded(
-              child: Image.asset(
-                'assets/group_people.png', // gambar dari desainmu
-                fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  Image.asset(
+                    'assets/get_started.png', // gambar dari desainmu
+                    fit: BoxFit.cover,
+                  ),
+                  // Overlay/Efek di bagian bawah gambar (opsional, untuk tampilan gradasi)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 150,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.white.withOpacity(0.9),
+                            Colors.white,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 20),
-            Text(
-              "Teman Freelance Pemula Akhir Pekan",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(height: 30),
+            // Bagian Teks & Tombol
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  minimumSize: Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/sign-in');
-                },
-                child: Text(
-                  "Get Started",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  Text(
+                    "Teman Freelance Pemula Akhir Pekan", // Teks sesuai desain
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      elevation: 0,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/sign-in');
+                    },
+                    child: Text(
+                      "Ayo Mulai", // Teks tombol sesuai desain
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                ],
               ),
             ),
-            SizedBox(height: 30),
           ],
         ),
       ),

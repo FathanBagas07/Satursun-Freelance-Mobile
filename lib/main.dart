@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
-import 'screens/get_started_screen.dart';
-import 'screens/sign_in_screen.dart';
+import 'package:satursun_app/screens/get_started_screen.dart';
+import 'package:satursun_app/screens/sign_in_screen.dart';
 
 void main() {
   runApp(SatursunApp());
@@ -17,9 +16,8 @@ class SatursunApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
       ),
-      initialRoute: '/',
+      initialRoute: '/get-started', // <-- Perubahan ada di baris ini
       routes: {
-        '/': (context) => SplashScreen(),
         '/get-started': (context) => GetStartedScreen(),
         '/sign-in': (context) => SignInScreen(),
       },
