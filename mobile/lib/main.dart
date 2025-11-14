@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'modules/auth/screens/splash_screen.dart';
 import 'modules/auth/screens/get_started_screen.dart';
 import 'modules/auth/screens/sign_in_screen.dart';
 
@@ -19,8 +18,7 @@ class SatursunApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashScreen(),
-        '/get-started': (context) => GetStartedScreen(),
+        '/': (context) => GetStartedScreen(),
         '/sign-in': (context) => SignInScreen(),
       },
     );
