@@ -4,6 +4,8 @@ class SignInScreen extends StatelessWidget {
   final TextEditingController emailUsernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  SignInScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Color primaryBlue = Colors.blue; 
