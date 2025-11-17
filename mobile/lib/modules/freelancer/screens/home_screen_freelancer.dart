@@ -146,7 +146,7 @@ class HomeScreenFreelancer extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -187,7 +187,7 @@ class HomeScreenFreelancer extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15), // Background warna rekomendasi
+              color: color.withValues(alpha: 0.15), // Background warna rekomendasi
               borderRadius: BorderRadius.circular(15),
             ),
             child: Text(
@@ -214,7 +214,7 @@ class HomeScreenFreelancer extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -276,7 +276,7 @@ class HomeScreenFreelancer extends StatelessWidget {
             child: Icon(
               Icons.assignment_outlined,
               size: 40,
-              color: _saturSunOrange.withOpacity(0.7),
+              color: _saturSunOrange.withValues(alpha: 0.7),
             ),
           ),
         ],
@@ -296,7 +296,7 @@ class BottomNavBar extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 5,
             offset: const Offset(0, -2),
           ),
