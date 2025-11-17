@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart'; // <-- TAMBAHKAN INI
 
 class SignInScreen extends StatelessWidget {
   final TextEditingController emailUsernameController = TextEditingController();
@@ -20,9 +21,9 @@ class SignInScreen extends StatelessWidget {
             children: [
               SizedBox(height: 0), 
               Center(
-                child: Image.asset('assets/logo.png', height: 170),
+                child: Image.asset('assets/logo.png', height: 170), 
               ),
-              SizedBox(height: 0),
+              SizedBox(height: 10),
               Center(
                 child: Text(
                   "Selamat Datang", 
@@ -73,7 +74,7 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20),
               
               Center(
-                child: Text("— Atau —", style: TextStyle(color: Colors.white70)),
+                child: Text("————————————— Atau ——————————————", style: TextStyle(color: Colors.black)),
               ),
 
               SizedBox(height: 20),
@@ -87,15 +88,14 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {},
-                // Logo Google di kiri, teks di tengah menggunakan Stack
                 child: Stack( 
                   alignment: Alignment.center,
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0), // Jarak dari kiri
-                        child: Image.asset('assets/google.png', height: 20), // Asumsi nama file Google logo adalah google.png
+                        padding: const EdgeInsets.only(left: 1.0),
+                        child: Image.asset('assets/google.png', height: 30),
                       ),
                     ),
                     Text(
@@ -108,7 +108,6 @@ class SignInScreen extends StatelessWidget {
 
               SizedBox(height: 15),
               
-              // Tombol Masuk
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryOrange, 
@@ -130,7 +129,7 @@ class SignInScreen extends StatelessWidget {
                 child: Text.rich(
                   TextSpan(
                     text: 'Lupa kata sandi? ',
-                    style: TextStyle(color: const Color.fromARGB(179, 0, 0, 0)),
+                    style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Klik disini',
@@ -143,15 +142,21 @@ class SignInScreen extends StatelessWidget {
 
               SizedBox(height: 15),
               
+              // Bagian "Daftar" yang dapat diklik
               Center(
                 child: Text.rich(
                   TextSpan(
                     text: 'Belum punya akun? ',
-                    style: TextStyle(color: const Color.fromARGB(179, 1, 1, 1)),
+                    style: TextStyle(color: Colors.black), 
                     children: [
                       TextSpan(
                         text: 'Daftar',
                         style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold),
+                        // Logika navigasi ditambahkan di sini
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushNamed(context, '/sign-up');
+                          },
                       ),
                     ],
                   ),
