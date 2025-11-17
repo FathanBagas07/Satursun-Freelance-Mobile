@@ -42,12 +42,11 @@ class GetStartedScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: 0),
+              padding: const EdgeInsets.only(top: 0), // Jarak dikembalikan ke 60
               child: Column(
                 children: [
-                  Image.asset('assets/logo.png', height: 200),
+                  Image.asset('assets/logo.png', height: 200), // Ukuran logo dikembalikan ke 60
                   SizedBox(height: 10),
-                  // Tagline sudah dipindahkan dari sini
                 ],
               ),
             ),
@@ -62,7 +61,6 @@ class GetStartedScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Tagline dipindahkan ke sini
                   Text(
                     "Teman Freelance Pemula Akhir Pekan",
                     textAlign: TextAlign.center,
@@ -71,7 +69,7 @@ class GetStartedScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Colors.black),
                   ),
-                  SizedBox(height: 30), // Jarak antara teks dan tombol
+                  SizedBox(height: 30),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
