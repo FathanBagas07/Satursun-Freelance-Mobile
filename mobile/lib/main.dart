@@ -10,6 +10,7 @@ void main() {
 }
 
 class SatursunApp extends StatelessWidget {
+  const SatursunApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

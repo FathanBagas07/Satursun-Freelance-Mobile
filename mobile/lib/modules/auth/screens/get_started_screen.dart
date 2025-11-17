@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GetStartedScreen extends StatelessWidget {
+  const GetStartedScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +29,8 @@ class GetStartedScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withOpacity(0.0),
-                    Colors.white.withOpacity(0.9),
+                    Colors.white.withValues(alpha: 0.5),
+                    Colors.white.withValues(alpha: 0.9),
                     Colors.white,
                   ],
                 ),
