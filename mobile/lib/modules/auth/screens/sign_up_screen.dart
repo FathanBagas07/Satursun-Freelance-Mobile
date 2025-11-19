@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(width: 10),
                     Text(
                       "Lanjutkan dengan Google",
-                      style: TextStyle(color: primaryBlue, fontSize: 16),
+                      style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
                 ),

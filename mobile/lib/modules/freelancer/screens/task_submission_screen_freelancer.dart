@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-// Definisi warna yang digunakan (lanjutan dari file sebelumnya)
+// Definisi warna
 const Color _saturSunOrange = Color(0xFFF98B00);
 const Color _saturSunBlue = Color(0xFF1E88E5);
 const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-const Color _saturSunRed = Color(0xFFE53935); // Untuk tombol "Kumpul"
-const Color _saturSunGrey = Color(0xFFBDBDBD); // Untuk ikon delete
+const Color _saturSunRed = Color(0xFFE53935);
+const Color _saturSunGrey = Color(0xFFBDBDBD);
 
 class TaskSubmissionScreen extends StatelessWidget {
   const TaskSubmissionScreen({super.key});
@@ -15,7 +15,7 @@ class TaskSubmissionScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Gradient (Biru Muda ke Oranye)
+          // Background Gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -34,15 +34,27 @@ class TaskSubmissionScreen extends StatelessWidget {
           _buildBody(context),
         ],
       ),
-      // Bottom navigation bar, fokus pada index 3 (Tugas)
-      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
-      // Tombol "Kumpul" di luar SingleChildScrollView agar selalu terlihat
+      // Menggunakan CustomBottomNavBar (Index 3: Tugas)
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3),
+      
+      // Tombol "Kumpul" melayang di atas BottomNavBar
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.only(bottom: 0.0, left: 20, right: 20),
         child: ElevatedButton(
           onPressed: () {
-            // Aksi tombol "Kumpul"
+            // --- LOGIKA NAVIGASI ---
+            // Kembali ke Daftar Tugas (Task List)
+            Navigator.pop(context);
+            
+            // Opsional: Tampilkan pesan sukses
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Tugas berhasil dikumpulkan!"),
+                backgroundColor: _saturSunOrange,
+                duration: Duration(seconds: 2),
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: _saturSunRed,
@@ -65,18 +77,16 @@ class TaskSubmissionScreen extends StatelessWidget {
     );
   }
 
-  // --- AppBar & Body Konten Utama ---
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      // Padding bawah untuk memberi ruang pada tombol Kumpul
-      padding: const EdgeInsets.only(bottom: 120),
+      // Padding bawah ekstra agar konten tidak tertutup tombol & nav bar
+      padding: const EdgeInsets.only(bottom: 160),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildAppBar(context),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
 
-          // --- Judul & Status ---
+          // Header Judul & Status
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
@@ -91,10 +101,8 @@ class TaskSubmissionScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                // Tombol Progres
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -104,7 +112,7 @@ class TaskSubmissionScreen extends StatelessWidget {
                     style: TextStyle(
                       color: _saturSunBlue,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: 12,
                     ),
                   ),
                 ),
@@ -113,29 +121,29 @@ class TaskSubmissionScreen extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          // --- Upload Area Card ---
-          _buildUploadCard(),
+          // --- KARTU UPLOAD (RATA TENGAH) ---
+          // Center widget memastikan kartu berada di tengah horizontal
+          Center(child: _buildUploadCard(context)),
+          
           const SizedBox(height: 20),
 
-          // --- Catatan Tambahan Card ---
+          // --- CATATAN TAMBAHAN ---
           _buildNotesCard(),
-          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  // --- Widget AppBar Kustom ---
   Widget _buildAppBar(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, left: 10, bottom: 20),
+        padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
         child: Row(
           children: [
             IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
-                // Aksi kembali
+                Navigator.pop(context);
               },
             ),
             const Text(
@@ -152,17 +160,19 @@ class TaskSubmissionScreen extends StatelessWidget {
     );
   }
 
-  // --- Upload Area Card ---
-  Widget _buildUploadCard() {
+  Widget _buildUploadCard(BuildContext context) {
+    // Lebar kartu disesuaikan dengan layar minus margin kanan-kiri
+    double cardWidth = MediaQuery.of(context).size.width - 40;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      width: cardWidth,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -171,29 +181,37 @@ class TaskSubmissionScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header Kartu (Judul Tugas & Tombol Edit)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.assignment_outlined,
-                      color: Colors.black, size: 24),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Desain Poster Acara Webinar Nasional',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              // Menggunakan Expanded agar teks tidak menabrak tombol Edit
+              const Expanded(
+                child: Row(
+                  children: [
+                    Icon(Icons.assignment_outlined, color: Colors.black, size: 24),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Desain Poster Acara',
+                        overflow: TextOverflow.ellipsis, // Mencegah overflow teks
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               GestureDetector(
                 onTap: () {},
                 child: const Text(
                   'Edit',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     color: _saturSunBlue,
                     fontWeight: FontWeight.w600,
                   ),
@@ -201,38 +219,41 @@ class TaskSubmissionScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 15),
-          // Upload Area Dashed Border
+          const SizedBox(height: 20),
+          
+          // --- AREA UPLOAD RATA TENGAH ---
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 30),
+            width: double.infinity, // Memenuhi lebar parent
+            height: 200, // Tinggi fix agar kotak terlihat proporsional (kotak)
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade400),
+              border: Border.all(color: Colors.grey.shade300, width: 1.5),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // Konten vertikal di tengah
+              crossAxisAlignment: CrossAxisAlignment.center, // Konten horizontal di tengah
               children: [
-                const Icon(Icons.cloud_upload_outlined,
-                    color: _saturSunBlue, size: 40),
-                const SizedBox(height: 8),
+                const Icon(Icons.cloud_upload_outlined, color: _saturSunBlue, size: 50),
+                const SizedBox(height: 15),
                 Text(
                   'Upload karya (max 20MB)',
                   style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 16,
+                    color: Colors.grey[600],
+                    fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Aksi pilih file
+                    // Logika pilih file
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _saturSunOrange,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                    elevation: 0,
                   ),
                   child: const Text(
                     'Pilih File',
@@ -245,8 +266,11 @@ class TaskSubmissionScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 15),
-          // Daftar File yang Sudah Diunggah
+          const SizedBox(height: 20),
+          
+          // List File yang sudah diupload
+          const Divider(),
+          const SizedBox(height: 10),
           _buildUploadedFileItem('poster_final_v2.jpg', '15MB'),
           _buildUploadedFileItem('konsep_warna.pdf', '350KB'),
         ],
@@ -254,34 +278,29 @@ class TaskSubmissionScreen extends StatelessWidget {
     );
   }
 
-  // Widget untuk Item File yang Sudah Diunggah
   Widget _buildUploadedFileItem(String fileName, String fileSize) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Text(
-                fileName,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-              ),
-            ],
+          Expanded(
+            child: Text(
+              fileName,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
           ),
           Row(
             children: [
               Text(
                 fileSize,
-                style: const TextStyle(fontSize: 15, color: Colors.grey),
+                style: const TextStyle(fontSize: 13, color: Colors.grey),
               ),
               const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {
-                  // Aksi hapus file
-                },
-                child: const Icon(Icons.delete_outline,
-                    color: _saturSunGrey, size: 20),
+              InkWell(
+                onTap: (){},
+                child: const Icon(Icons.delete_outline, color: _saturSunGrey, size: 20)
               ),
             ],
           ),
@@ -290,7 +309,6 @@ class TaskSubmissionScreen extends StatelessWidget {
     );
   }
 
-  // --- Catatan Tambahan Card ---
   Widget _buildNotesCard() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -300,7 +318,7 @@ class TaskSubmissionScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -312,7 +330,7 @@ class TaskSubmissionScreen extends StatelessWidget {
           const Text(
             'Catatan Tambahan (opsional)',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -321,19 +339,24 @@ class TaskSubmissionScreen extends StatelessWidget {
             maxLines: 3,
             decoration: InputDecoration(
               hintText: 'contoh : Halo, berikut hasil desainnya.',
-              hintStyle: TextStyle(color: Colors.grey[400]),
+              hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
               border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.grey.shade300),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: _saturSunBlue, width: 2),
+                borderSide: const BorderSide(color: _saturSunBlue, width: 1.5),
               ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              contentPadding: const EdgeInsets.all(15),
+              filled: true,
+              fillColor: Colors.grey.shade50,
             ),
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 14),
           ),
         ],
       ),
@@ -341,83 +364,119 @@ class TaskSubmissionScreen extends StatelessWidget {
   }
 }
 
-// --- Bottom Navigation Bar (Disesuaikan dengan index 3: Tugas) ---
-class BottomNavBar extends StatelessWidget {
+// --- Custom Bottom Nav Bar (Konsisten dengan file lain) ---
+class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
-  const BottomNavBar({super.key, required this.currentIndex});
+  const CustomBottomNavBar({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
-    const Color saturSunOrange = Color(0xFFF98B00);
-    const Color saturSunBlue = Color(0xFF1E88E5);
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double itemWidth = screenWidth / 5;
+    final double activePosition = (itemWidth * currentIndex) + (itemWidth / 2) - 28;
 
-    return Container(
-      height: 70, // Tinggi disesuaikan
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 5,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+    return SizedBox(
+      height: 80,
       child: Stack(
-        alignment: Alignment.bottomCenter,
         children: [
-          BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: saturSunBlue,
-            unselectedItemColor: Colors.grey,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            currentIndex: currentIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Icon(Icons.search)),
-                  label: 'Telusuri'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Icon(Icons.shopping_bag_outlined)),
-                  label: 'Dompet'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8), child: Icon(null)),
-                  label: 'Tugas'), // Placeholder untuk ikon tengah
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline), label: 'Profil'),
-            ],
-            onTap: (index) {
-              // Handle navigasi
-            },
-          ),
-          // Floating Middle Icon (Tugas)
-          Positioned(
-            bottom: 10,
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              width: 55,
-              height: 55,
+              height: 60,
               decoration: BoxDecoration(
-                color: saturSunOrange,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOutQuad,
+            left: activePosition,
+            bottom: 20,
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: _saturSunOrange,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                      color: saturSunOrange.withValues(alpha: 0.4),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5))
+                    color: _saturSunOrange.withOpacity(0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
-              child: const Icon(Icons.help_outline, color: Colors.white, size: 30),
+              child: Icon(
+                _getIconForIndex(currentIndex),
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(context, 0, Icons.home_outlined, "Beranda"),
+                  _buildNavItem(context, 1, Icons.search, "Telusuri"),
+                  _buildNavItem(context, 2, Icons.account_balance_wallet_outlined, "Dompet"),
+                  _buildNavItem(context, 3, Icons.assignment_outlined, "Tugas"),
+                  _buildNavItem(context, 4, Icons.person_outline, "Profil"),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  IconData _getIconForIndex(int index) {
+    switch (index) {
+      case 0: return Icons.home;
+      case 1: return Icons.search;
+      case 2: return Icons.account_balance_wallet;
+      case 3: return Icons.assignment;
+      case 4: return Icons.person;
+      default: return Icons.home;
+    }
+  }
+
+  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
+    final bool isActive = index == currentIndex;
+    return GestureDetector(
+      onTap: () {
+        if (!isActive) {
+          switch (index) {
+            case 0: Navigator.pushReplacementNamed(context, '/home-freelancer'); break;
+            case 1: Navigator.pushReplacementNamed(context, '/explore-freelancer'); break;
+            case 2: Navigator.pushReplacementNamed(context, '/wallet-freelancer'); break;
+            case 3: Navigator.pushReplacementNamed(context, '/task-list-freelancer'); break;
+            case 4: Navigator.pushReplacementNamed(context, '/profile-freelancer'); break;
+          }
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        width: MediaQuery.of(context).size.width / 5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isActive ? const SizedBox(height: 24) : Icon(icon, color: Colors.grey, size: 26),
+            if (!isActive) Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+          ],
+        ),
       ),
     );
   }

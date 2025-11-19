@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-// Import file home untuk akses CustomBottomNavBar jika dalam satu library, 
-// atau definisikan ulang CustomBottomNavBar di bawah jika ingin file ini standalone.
-// Untuk keamanan "Full Code", saya sertakan CustomBottomNavBar di file ini juga.
 
 const Color _saturSunOrange = Color(0xFFF98B00);
 const Color _saturSunBlue = Color(0xFF1E88E5);
@@ -16,7 +13,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
     return Scaffold(
       backgroundColor: _saturSunLightBlue,
       appBar: _buildAppBar(context),
-      body: _buildBody(),
+      body: _buildBody(context),
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1), 
     );
   }
@@ -35,7 +32,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +40,11 @@ class ExploreScreenFreelancer extends StatelessWidget {
           _buildTopSection(),
           const SizedBox(height: 20),
           _buildSectionHeader(icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
-          _buildJobRecommendationCard(title: 'Desain Poster Acara', subtitle: 'Cocok dengan keahlian desain grafis', price: 'Rp 75.000'),
-          _buildJobRecommendationCard(title: 'Asisten Riset Psikologi', subtitle: 'Populer untuk mahasiswa Psikologi', price: 'Rp 60.000'),
+          
+          // --- PERUBAHAN: Navigasi ke Job Detail saat di klik ---
+          _buildJobRecommendationCard(context, title: 'Desain Poster Acara', subtitle: 'Cocok dengan keahlian desain grafis', price: 'Rp 75.000'),
+          _buildJobRecommendationCard(context, title: 'Asisten Riset Psikologi', subtitle: 'Populer untuk mahasiswa Psikologi', price: 'Rp 60.000'),
+          
           const SizedBox(height: 20),
           _buildSectionHeader(icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
           _buildPackageCard(title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
@@ -136,30 +136,36 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildJobRecommendationCard({required String title, required String subtitle, required String price}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [Flexible(child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))), const SizedBox(width: 8), _buildNewTag()]),
-                const SizedBox(height: 4),
-                Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
-              ],
+  // --- PERUBAHAN: Ditambahkan GestureDetector untuk navigasi ---
+  Widget _buildJobRecommendationCard(BuildContext context, {required String title, required String subtitle, required String price}) {
+    return GestureDetector(
+      onTap: () {
+         Navigator.pushNamed(context, '/job-detail');
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [Flexible(child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))), const SizedBox(width: 8), _buildNewTag()]),
+                  const SizedBox(height: 4),
+                  Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                ],
+              ),
             ),
-          ),
-          Text(price, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
-        ],
+            Text(price, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
+          ],
+        ),
       ),
     );
   }
@@ -197,7 +203,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
   }
 }
 
-// --- DUPLIKASI WIDGET NAVIGASI UNTUK FILE INI ---
+// --- Custom Bottom Nav Bar ---
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
   const CustomBottomNavBar({super.key, required this.currentIndex});

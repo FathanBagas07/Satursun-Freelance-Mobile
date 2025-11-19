@@ -127,14 +127,33 @@ class TaskListScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(children: [Expanded(child: LinearProgressIndicator(value: progress, backgroundColor: Colors.grey[200], valueColor: const AlwaysStoppedAnimation<Color>(_saturSunYellow), minHeight: 5)), const SizedBox(width: 10), Text(progressLabel, style: const TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500)), const SizedBox(width: 15), GestureDetector(onTap: () { Navigator.pushNamed(context, '/job-detail'); }, child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: detailColor, borderRadius: BorderRadius.circular(5)), child: const Text('Detail', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))))]),
+          Row(children: [
+            Expanded(child: LinearProgressIndicator(value: progress, backgroundColor: Colors.grey[200], valueColor: const AlwaysStoppedAnimation<Color>(_saturSunYellow), minHeight: 5)), 
+            const SizedBox(width: 10), 
+            Text(progressLabel, style: const TextStyle(fontSize: 12, color: Colors.black54, fontWeight: FontWeight.w500)), 
+            const SizedBox(width: 15), 
+            
+            // --- PERUBAHAN: Navigasi ke Submission jika Tugas Aktif ---
+            GestureDetector(
+              onTap: () { 
+                // Jika tugas selesai, mungkin ke detail lain, jika aktif ke submission
+                // Di sini kita arahkan ke Submission sesuai request
+                Navigator.pushNamed(context, '/task-submission'); 
+              }, 
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), 
+                decoration: BoxDecoration(color: detailColor, borderRadius: BorderRadius.circular(5)), 
+                child: const Text('Detail', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold))
+              )
+            )
+          ]),
         ],
       ),
     );
   }
 }
 
-// --- DUPLIKASI WIDGET NAVIGASI ---
+// --- Custom Bottom Nav Bar ---
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
   const CustomBottomNavBar({super.key, required this.currentIndex});
