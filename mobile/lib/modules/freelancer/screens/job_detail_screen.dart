@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-// Definisi warna yang digunakan (lanjutan dari file sebelumnya)
 const Color _saturSunOrange = Color(0xFFF98B00);
 const Color _saturSunBlue = Color(0xFF1E88E5);
 const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-const Color _saturSunRed = Color(0xFFE53935); // Untuk tombol "Kerjakan"
+const Color _saturSunRed = Color(0xFFE53935); 
 
 class JobDetailScreen extends StatelessWidget {
   const JobDetailScreen({super.key});
@@ -14,7 +13,6 @@ class JobDetailScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Gradient (Biru Muda di bagian atas)
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -28,34 +26,40 @@ class JobDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Scrollable Content
           _buildBody(context),
         ],
       ),
-      // Bottom navigation bar, fokus pada index 3 (Tugas)
-      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
-      // Tombol "Kerjakan" di luar SingleChildScrollView agar selalu terlihat
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
+        // --- PERUBAHAN: Posisi tombol "Kerjakan" lebih proporsional, tidak terlalu tinggi ---
+        // Menggunakan padding yang wajar tanpa tambahan bottom padding yang berlebihan
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ElevatedButton(
-          onPressed: () {
-            // Aksi tombol "Kerjakan"
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _saturSunRed,
-            minimumSize: const Size(double.infinity, 55),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+        
+        // Jika masih dirasa terlalu tinggi karena centerFloat, bisa kita turunkan sedikit dengan Transform
+        child: Transform.translate(
+          offset: const Offset(0, 10), // Turunkan 10 pixel agar lebih dekat dengan nav bar
+          child: ElevatedButton(
+            onPressed: () {
+              // --- PERUBAHAN: Navigasi ke Task List (seolah sudah ambil job) ---
+              Navigator.pushNamed(context, '/task-list-freelancer');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: _saturSunRed,
+              minimumSize: const Size(double.infinity, 55),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 5,
             ),
-            elevation: 5,
-          ),
-          child: const Text(
-            'Kerjakan',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            child: const Text(
+              'Kerjakan',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -63,10 +67,8 @@ class JobDetailScreen extends StatelessWidget {
     );
   }
 
-  // --- AppBar & Body Konten Utama ---
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      // Padding bawah untuk memberi ruang pada tombol Kerjakan
       padding: const EdgeInsets.only(bottom: 120),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +76,6 @@ class JobDetailScreen extends StatelessWidget {
           _buildAppBar(context),
           const SizedBox(height: 15),
 
-          // --- Job Info Section (Judul, Poster, Poster) ---
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
@@ -106,7 +107,6 @@ class JobDetailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Tenggat & Bayaran Cards
                 Row(
                   children: [
                     Expanded(
@@ -123,7 +123,6 @@ class JobDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          // --- Deskripsi Pekerjaan Section ---
           Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
@@ -174,7 +173,6 @@ class JobDetailScreen extends StatelessWidget {
                     'Menguasai software desain (Canva, Figma, Adobe Photoshop, CorelDRAW, dll.)'),
                 _buildBulletPoint(
                     'Memiliki pemahaman yang baik tentang tata letak dan tipografi.'),
-                // Tambahkan sisa konten deskripsi jika ada
               ],
             ),
           ),
@@ -183,7 +181,6 @@ class JobDetailScreen extends StatelessWidget {
     );
   }
 
-  // --- Widget AppBar Kustom ---
   Widget _buildAppBar(BuildContext context) {
     return SafeArea(
       child: Padding(
@@ -193,7 +190,7 @@ class JobDetailScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
-                // Aksi kembali
+                Navigator.pop(context);
               },
             ),
             const Text(
@@ -210,7 +207,6 @@ class JobDetailScreen extends StatelessWidget {
     );
   }
 
-  // --- Widget Info Card (Tenggat/Bayaran) ---
   Widget _buildInfoCard(
       IconData icon, String label, String value,
       [Color valueColor = Colors.black]) {
@@ -252,7 +248,6 @@ class JobDetailScreen extends StatelessWidget {
     );
   }
 
-  // --- Widget Bullet Point ---
   Widget _buildBulletPoint(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4.0),
@@ -272,83 +267,119 @@ class JobDetailScreen extends StatelessWidget {
   }
 }
 
-// --- Bottom Navigation Bar (Disesuaikan dengan index 3: Tugas) ---
-class BottomNavBar extends StatelessWidget {
+// --- Custom Bottom Nav Bar ---
+class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
-  const BottomNavBar({super.key, required this.currentIndex});
+  const CustomBottomNavBar({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
-    const Color saturSunOrange = Color(0xFFF98B00);
-    const Color saturSunBlue = Color(0xFF1E88E5);
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double itemWidth = screenWidth / 5;
+    final double activePosition = (itemWidth * currentIndex) + (itemWidth / 2) - 28;
 
-    return Container(
-      height: 70, // Tinggi disesuaikan
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 5,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+    return SizedBox(
+      height: 80,
       child: Stack(
-        alignment: Alignment.bottomCenter,
         children: [
-          BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: saturSunBlue,
-            unselectedItemColor: Colors.grey,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            currentIndex: currentIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Icon(Icons.search)),
-                  label: 'Telusuri'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Icon(Icons.shopping_bag_outlined)),
-                  label: 'Dompet'),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                      padding: EdgeInsets.only(top: 8), child: Icon(null)),
-                  label: 'Tugas'), // Placeholder untuk ikon tengah
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline), label: 'Profil'),
-            ],
-            onTap: (index) {
-              // Handle navigasi
-            },
-          ),
-          // Floating Middle Icon (Tugas)
-          Positioned(
-            bottom: 10,
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              width: 55,
-              height: 55,
+              height: 60,
               decoration: BoxDecoration(
-                color: saturSunOrange,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOutQuad,
+            left: activePosition,
+            bottom: 20,
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: _saturSunOrange,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                      color: saturSunOrange.withValues(alpha: 0.4),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5))
+                    color: _saturSunOrange.withOpacity(0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
-              child: const Icon(Icons.help_outline, color: Colors.white, size: 30),
+              child: Icon(
+                _getIconForIndex(currentIndex),
+                color: Colors.white,
+                size: 30,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(context, 0, Icons.home_outlined, "Beranda"),
+                  _buildNavItem(context, 1, Icons.search, "Telusuri"),
+                  _buildNavItem(context, 2, Icons.account_balance_wallet_outlined, "Dompet"),
+                  _buildNavItem(context, 3, Icons.assignment_outlined, "Tugas"),
+                  _buildNavItem(context, 4, Icons.person_outline, "Profil"),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  IconData _getIconForIndex(int index) {
+    switch (index) {
+      case 0: return Icons.home;
+      case 1: return Icons.search;
+      case 2: return Icons.account_balance_wallet;
+      case 3: return Icons.assignment;
+      case 4: return Icons.person;
+      default: return Icons.home;
+    }
+  }
+
+  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
+    final bool isActive = index == currentIndex;
+    return GestureDetector(
+      onTap: () {
+        if (!isActive) {
+          switch (index) {
+            case 0: Navigator.pushReplacementNamed(context, '/home-freelancer'); break;
+            case 1: Navigator.pushReplacementNamed(context, '/explore-freelancer'); break;
+            case 2: Navigator.pushReplacementNamed(context, '/wallet-freelancer'); break;
+            case 3: Navigator.pushReplacementNamed(context, '/task-list-freelancer'); break;
+            case 4: Navigator.pushReplacementNamed(context, '/profile-freelancer'); break;
+          }
+        }
+      },
+      child: Container(
+        color: Colors.transparent,
+        width: MediaQuery.of(context).size.width / 5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isActive ? const SizedBox(height: 24) : Icon(icon, color: Colors.grey, size: 26),
+            if (!isActive) Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+          ],
+        ),
       ),
     );
   }
