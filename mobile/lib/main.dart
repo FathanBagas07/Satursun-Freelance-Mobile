@@ -5,8 +5,17 @@ import 'modules/auth/screens/sign_up_screen.dart';
 import 'modules/auth/screens/otp_verification_screen.dart'; 
 import 'modules/auth/screens/select_role_screen.dart'; 
 
+// Import Screen Freelancer
+import 'modules/freelancer/screens/home_screen_freelancer.dart';
+import 'modules/freelancer/screens/explore_screen_freelancer.dart';
+import 'modules/freelancer/screens/wallet_screen_freelancer.dart';
+import 'modules/freelancer/screens/task_list_screen_freelancer.dart';
+import 'modules/freelancer/screens/profile_screen_freelancer.dart';
+import 'modules/freelancer/screens/job_detail_screen.dart';
+import 'modules/freelancer/screens/task_submission_screen_freelancer.dart';
+
 void main() {
-  runApp(SatursunApp());
+  runApp(const SatursunApp());
 }
 
 class SatursunApp extends StatelessWidget {
@@ -19,19 +28,31 @@ class SatursunApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Roboto',
+        scaffoldBackgroundColor: Colors.white,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => GetStartedScreen(),
+        // --- Auth Routes ---
+        '/': (context) => const GetStartedScreen(),
         '/sign-in': (context) => SignInScreen(),
         '/sign-up': (context) => SignUpScreen(),
-        
         '/otp-verification': (context) {
-          final contactInfo = ModalRoute.of(context)!.settings.arguments as String;
+          final args = ModalRoute.of(context)!.settings.arguments;
+          final contactInfo = args is String ? args : 'Unknown';
           return OtpVerificationScreen(contactInfo: contactInfo);
         },
-        
         '/select-role': (context) => SelectRoleScreen(),
+
+        // --- Freelancer Main Menu Routes ---
+        '/home-freelancer': (context) => const HomeScreenFreelancer(),
+        '/explore-freelancer': (context) => const ExploreScreenFreelancer(),
+        '/wallet-freelancer': (context) => const WalletScreenFreelancer(),
+        '/task-list-freelancer': (context) => const TaskListScreen(),
+        '/profile-freelancer': (context) => const ProfileScreen(),
+        
+        // --- Freelancer Sub-Pages ---
+        '/job-detail': (context) => const JobDetailScreen(),
+        '/task-submission': (context) => const TaskSubmissionScreen(),
       },
     );
   }
