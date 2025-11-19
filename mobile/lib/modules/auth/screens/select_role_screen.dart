@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SelectRoleScreen extends StatelessWidget {
+  const SelectRoleScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Color primaryBlue = Colors.blue;
@@ -11,7 +13,7 @@ class SelectRoleScreen extends StatelessWidget {
         backgroundColor: primaryBlue,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
         title: Image.asset('assets/logo.png', height: 40),
@@ -22,7 +24,7 @@ class SelectRoleScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            const Center(
               child: Text(
                 "Pilih Peran",
                 style: TextStyle(
@@ -31,22 +33,20 @@ class SelectRoleScreen extends StatelessWidget {
                     color: Colors.white),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-            // Deskripsi Peran
-            Text(
+            const Text(
               "Silahkan pilih peran Anda",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white70, fontSize: 16),
             ),
-            Text(
+            const Text(
               "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white70, fontSize: 14),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
 
-            // Pilihan Peran
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -64,8 +64,15 @@ class SelectRoleScreen extends StatelessWidget {
   Widget _buildRoleCard(BuildContext context, String iconPath, String role) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/sign-in', (Route<dynamic> route) => false);
+        if (role == "Freelancer") {
+          // Navigasi ke Home Freelancer dan hapus history login
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home-freelancer', (Route<dynamic> route) => false);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Mode Klien belum tersedia")),
+          );
+        }
       },
       child: Card(
         color: Colors.white,
@@ -75,21 +82,25 @@ class SelectRoleScreen extends StatelessWidget {
         ),
         child: Container(
           width: 140,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(iconPath, height: 70), 
-              SizedBox(height: 10),
+              Image.asset(
+                iconPath, 
+                height: 70,
+                errorBuilder: (c,e,s) => const Icon(Icons.person, size: 70, color: Colors.grey),
+              ), 
+              const SizedBox(height: 10),
               Text(
                 role,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
-              SizedBox(height: 5),
-              Icon(Icons.arrow_forward, color: Colors.grey),
+              const SizedBox(height: 5),
+              const Icon(Icons.arrow_forward, color: Colors.grey),
             ],
           ),
         ),
