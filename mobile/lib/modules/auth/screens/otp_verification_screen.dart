@@ -32,8 +32,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         final username = parts[0];
         final domain = parts[1];
         final maskedUsername = username.length > 1
-            ? username.substring(0, 1) + '*******' + username.substring(username.length - 1)
-            : username + '******';
+            ? '${username.substring(0, 1)}*******${username.substring(username.length - 1)}'
+            : '$username******';
         return '$maskedUsername@$domain';
       }
     }
