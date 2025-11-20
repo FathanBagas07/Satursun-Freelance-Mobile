@@ -6,7 +6,7 @@ import 'dart:async'; // Diperlukan untuk Timer
 class OtpVerificationScreen extends StatefulWidget {
   final String contactInfo;
 
-  const OtpVerificationScreen({required this.contactInfo});
+  const OtpVerificationScreen({super.key, required this.contactInfo});
 
   @override
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState();
