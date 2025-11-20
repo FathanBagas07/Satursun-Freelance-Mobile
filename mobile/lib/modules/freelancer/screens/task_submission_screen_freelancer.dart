@@ -172,7 +172,7 @@ class TaskSubmissionScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -318,7 +318,7 @@ class TaskSubmissionScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -387,7 +387,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, -2),
                   ),
@@ -408,7 +408,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: _saturSunOrange.withOpacity(0.4),
+                    color: _saturSunOrange.withValues(alpha: 0.4),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),

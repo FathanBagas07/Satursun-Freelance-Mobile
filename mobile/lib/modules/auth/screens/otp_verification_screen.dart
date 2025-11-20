@@ -6,9 +6,10 @@ import 'dart:async'; // Diperlukan untuk Timer
 class OtpVerificationScreen extends StatefulWidget {
   final String contactInfo;
 
-  const OtpVerificationScreen({required this.contactInfo});
+  const OtpVerificationScreen({super.key, required this.contactInfo});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState();
 }
 
@@ -32,8 +33,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         final username = parts[0];
         final domain = parts[1];
         final maskedUsername = username.length > 1
-            ? username.substring(0, 1) + '*******' + username.substring(username.length - 1)
-            : username + '******';
+            ? '${username.substring(0, 1)}*******${username.substring(username.length - 1)}'
+            : '$username******';
         return '$maskedUsername@$domain';
       }
     }
