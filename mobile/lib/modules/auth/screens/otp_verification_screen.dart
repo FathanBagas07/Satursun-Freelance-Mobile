@@ -9,6 +9,7 @@ class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key, required this.contactInfo});
 
   @override
+  // ignore: library_private_types_in_public_api
   _OtpVerificationScreenState createState() => _OtpVerificationScreenState();
 }
 
