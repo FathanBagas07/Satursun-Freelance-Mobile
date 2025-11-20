@@ -27,7 +27,7 @@ class SatursunApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
+        fontFamily: 'NunitoSans',
         scaffoldBackgroundColor: Colors.white,
       ),
       initialRoute: '/',
