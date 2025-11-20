@@ -148,7 +148,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))],
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,7 +177,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -190,7 +190,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
                 children: [
                   Text(originalPrice, style: TextStyle(fontSize: 12, color: Colors.grey[500], decoration: TextDecoration.lineThrough)),
                   const SizedBox(width: 5),
-                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: _saturSunRed.withOpacity(0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: TextStyle(color: _saturSunRed, fontSize: 11, fontWeight: FontWeight.bold))),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: _saturSunRed.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: TextStyle(color: _saturSunRed, fontSize: 11, fontWeight: FontWeight.bold))),
                 ],
               ),
               const SizedBox(height: 4),
@@ -224,7 +224,7 @@ class CustomBottomNavBar extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, -2))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, -2))],
               ),
             ),
           ),
@@ -239,7 +239,7 @@ class CustomBottomNavBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _saturSunOrange,
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: _saturSunOrange.withOpacity(0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                boxShadow: [BoxShadow(color: _saturSunOrange.withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
               ),
               child: Icon(_getIconForIndex(currentIndex), color: Colors.white, size: 30),
             ),

@@ -113,7 +113,7 @@ class TaskListScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5, offset: const Offset(0, 2))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -174,7 +174,7 @@ class CustomBottomNavBar extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, -2))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, -2))],
               ),
             ),
           ),
@@ -189,7 +189,7 @@ class CustomBottomNavBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _saturSunOrange,
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: _saturSunOrange.withOpacity(0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                boxShadow: [BoxShadow(color: _saturSunOrange.withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
               ),
               child: Icon(_getIconForIndex(currentIndex), color: Colors.white, size: 30),
             ),

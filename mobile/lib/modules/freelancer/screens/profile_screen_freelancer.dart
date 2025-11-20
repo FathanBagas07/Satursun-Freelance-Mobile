@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       const Text('Monica Raquella', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                       const SizedBox(height: 4),
-                      Text('Freelance Teknik | 4.8 (32 reviews)', style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.8), fontWeight: FontWeight.w500)),
+                      Text('Freelance Teknik | 4.8 (32 reviews)', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8), fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ],
@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Row(children: [Icon(Icons.work_outline, color: Colors.black, size: 24), SizedBox(width: 8), Text('Portofolio', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))]), GestureDetector(onTap: () {}, child: const Text('Edit', style: TextStyle(fontSize: 16, color: _saturSunBlue, fontWeight: FontWeight.w600)))]),
@@ -105,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -120,14 +120,14 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildPlaceholderImage(int index) {
-    return Container(width: 70, height: 70, color: _saturSunLightBlue.withOpacity(0.5), child: Center(child: Text('Ilustrasi $index', style: const TextStyle(fontSize: 10, color: _saturSunBlue))));
+    return Container(width: 70, height: 70, color: _saturSunLightBlue.withValues(alpha: 0.5), child: Center(child: Text('Ilustrasi $index', style: const TextStyle(fontSize: 10, color: _saturSunBlue))));
   }
 
   Widget _buildTaskListSection() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [const Row(children: [Icon(Icons.assignment_outlined, color: Colors.black, size: 24), SizedBox(width: 8), Text('Daftar Tugas', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))]), GestureDetector(onTap: () {}, child: const Text('Lihat Semua', style: TextStyle(fontSize: 16, color: _saturSunBlue, fontWeight: FontWeight.w600)))]),
@@ -177,7 +177,7 @@ class CustomBottomNavBar extends StatelessWidget {
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, -2))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, -2))],
               ),
             ),
           ),
@@ -192,7 +192,7 @@ class CustomBottomNavBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _saturSunOrange,
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: _saturSunOrange.withOpacity(0.4), blurRadius: 8, offset: const Offset(0, 4))],
+                boxShadow: [BoxShadow(color: _saturSunOrange.withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
               ),
               child: Icon(_getIconForIndex(currentIndex), color: Colors.white, size: 30),
             ),
