@@ -69,7 +69,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Filter Pintar', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Switch(value: true, onChanged: (bool value) {}, activeColor: Colors.white, activeTrackColor: _saturSunOrange, inactiveThumbColor: Colors.grey),
+              Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Colors.white, activeTrackColor: _saturSunOrange, inactiveThumbColor: Colors.grey),
             ],
           ),
           const SizedBox(height: 15),
