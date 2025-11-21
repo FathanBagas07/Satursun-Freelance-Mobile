@@ -69,6 +69,3 @@ final satursunAppTheme = ThemeData(
     elevation: 0,
   ),
 );
-//          primarySwatch: Colors.blue,
-//         fontFamily: 'NunitoSans',
-//         scaffoldBackgroundColor: Colors.white,
