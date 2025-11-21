@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'app_typography.dart';
 
 final satursunColorScheme = ColorScheme.light(
   // Primary (Warna Dominan)
@@ -13,10 +14,6 @@ final satursunColorScheme = ColorScheme.light(
   // Surface (Latar Belakang Card/Permukaan)
   surface: AppColors.backgroundWhite,
   onSurface: AppColors.textDark,
-
-  // Background (Latar Belakang Screen)
-  background: AppColors.saturSunLightBlue,
-  onBackground: AppColors.textDark,
 
   // Error (Warna Error/Peringatan)
   error: AppColors.saturSunRed,
@@ -37,8 +34,8 @@ final satursunAppTheme = ThemeData(
       fontWeight: FontWeight.w600,
       color: AppColors.backgroundWhite,
     ),
-  fontFamily: 'NunitoSans',
   ),
+  fontFamily: 'NunitoSans',
 
   // Button Theme (ElevatedButton)
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -54,7 +51,7 @@ final satursunAppTheme = ThemeData(
   ),
   
   // Card Theme
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     elevation: 5,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
@@ -71,7 +68,7 @@ final satursunAppTheme = ThemeData(
     backgroundColor: AppColors.backgroundWhite,
     elevation: 0,
   ),
-// );
+);
 //          primarySwatch: Colors.blue,
 //         fontFamily: 'NunitoSans',
 //         scaffoldBackgroundColor: Colors.white,
