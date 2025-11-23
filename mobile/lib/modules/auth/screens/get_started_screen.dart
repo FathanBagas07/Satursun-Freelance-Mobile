@@ -29,9 +29,8 @@ class GetStartedScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withValues(alpha: 0.5),
+                    Colors.white.withValues(alpha: 0.01),
                     Colors.white.withValues(alpha: 0.9),
-                    Colors.white,
                   ],
                 ),
               ),

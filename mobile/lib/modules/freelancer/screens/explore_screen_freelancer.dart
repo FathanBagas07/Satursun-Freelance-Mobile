@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 const Color _saturSunOrange = Color(0xFFF98B00);
 const Color _saturSunBlue = Color(0xFF1E88E5);
@@ -14,7 +15,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
       backgroundColor: _saturSunLightBlue,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1), 
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
     );
   }
 
@@ -28,7 +29,9 @@ class ExploreScreenFreelancer extends StatelessWidget {
           Navigator.pushReplacementNamed(context, '/home-freelancer');
         },
       ),
-      title: const Text('SaturSun Freelance', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+      // Menggunakan style dari tema
+      title: Text('SaturSun Freelance',
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18)),
     );
   }
 
@@ -37,25 +40,23 @@ class ExploreScreenFreelancer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTopSection(),
+          _buildTopSection(context),
           const SizedBox(height: 20),
-          _buildSectionHeader(icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
-          
-          // --- PERUBAHAN: Navigasi ke Job Detail saat di klik ---
+          _buildSectionHeader(context, icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
           _buildJobRecommendationCard(context, title: 'Desain Poster Acara', subtitle: 'Cocok dengan keahlian desain grafis', price: 'Rp 75.000'),
           _buildJobRecommendationCard(context, title: 'Asisten Riset Psikologi', subtitle: 'Populer untuk mahasiswa Psikologi', price: 'Rp 60.000'),
-          
           const SizedBox(height: 20),
-          _buildSectionHeader(icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
-          _buildPackageCard(title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
-          _buildPackageCard(title: 'Tutor 2 Mata Kuliah', originalPrice: 'Rp 120.000', discountedPrice: 'Rp 93.500', discount: '22% off'),
-          const SizedBox(height: 80), 
+          _buildSectionHeader(context, icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
+          _buildPackageCard(context, title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
+          _buildPackageCard(context, title: 'Tutor 2 Mata Kuliah', originalPrice: 'Rp 120.000', discountedPrice: 'Rp 93.500', discount: '22% off'),
+          const SizedBox(height: 80),
         ],
       ),
     );
   }
 
-  Widget _buildTopSection() {
+  Widget _buildTopSection(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -68,18 +69,18 @@ class ExploreScreenFreelancer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Filter Pintar', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Filter Pintar', style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
               Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Colors.white, activeTrackColor: _saturSunOrange, inactiveThumbColor: Colors.grey),
             ],
           ),
           const SizedBox(height: 15),
-          _buildFilterButton(icon: Icons.calendar_today, label: 'Hanya Akhir Pekan', onTap: () {}),
+          _buildFilterButton(context, icon: Icons.calendar_today, label: 'Hanya Akhir Pekan', onTap: () {}),
           const SizedBox(height: 15),
           Row(
             children: [
-              Expanded(child: _buildFilterButton(icon: Icons.location_on, label: 'Lokasi: USU Medan', onTap: () {})),
+              Expanded(child: _buildFilterButton(context, icon: Icons.location_on, label: 'Lokasi: USU Medan', onTap: () {})),
               const SizedBox(width: 10),
-              Expanded(child: _buildFilterButton(icon: Icons.account_balance_wallet_outlined, label: 'Harga: Rp 25k - 100k', onTap: () {})),
+              Expanded(child: _buildFilterButton(context, icon: Icons.account_balance_wallet_outlined, label: 'Harga: Rp 25k - 100k', onTap: () {})),
             ],
           ),
         ],
@@ -87,8 +88,10 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterButton({required IconData icon, required String label, required VoidCallback onTap}) {
-    final bool isWide = !label.contains(':'); 
+  Widget _buildFilterButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+    final bool isWide = !label.contains(':');
+    final textTheme = Theme.of(context).textTheme;
+
     return Material(
       color: isWide ? Colors.white : _saturSunLightBlue,
       borderRadius: BorderRadius.circular(15),
@@ -106,7 +109,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
             children: [
               Icon(icon, color: _saturSunBlue, size: 20),
               if (isWide) const SizedBox(width: 10),
-              Flexible(child: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
+              Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
             ],
           ),
         ),
@@ -114,33 +117,34 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader({required IconData icon, required String title, required bool isNew}) {
+  Widget _buildSectionHeader(BuildContext context, {required IconData icon, required String title, required bool isNew}) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
           Icon(icon, color: _saturSunBlue, size: 24),
           const SizedBox(width: 8),
-          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
-          if (isNew) ...[const SizedBox(width: 8), _buildNewTag()],
+          Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+          if (isNew) ...[const SizedBox(width: 8), _buildNewTag(context)],
         ],
       ),
     );
   }
 
-  Widget _buildNewTag() {
+  Widget _buildNewTag(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(color: _saturSunOrange, borderRadius: BorderRadius.circular(5)),
-      child: const Text('Baru', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+      child: Text('Baru', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
     );
   }
 
-  // --- PERUBAHAN: Ditambahkan GestureDetector untuk navigasi ---
   Widget _buildJobRecommendationCard(BuildContext context, {required String title, required String subtitle, required String price}) {
+    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-         Navigator.pushNamed(context, '/job-detail');
+        Navigator.pushNamed(context, '/job-detail');
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -157,20 +161,21 @@ class ExploreScreenFreelancer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(children: [Flexible(child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))), const SizedBox(width: 8), _buildNewTag()]),
+                  Row(children: [Flexible(child: Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold))), const SizedBox(width: 8), _buildNewTag(context)]),
                   const SizedBox(height: 4),
-                  Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                  Text(subtitle, style: textTheme.bodyMedium!.copyWith(fontSize: 13, color: Colors.grey[600])),
                 ],
               ),
             ),
-            Text(price, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
+            Text(price, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPackageCard({required String title, required String originalPrice, required String discountedPrice, required String discount}) {
+  Widget _buildPackageCard(BuildContext context, {required String title, required String originalPrice, required String discountedPrice, required String discount}) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.all(16),
@@ -182,124 +187,22 @@ class ExploreScreenFreelancer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Row(
                 children: [
-                  Text(originalPrice, style: TextStyle(fontSize: 12, color: Colors.grey[500], decoration: TextDecoration.lineThrough)),
+                  Text(originalPrice, style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Colors.grey[500], decoration: TextDecoration.lineThrough)),
                   const SizedBox(width: 5),
-                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: _saturSunRed.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: TextStyle(color: _saturSunRed, fontSize: 11, fontWeight: FontWeight.bold))),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: _saturSunRed.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: textTheme.bodySmall!.copyWith(color: _saturSunRed, fontSize: 11, fontWeight: FontWeight.bold))),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(discountedPrice, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
+              Text(discountedPrice, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-// --- Custom Bottom Nav Bar ---
-class CustomBottomNavBar extends StatelessWidget {
-  final int currentIndex;
-  const CustomBottomNavBar({super.key, required this.currentIndex});
-
-  @override
-  Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double itemWidth = screenWidth / 5;
-    final double activePosition = (itemWidth * currentIndex) + (itemWidth / 2) - 28;
-
-    return SizedBox(
-      height: 80,
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, -2))],
-              ),
-            ),
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutQuad,
-            left: activePosition,
-            bottom: 20,
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: _saturSunOrange,
-                shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: _saturSunOrange.withValues(alpha: 0.4), blurRadius: 8, offset: const Offset(0, 4))],
-              ),
-              child: Icon(_getIconForIndex(currentIndex), color: Colors.white, size: 30),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavItem(context, 0, Icons.home_outlined, "Beranda"),
-                  _buildNavItem(context, 1, Icons.search, "Telusuri"),
-                  _buildNavItem(context, 2, Icons.account_balance_wallet_outlined, "Dompet"),
-                  _buildNavItem(context, 3, Icons.assignment_outlined, "Tugas"),
-                  _buildNavItem(context, 4, Icons.person_outline, "Profil"),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  IconData _getIconForIndex(int index) {
-    switch (index) {
-      case 0: return Icons.home;
-      case 1: return Icons.search;
-      case 2: return Icons.account_balance_wallet;
-      case 3: return Icons.assignment;
-      case 4: return Icons.person;
-      default: return Icons.home;
-    }
-  }
-
-  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
-    final bool isActive = index == currentIndex;
-    return GestureDetector(
-      onTap: () {
-        if (!isActive) {
-          switch (index) {
-            case 0: Navigator.pushReplacementNamed(context, '/home-freelancer'); break;
-            case 1: Navigator.pushReplacementNamed(context, '/explore-freelancer'); break;
-            case 2: Navigator.pushReplacementNamed(context, '/wallet-freelancer'); break;
-            case 3: Navigator.pushReplacementNamed(context, '/task-list-freelancer'); break;
-            case 4: Navigator.pushReplacementNamed(context, '/profile-freelancer'); break;
-          }
-        }
-      },
-      child: Container(
-        color: Colors.transparent,
-        width: MediaQuery.of(context).size.width / 5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isActive ? const SizedBox(height: 24) : Icon(icon, color: Colors.grey, size: 26),
-            if (!isActive) Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-          ],
-        ),
       ),
     );
   }
