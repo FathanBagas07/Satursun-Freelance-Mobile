@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart'; // <-- TAMBAHKAN INI
+import 'package:flutter/gestures.dart';
 
 class SignInScreen extends StatelessWidget {
   final TextEditingController emailUsernameController = TextEditingController();
@@ -29,10 +29,9 @@ class SignInScreen extends StatelessWidget {
               Center(
                 child: Text(
                   "Selamat Datang", 
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.black, 
+                  ),
                 ),
               ),
 
@@ -40,10 +39,12 @@ class SignInScreen extends StatelessWidget {
               
               TextField(
                 controller: emailUsernameController,
-                style: TextStyle(color: Colors.black),
+                // MENGGUNAKAN THEME: bodyLarge
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Email / Nama Pengguna",
-                  hintStyle: TextStyle(color: Colors.black),
+                  // MENGGUNAKAN THEME: bodyLarge
+                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -59,10 +60,12 @@ class SignInScreen extends StatelessWidget {
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                style: TextStyle(color: Colors.black),
+                // MENGGUNAKAN THEME: bodyLarge
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Sandi",
-                  hintStyle: TextStyle(color: Colors.black),
+                  // MENGGUNAKAN THEME: bodyLarge
+                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -75,8 +78,9 @@ class SignInScreen extends StatelessWidget {
 
               SizedBox(height: 20),
               
+              // MENGGUNAKAN THEME: bodyLarge
               Center(
-                child: Text("————————————— Atau ——————————————", style: TextStyle(color: Colors.black)),
+                child: Text("—————————— Atau ———————————", style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
               ),
 
               SizedBox(height: 20),
@@ -102,7 +106,10 @@ class SignInScreen extends StatelessWidget {
                     ),
                     Text(
                       "Lanjutkan dengan Google", 
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      // MENGGUNAKAN THEME: labelLarge (16) + override color black
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Colors.black, 
+                      ),
                     ),
                   ],
                 ),
@@ -121,7 +128,11 @@ class SignInScreen extends StatelessWidget {
                 onPressed: () {},
                 child: Text(
                   "Masuk", 
-                  style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold), 
+                  // MENGGUNAKAN THEME: labelLarge (16) + override size 18 dan color black
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Colors.black, 
+                    fontSize: 18, 
+                  ), 
                 ),
               ),
 
@@ -131,11 +142,15 @@ class SignInScreen extends StatelessWidget {
                 child: Text.rich(
                   TextSpan(
                     text: 'Lupa kata sandi? ',
-                    style: TextStyle(color: Colors.black),
+                    // MENGGUNAKAN THEME: bodyLarge
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Klik disini',
-                        style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold),
+                        // MENGGUNAKAN THEME: bodyLarge
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: primaryOrange, 
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -149,11 +164,15 @@ class SignInScreen extends StatelessWidget {
                 child: Text.rich(
                   TextSpan(
                     text: 'Belum punya akun? ',
-                    style: TextStyle(color: Colors.black), 
+                    // MENGGUNAKAN THEME: bodyLarge
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black), 
                     children: [
                       TextSpan(
                         text: 'Daftar',
-                        style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold),
+                        // MENGGUNAKAN THEME: bodyLarge
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: primaryOrange, 
+                            fontWeight: FontWeight.bold),
                         // Logika navigasi ditambahkan di sini
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

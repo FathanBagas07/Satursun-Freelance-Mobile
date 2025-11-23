@@ -64,9 +64,9 @@ class GetStartedScreen extends StatelessWidget {
                   Text(
                     "Teman Freelance Pemula Akhir Pekan",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    // MENGGUNAKAN THEME: titleLarge (18) + override w500
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.w700, // Override weight dari w700 ke w500
                         color: Colors.black),
                   ),
                   SizedBox(height: 30),
@@ -83,7 +83,10 @@ class GetStartedScreen extends StatelessWidget {
                     },
                     child: Text(
                       "Ayo Mulai",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      // MENGGUNAKAN THEME: labelLarge (16) + override size 18
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontSize: 18, // Override size dari 16 ke 18
+                      ),
                     ),
                   ),
                 ],
