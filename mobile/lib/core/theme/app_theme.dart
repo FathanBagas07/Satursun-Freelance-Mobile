@@ -22,6 +22,8 @@ final satursunColorScheme = ColorScheme.light(
 
 
 final satursunAppTheme = ThemeData(
+  useMaterial3: true,
+  fontFamily: AppTypography.fontFamily,
   // Menggunakan ColorScheme yang telah didefinisikan
   colorScheme: satursunColorScheme,
   appBarTheme: AppBarTheme(
@@ -35,7 +37,18 @@ final satursunAppTheme = ThemeData(
       color: AppColors.backgroundWhite,
     ),
   ),
-  fontFamily: 'NunitoSans',
+
+  // Typography
+  textTheme: TextTheme(
+    displayLarge: AppTypography.headline1,
+    displayMedium: AppTypography.headline2,
+    titleLarge: AppTypography.title,
+    titleMedium: AppTypography.subtitle,
+    bodyLarge: AppTypography.body,
+    bodySmall: AppTypography.bodySmall,
+    labelLarge: AppTypography.button,
+    labelSmall: AppTypography.italic,
+  ),
 
   // Button Theme (ElevatedButton)
   elevatedButtonTheme: ElevatedButtonThemeData(

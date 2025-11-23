@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:satursun_app/core/theme/app_theme.dart';
+import 'core/theme/app_theme.dart';
+
 import 'modules/auth/screens/get_started_screen.dart';
 import 'modules/auth/screens/sign_in_screen.dart';
 import 'modules/auth/screens/sign_up_screen.dart'; 
@@ -21,12 +22,13 @@ void main() {
 
 class SatursunApp extends StatelessWidget {
   const SatursunApp({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Satursun Freelance',
       debugShowCheckedModeBanner: false,
-      theme: satursunAppTheme
+      theme: satursunAppTheme,
       initialRoute: '/',
       routes: {
         // --- Auth Routes ---
