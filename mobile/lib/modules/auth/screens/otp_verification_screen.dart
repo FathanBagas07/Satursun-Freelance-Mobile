@@ -124,7 +124,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             Center(
               child: Text(
                 "Verifikasi OTP",
-                style: TextStyle(
+                // MENGGUNAKAN THEME: bodyLarge (14) + override size 15, color black, dan bold
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
@@ -135,17 +136,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             Text(
               "Masukkan kode verifikasi Anda",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              // MENGGUNAKAN THEME: bodyLarge (14) + override size 16 dan color black
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black, fontSize: 16),
             ),
             Text(
               "Periksa pesan dari email/telepon Anda",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              // MENGGUNAKAN THEME: bodyLarge (14) + override color white70
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70),
             ),
             Text(
               maskedContact, 
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              // MENGGUNAKAN THEME: bodyLarge (14) + override color white
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
             ),
             SizedBox(height: 40),
 
@@ -165,7 +169,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     inputFormatters: [LengthLimitingTextInputFormatter(1)],
-                    style: TextStyle(color: Colors.black, fontSize: 24),
+                    // MENGGUNAKAN THEME: displayMedium (24) + override color black
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -189,9 +194,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   isTimerActive
                       ? "Kirim ulang dalam $timerText" // Tampilkan timer
                       : "Kirim Ulang Kode",           // Tampilkan tombol teks
-                  style: TextStyle(
+                  // MENGGUNAKAN THEME: bodyLarge (14) + override color dan decoration
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: isTimerActive ? Colors.white70 : primaryOrange,
-                    fontSize: 14,
                     decoration: isTimerActive ? TextDecoration.none : TextDecoration.underline,
                   ),
                 ),
@@ -212,10 +217,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               },
               child: Text(
                 "Selanjutnya",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                // MENGGUNAKAN THEME: labelLarge (16) + override size 18
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    fontSize: 18),
               ),
             ),
           ],

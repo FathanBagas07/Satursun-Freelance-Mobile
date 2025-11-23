@@ -24,26 +24,28 @@ class SelectRoleScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Center(
+            Center(
               child: Text(
                 "Pilih Peran",
-                style: TextStyle(
-                    fontSize: 24,
+                // MENGGUNAKAN THEME: displayMedium (24) + override color white dan bold
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
             ),
             const SizedBox(height: 10),
 
-            const Text(
+            Text(
               "Silahkan pilih peran Anda",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 16),
+              // MENGGUNAKAN THEME: bodyLarge (14) + override size 16 dan color white70
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70, fontSize: 16),
             ),
-            const Text(
+            Text(
               "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              // MENGGUNAKAN THEME: bodyLarge (14) + override color white70
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70),
             ),
             const SizedBox(height: 40),
 
@@ -94,8 +96,8 @@ class SelectRoleScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 role,
-                style: const TextStyle(
-                    fontSize: 18,
+                // MENGGUNAKAN THEME: titleLarge (18) + override color black dan bold
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),

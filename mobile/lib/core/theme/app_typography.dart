@@ -1,14 +1,17 @@
+// lib/core/theme/app_typography.dart
+
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTypography {
+  // Menggunakan 'NunitoSans' seperti yang sudah ada
   static const String fontFamily = 'NunitoSans';
 
   /// Headline 1 — Halaman utama, judul besar
   static const TextStyle headline1 = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 32,
-    fontWeight: FontWeight.bold,
+    fontSize: 34,
+    fontWeight: FontWeight.w900, // Extra Bold untuk kesan kuat
     color: AppColors.textDark,
   );
 
@@ -16,7 +19,7 @@ class AppTypography {
   static const TextStyle headline2 = TextStyle(
     fontFamily: fontFamily,
     fontSize: 24,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800, // Lebih tebal dari w700
     color: AppColors.textDark,
   );
 
@@ -24,7 +27,7 @@ class AppTypography {
   static const TextStyle title = TextStyle(
     fontFamily: fontFamily,
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700, // Lebih tebal dari w600
     color: AppColors.textDark,
   );
 
@@ -32,7 +35,7 @@ class AppTypography {
   static const TextStyle subtitle = TextStyle(
     fontFamily: fontFamily,
     fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600, // Sedikit lebih tebal dari w500
     color: AppColors.textLight,
   );
 
@@ -56,7 +59,7 @@ class AppTypography {
   static const TextStyle button = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700, // Lebih tebal dari w600
     color: Colors.white,
   );
 
