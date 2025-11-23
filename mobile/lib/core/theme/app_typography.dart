@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTypography {
-  static const String _fontFamily = 'NunitoSans';
+  static const String fontFamily = 'NunitoSans';
 
   /// Headline 1 — Halaman utama, judul besar
   static const TextStyle headline1 = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.textDark,
@@ -14,7 +14,7 @@ class AppTypography {
 
   /// Headline 2 — Judul section
   static const TextStyle headline2 = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 24,
     fontWeight: FontWeight.w700,
     color: AppColors.textDark,
@@ -22,7 +22,7 @@ class AppTypography {
 
   /// Title — Judul kecil pada card / dialog
   static const TextStyle title = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.textDark,
@@ -30,7 +30,7 @@ class AppTypography {
 
   /// Subtitle — Keterangan pendek
   static const TextStyle subtitle = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w500,
     color: AppColors.textLight,
@@ -38,7 +38,7 @@ class AppTypography {
 
   /// Body — paragraf utama aplikasi
   static const TextStyle body = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.textDark,
@@ -46,7 +46,7 @@ class AppTypography {
 
   /// Body Small — paragraf kecil (form, hint, caption)
   static const TextStyle bodySmall = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: AppColors.textLight,
@@ -54,7 +54,7 @@ class AppTypography {
 
   /// Button text
   static const TextStyle button = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: Colors.white,
@@ -62,7 +62,7 @@ class AppTypography {
 
   /// Italic text
   static const TextStyle italic = TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
