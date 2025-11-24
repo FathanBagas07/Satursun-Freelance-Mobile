@@ -71,9 +71,8 @@ class SelectRoleScreen extends StatelessWidget {
           Navigator.pushNamedAndRemoveUntil(
               context, '/home-freelancer', (Route<dynamic> route) => false);
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Mode Klien belum tersedia")),
-          );
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home-klien', (Route<dynamic> route) => false);
         }
       },
       child: Card(
