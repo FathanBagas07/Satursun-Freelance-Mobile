@@ -15,6 +15,13 @@ import 'modules/freelancer/screens/task_list_screen_freelancer.dart';
 import 'modules/freelancer/screens/profile_screen_freelancer.dart';
 import 'modules/freelancer/screens/job_detail_screen.dart';
 import 'modules/freelancer/screens/task_submission_screen_freelancer.dart';
+import 'modules/klien/screens/explore_screen_klien.dart';
+import 'modules/klien/screens/home_screen_klien.dart';
+import 'modules/klien/screens/job_post_first_screen_klien.dart';
+import 'modules/klien/screens/job_post_second_screen_klien.dart';
+import 'modules/klien/screens/job_screen_klien.dart';
+import 'modules/klien/screens/profile_screen_klien.dart';
+import 'modules/klien/screens/wallet_screen_klien.dart';
 
 void main() {
   runApp(const SatursunApp());
@@ -48,10 +55,21 @@ class SatursunApp extends StatelessWidget {
         '/wallet-freelancer': (context) => const WalletScreenFreelancer(),
         '/task-list-freelancer': (context) => const TaskListScreen(),
         '/profile-freelancer': (context) => const ProfileScreen(),
-        
+
+        //--- klien Main Menu Routes ---
+        '/home-klien': (context) => const HomeScreenKlien(),
+        '/explore-klien': (context) => const ExploreScreenKlien(),
+        '/wallet-klien': (context) => const WalletScreenKlien(),
+        '/job-klien': (context) => const JobScreenKlien(),
+        '/profile-klien': (context) => const ProfileKlienScreen(),
+
         // --- Freelancer Sub-Pages ---
         '/job-detail': (context) => const JobDetailScreen(),
         '/task-submission': (context) => const TaskSubmissionScreen(),
+
+        // --- Klien Sub-Pages ---
+        '/job-post-first': (context) => const JobPostFirstScreenKlien(),
+        '/job-post-second': (context) => const JobPostSecondScreenKlien(),
       },
     );
   }
