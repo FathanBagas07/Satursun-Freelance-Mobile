@@ -160,7 +160,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
               ),
               Switch(
                 value: smartFilter,
-                activeColor: Colors.orange,
+                activeThumbColor: Colors.orange,
                 onChanged: (v) => setState(() => smartFilter = v),
               ),
             ],
