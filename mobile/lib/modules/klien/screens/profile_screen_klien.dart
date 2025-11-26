@@ -96,7 +96,7 @@ class ProfileKlienScreen extends StatelessWidget {
                         'Klien  |  4.8 (32 reviews)',
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -120,7 +120,7 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -182,7 +182,7 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -233,7 +233,7 @@ class ProfileKlienScreen extends StatelessWidget {
     return Container(
       width: 70,
       height: 70,
-      color: _saturSunLightBlue.withOpacity(0.5),
+      color: _saturSunLightBlue.withValues(alpha: 0.5),
       child: Center(
         child: Text(
           'Ilustrasi $index',
@@ -253,7 +253,7 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
