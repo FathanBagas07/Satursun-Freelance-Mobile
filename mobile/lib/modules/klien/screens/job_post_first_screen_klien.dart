@@ -264,7 +264,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonFormField<String>(
-            value: _selectedKategori,
+            initialValue: _selectedKategori,
             decoration: const InputDecoration(
               border: InputBorder.none,
               icon: Icon(Icons.category, color: Colors.grey),
