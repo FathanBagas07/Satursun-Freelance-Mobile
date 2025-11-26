@@ -29,8 +29,8 @@ class GetStartedScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withValues(alpha: 0.01),
-                    Colors.white.withValues(alpha: 0.9),
+                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.01),
+                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                   ],
                 ),
               ),
@@ -66,12 +66,12 @@ class GetStartedScreen extends StatelessWidget {
                     // MENGGUNAKAN THEME: titleLarge (18) + override w500
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontWeight: FontWeight.w700, // Override weight dari w700 ke w500
-                        color: Colors.black),
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.9)),
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       minimumSize: Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25)),
