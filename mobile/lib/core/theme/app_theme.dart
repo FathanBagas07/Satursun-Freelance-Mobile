@@ -5,7 +5,7 @@ import 'app_typography.dart';
 final satursunColorScheme = ColorScheme.light(
   // Primary (Warna Dominan)
   primary: AppColors.saturSunBlue,
-  onPrimary: AppColors.backgroundWhite,
+  onPrimary: AppColors.saturSunLightBlue,
 
   // Secondary (Warna Aksen/Penekanan)
   secondary: AppColors.saturSunOrange,
