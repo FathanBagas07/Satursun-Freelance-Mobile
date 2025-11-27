@@ -61,9 +61,10 @@ class ProfileKlienScreen extends StatelessWidget {
               children: [
                 IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    // UPDATE: Navigasi ke Home Klien
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, '/home-freelancer');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home-klien', (route) => false);
                     }),
                 Text(
                   'Satursun Freelance',
@@ -72,7 +73,6 @@ class ProfileKlienScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
                 ),
-                // --- UPDATE BAGIAN INI UNTUK FITUR LOGOUT ---
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.menu, color: Colors.white),
                   offset: const Offset(0, 40),
@@ -82,7 +82,6 @@ class ProfileKlienScreen extends StatelessWidget {
                   color: Colors.white,
                   onSelected: (String result) {
                     if (result == 'logout') {
-                      // Logika Logout: Kembali ke Sign In dan hapus history route
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/sign-in', (route) => false);
                     }
@@ -138,7 +137,6 @@ class ProfileKlienScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                // --- AKHIR UPDATE ---
               ],
             ),
             const SizedBox(height: 15),

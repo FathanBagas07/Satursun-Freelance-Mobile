@@ -121,7 +121,9 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            // UPDATE: Navigasi ke Home Klien
+            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/home-klien', (route) => false),
             child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
           ),
           const SizedBox(width: 12),
@@ -129,7 +131,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Satursun Freelance", // REVISI: Smart Academy -> Satursun Freelance
+                "Satursun Freelance",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -138,7 +140,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               ),
               SizedBox(height: 4),
               Text(
-                "Posting Pekerjaan", // REVISI: Satursun Freelance -> Posting Pekerjaan (warna hitam nanti di card)
+                "Posting Pekerjaan",
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 14,
@@ -172,10 +174,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // REVISI: Hapus "Posting Pekerjaan" dari sini
-          // Hanya tampilkan filter fields saja
-
-          const SizedBox(height: 8), // Adjusted spacing
+          const SizedBox(height: 8), 
 
           // SEMUA PEKERJAAN FIELD
           _buildFilterField(
@@ -226,7 +225,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               label,
               style: const TextStyle(
                 fontSize: 14,
-                color: Colors.black, // REVISI: Warna hitam untuk teks
+                color: Colors.black,
               ),
             ),
           ),
@@ -249,7 +248,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black, // REVISI: Warna hitam untuk section title
+              color: Colors.black,
             ),
           ),
           const SizedBox(height: 12),
@@ -298,7 +297,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black, // Warna hitam
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -346,7 +345,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
   }
 
   // ============================
-  // POST JOB BUTTON (MIRIP HOME SCREEN)
+  // POST JOB BUTTON
   // ============================
   Widget _buildPostJobButton() {
     return Padding(

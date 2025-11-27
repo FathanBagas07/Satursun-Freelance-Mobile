@@ -119,7 +119,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            // UPDATE: Navigasi ke Home Klien
+            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/home-klien', (route) => false),
             child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
           ),
           const SizedBox(width: 12),
