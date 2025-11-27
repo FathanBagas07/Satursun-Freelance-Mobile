@@ -5,15 +5,13 @@ class SelectRoleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color primaryBlue = Colors.blue;
-
     return Scaffold(
-      backgroundColor: primaryBlue,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        backgroundColor: primaryBlue,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
           onPressed: () => Navigator.pop(context),
         ),
         title: Image.asset('assets/logo.png', height: 40),
@@ -30,7 +28,7 @@ class SelectRoleScreen extends StatelessWidget {
                 // MENGGUNAKAN THEME: displayMedium (24) + override color white dan bold
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Theme.of(context).colorScheme.surface),
               ),
             ),
             const SizedBox(height: 10),
@@ -76,7 +74,7 @@ class SelectRoleScreen extends StatelessWidget {
         }
       },
       child: Card(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -98,7 +96,7 @@ class SelectRoleScreen extends StatelessWidget {
                 // MENGGUNAKAN THEME: titleLarge (18) + override color black dan bold
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(height: 5),
               const Icon(Icons.arrow_forward, color: Colors.grey),

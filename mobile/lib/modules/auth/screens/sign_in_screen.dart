@@ -8,12 +8,9 @@ class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Color primaryBlue = Colors.blue; 
-    Color primaryOrange = Colors.orange;
-    
+  Widget build(BuildContext context) {    
     return Scaffold(
-      backgroundColor: primaryBlue, 
+      backgroundColor: Theme.of(context).colorScheme.primary, 
       
       body: SingleChildScrollView(
         child: Padding(
@@ -30,7 +27,7 @@ class SignInScreen extends StatelessWidget {
                 child: Text(
                   "Selamat Datang", 
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.black, 
+                    color: Theme.of(context).colorScheme.onSurface, 
                   ),
                 ),
               ),
@@ -40,13 +37,13 @@ class SignInScreen extends StatelessWidget {
               TextField(
                 controller: emailUsernameController,
                 // MENGGUNAKAN THEME: bodyLarge
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Email / Nama Pengguna",
                   // MENGGUNAKAN THEME: bodyLarge
-                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
@@ -61,13 +58,13 @@ class SignInScreen extends StatelessWidget {
                 controller: passwordController,
                 obscureText: true,
                 // MENGGUNAKAN THEME: bodyLarge
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Sandi",
                   // MENGGUNAKAN THEME: bodyLarge
-                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
@@ -80,14 +77,14 @@ class SignInScreen extends StatelessWidget {
               
               // MENGGUNAKAN THEME: bodyLarge
               Center(
-                child: Text("—————————— Atau ———————————", style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
+                child: Text("—————————— Atau ———————————", style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface)),
               ),
 
               SizedBox(height: 20),
               
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, 
+                  backgroundColor: Theme.of(context).colorScheme.onSurface, 
                   minimumSize: Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -108,7 +105,7 @@ class SignInScreen extends StatelessWidget {
                       "Lanjutkan dengan Google", 
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Colors.black, 
+                        color: Theme.of(context).colorScheme.onSurface, 
                       ),
                     ),
                   ],
@@ -119,7 +116,7 @@ class SignInScreen extends StatelessWidget {
               
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryOrange, 
+                  backgroundColor: Theme.of(context).colorScheme.secondary, 
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -149,7 +146,7 @@ class SignInScreen extends StatelessWidget {
                         text: 'Klik disini',
                         // MENGGUNAKAN THEME: bodyLarge
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: primaryOrange, 
+                            color: Theme.of(context).colorScheme.secondary, 
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -171,7 +168,7 @@ class SignInScreen extends StatelessWidget {
                         text: 'Daftar',
                         // MENGGUNAKAN THEME: bodyLarge
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: primaryOrange, 
+                            color: Theme.of(context).colorScheme.secondary, 
                             fontWeight: FontWeight.bold),
                         // Logika navigasi ditambahkan di sini
                         recognizer: TapGestureRecognizer()

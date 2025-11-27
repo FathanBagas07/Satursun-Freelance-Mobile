@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-const Color _saturSunRed = Color(0xFFE53935); 
-
 class JobDetailScreen extends StatelessWidget {
   const JobDetailScreen({super.key});
 
@@ -15,13 +10,13 @@ class JobDetailScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  _saturSunBlue,
-                  _saturSunLightBlue,
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.onPrimary,
                 ],
                 stops: [0.0, 0.25],
               ),
@@ -42,7 +37,7 @@ class JobDetailScreen extends StatelessWidget {
               Navigator.pushNamed(context, '/task-list-freelancer');
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: _saturSunRed,
+              backgroundColor: Theme.of(context).colorScheme.error,
               minimumSize: const Size(double.infinity, 55),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -113,7 +108,7 @@ class JobDetailScreen extends StatelessWidget {
                     const SizedBox(width: 15),
                     Expanded(
                         child: _buildInfoCard(context, Icons.payment, 'Bayaran :',
-                            'Rp 75.000', _saturSunOrange)),
+                            'Rp 75.000', Theme.of(context).colorScheme.secondary)),
                   ],
                 ),
               ],
@@ -221,7 +216,7 @@ class JobDetailScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: _saturSunBlue, size: 20),
+              Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
               const SizedBox(width: 8),
               Text(
                 label,

@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 // Definisi warna
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-const Color _saturSunRed = Color(0xFFE53935);
 const Color _saturSunGrey = Color(0xFFBDBDBD);
 
 class TaskSubmissionScreen extends StatelessWidget {
@@ -18,14 +14,14 @@ class TaskSubmissionScreen extends StatelessWidget {
         children: [
           // Background Gradient
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  _saturSunBlue,
-                  _saturSunLightBlue,
-                  _saturSunOrange,
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.onPrimary,
+                  Theme.of(context).colorScheme.secondary,
                 ],
                 stops: [0.0, 0.4, 1.0],
               ),
@@ -50,15 +46,15 @@ class TaskSubmissionScreen extends StatelessWidget {
             
             // Opsional: Tampilkan pesan sukses
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+              SnackBar(
                 content: Text("Tugas berhasil dikumpulkan!"),
-                backgroundColor: _saturSunOrange,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 duration: Duration(seconds: 2),
               ),
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: _saturSunRed,
+            backgroundColor: Theme.of(context).colorScheme.error,
             minimumSize: const Size(double.infinity, 55),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -68,7 +64,7 @@ class TaskSubmissionScreen extends StatelessWidget {
           child: Text(
             'Kumpul',
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -100,20 +96,20 @@ class TaskSubmissionScreen extends StatelessWidget {
                   style: textTheme.headlineMedium!.copyWith(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     'Progres',
                     style: textTheme.bodySmall!.copyWith(
-                      color: _saturSunBlue,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -143,7 +139,7 @@ class TaskSubmissionScreen extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -153,7 +149,7 @@ class TaskSubmissionScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
               ),
             ),
           ],
@@ -171,11 +167,11 @@ class TaskSubmissionScreen extends StatelessWidget {
       width: cardWidth,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -192,7 +188,7 @@ class TaskSubmissionScreen extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    const Icon(Icons.assignment_outlined, color: Colors.black, size: 24),
+                    Icon(Icons.assignment_outlined, color: Theme.of(context).colorScheme.onSurface, size: 24),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -215,7 +211,7 @@ class TaskSubmissionScreen extends StatelessWidget {
                   'Edit',
                   style: textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
-                    color: _saturSunBlue,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -236,7 +232,7 @@ class TaskSubmissionScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center, // Konten vertikal di tengah
               crossAxisAlignment: CrossAxisAlignment.center, // Konten horizontal di tengah
               children: [
-                const Icon(Icons.cloud_upload_outlined, color: _saturSunBlue, size: 50),
+                Icon(Icons.cloud_upload_outlined, color: Theme.of(context).colorScheme.primary, size: 50),
                 const SizedBox(height: 15),
                 Text(
                   'Upload karya (max 20MB)',
@@ -251,7 +247,7 @@ class TaskSubmissionScreen extends StatelessWidget {
                     // Logika pilih file
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _saturSunOrange,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -261,7 +257,7 @@ class TaskSubmissionScreen extends StatelessWidget {
                   child: Text(
                     'Pilih File',
                     style: textTheme.labelLarge!.copyWith(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -319,11 +315,11 @@ class TaskSubmissionScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -355,7 +351,7 @@ class TaskSubmissionScreen extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: _saturSunBlue, width: 1.5),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
               ),
               contentPadding: const EdgeInsets.all(15),
               filled: true,

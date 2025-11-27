@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-const Color _saturSunRed = Color(0xFFE53935);
-
 class ExploreScreenFreelancer extends StatelessWidget {
   const ExploreScreenFreelancer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _saturSunLightBlue,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
@@ -21,17 +16,17 @@ class ExploreScreenFreelancer extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: _saturSunBlue,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/home-freelancer');
         },
       ),
       // Menggunakan style dari tema
       title: Text('SaturSun Freelance',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18)),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.w600, fontSize: 18)),
     );
   }
 
@@ -59,8 +54,8 @@ class ExploreScreenFreelancer extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
       ),
       child: Column(
@@ -70,7 +65,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Filter Pintar', style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
-              Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Colors.white, activeTrackColor: _saturSunOrange, inactiveThumbColor: Colors.grey),
+              Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Theme.of(context).colorScheme.surface, activeTrackColor: Theme.of(context).colorScheme.secondary, inactiveThumbColor: Colors.grey),
             ],
           ),
           const SizedBox(height: 15),
@@ -93,7 +88,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Material(
-      color: isWide ? Colors.white : _saturSunLightBlue,
+      color: isWide ? Theme.of(context).colorScheme.surface : Theme.of(context).colorScheme.onPrimary,
       borderRadius: BorderRadius.circular(15),
       child: InkWell(
         onTap: onTap,
@@ -107,7 +102,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
           child: Row(
             mainAxisAlignment: isWide ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
-              Icon(icon, color: _saturSunBlue, size: 20),
+              Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
               if (isWide) const SizedBox(width: 10),
               Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
             ],
@@ -123,9 +118,9 @@ class ExploreScreenFreelancer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
-          Icon(icon, color: _saturSunBlue, size: 24),
+          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 24),
           const SizedBox(width: 8),
-          Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+          Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface)),
           if (isNew) ...[const SizedBox(width: 8), _buildNewTag(context)],
         ],
       ),
@@ -135,8 +130,8 @@ class ExploreScreenFreelancer extends StatelessWidget {
   Widget _buildNewTag(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(color: _saturSunOrange, borderRadius: BorderRadius.circular(5)),
-      child: Text('Baru', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary, borderRadius: BorderRadius.circular(5)),
+      child: Text('Baru', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.surface, fontSize: 10, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -150,9 +145,9 @@ class ExploreScreenFreelancer extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
+          boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +162,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
                 ],
               ),
             ),
-            Text(price, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
+            Text(price, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary)),
           ],
         ),
       ),
@@ -180,9 +175,9 @@ class ExploreScreenFreelancer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
+        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,11 +190,11 @@ class ExploreScreenFreelancer extends StatelessWidget {
                 children: [
                   Text(originalPrice, style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Colors.grey[500], decoration: TextDecoration.lineThrough)),
                   const SizedBox(width: 5),
-                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: _saturSunRed.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: textTheme.bodySmall!.copyWith(color: _saturSunRed, fontSize: 11, fontWeight: FontWeight.bold))),
+                  Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), decoration: BoxDecoration(color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(5)), child: Text(discount, style: textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.error, fontSize: 11, fontWeight: FontWeight.bold))),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(discountedPrice, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: _saturSunOrange)),
+              Text(discountedPrice, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary)),
             ],
           ),
         ],
