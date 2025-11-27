@@ -62,14 +62,83 @@ class ProfileKlienScreen extends StatelessWidget {
                 IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home-freelancer');
+                      Navigator.pushReplacementNamed(
+                          context, '/home-freelancer');
                     }),
                 Text(
                   'Satursun Freelance',
                   style: textTheme.titleLarge!.copyWith(
-                      fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
                 ),
-                IconButton(icon: const Icon(Icons.menu, color: Colors.white), onPressed: () {}),
+                // --- UPDATE BAGIAN INI UNTUK FITUR LOGOUT ---
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.menu, color: Colors.white),
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  color: Colors.white,
+                  onSelected: (String result) {
+                    if (result == 'logout') {
+                      // Logika Logout: Kembali ke Sign In dan hapus history route
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/sign-in', (route) => false);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Logout',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      height: 10,
+                      enabled: false,
+                      child: SizedBox.shrink(), // Spacer
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Settings',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                // --- AKHIR UPDATE ---
               ],
             ),
             const SizedBox(height: 15),
@@ -89,7 +158,9 @@ class ProfileKlienScreen extends StatelessWidget {
                       Text(
                         'Monica Raquella',
                         style: textTheme.headlineMedium!.copyWith(
-                            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -120,7 +191,10 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -130,11 +204,13 @@ class ProfileKlienScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.folder_special_outlined, color: Colors.black, size: 24),
+                  const Icon(Icons.folder_special_outlined,
+                      color: Colors.black, size: 24),
                   const SizedBox(width: 8),
                   Text(
                     'Portofolio klien',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -142,8 +218,10 @@ class ProfileKlienScreen extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   'Edit',
-                  style: textTheme.bodyLarge!
-                      .copyWith(fontSize: 16, color: _saturSunBlue, fontWeight: FontWeight.w600),
+                  style: textTheme.bodyLarge!.copyWith(
+                      fontSize: 16,
+                      color: _saturSunBlue,
+                      fontWeight: FontWeight.w600),
                 ),
               )
             ],
@@ -158,12 +236,15 @@ class ProfileKlienScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.cloud_upload_outlined, color: _saturSunBlue, size: 28),
+                const Icon(Icons.cloud_upload_outlined,
+                    color: _saturSunBlue, size: 28),
                 const SizedBox(width: 20),
                 Text(
                   'Upload Portofolio rekrutmen\n (max 5MB)',
                   style: textTheme.bodyMedium!.copyWith(
-                      color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.w500),
+                      color: Colors.grey[700],
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -182,7 +263,10 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -193,11 +277,13 @@ class ProfileKlienScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.visibility_off_outlined, color: _saturSunOrange, size: 22),
+                  const Icon(Icons.visibility_off_outlined,
+                      color: _saturSunOrange, size: 22),
                   const SizedBox(width: 8),
                   Text(
                     'Mode Tersembunyi',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -213,7 +299,8 @@ class ProfileKlienScreen extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             'Auto Reply: "Saat ini saya sedang membuka rekrutmen secara privat. Hanya kandidat terpilih yang akan dihubungi."',
-            style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 14),
+            style: textTheme.bodyMedium!
+                .copyWith(color: Colors.grey[700], fontSize: 14),
           ),
           const SizedBox(height: 15),
           Row(
@@ -237,7 +324,9 @@ class ProfileKlienScreen extends StatelessWidget {
       child: Center(
         child: Text(
           'Ilustrasi $index',
-          style: Theme.of(context).textTheme.bodySmall!
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
               .copyWith(fontSize: 10, color: _saturSunBlue),
         ),
       ),
@@ -253,7 +342,10 @@ class ProfileKlienScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -267,7 +359,8 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Aktivitas Mei 2025',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -278,9 +371,11 @@ class ProfileKlienScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('5 Unggah Pekerjaan',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: _saturSunBlue)),
+                  style: textTheme.bodyMedium!
+                      .copyWith(fontSize: 15, color: _saturSunBlue)),
               Text('3 Orang di Rekrut',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Colors.black)),
+                  style: textTheme.bodyMedium!
+                      .copyWith(fontSize: 15, color: Colors.black)),
             ],
           ),
           const SizedBox(height: 10),
@@ -295,7 +390,8 @@ class ProfileKlienScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Blokir notifikasi Senin–Jumat',
-                  style: textTheme.bodyMedium!.copyWith(color: Colors.black, fontSize: 15)),
+                  style: textTheme.bodyMedium!
+                      .copyWith(color: Colors.black, fontSize: 15)),
               Switch(
                 value: true,
                 onChanged: (bool value) {},
