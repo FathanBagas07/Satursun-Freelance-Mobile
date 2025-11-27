@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // PRIMARY & BRAND COLORS
-  static const Color saturSunBlue = Color(0xFF1E88E5);
-  static const Color saturSunOrange = Color(0xFFF98B00);
+  static const Color saturSunBlue = Color(0xFF369AF9);
+  static const Color saturSunOrange = Color(0xFFFF862A);
   static const Color saturSunLightBlue = Color(0xFF8AC1F5); // Digunakan untuk BG/Gradient
 
   // STATUS & ACCENT COLORS
