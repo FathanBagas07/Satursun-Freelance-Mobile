@@ -33,11 +33,11 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF009FFD),
-                  Color(0xFFFF7A00),
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -92,17 +92,17 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // REVISI: Satursun Freelance warna putih rata kiri
               Text(
                 "Satursun Freelance",
                 style: TextStyle(
-                  color: Colors.white, // Warna putih
+                  color: Theme.of(context).colorScheme.surface, // Warna putih
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),
@@ -112,7 +112,7 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
               Text(
                 "Posting Pekerjaan",
                 style: TextStyle(
-                  color: Colors.black, // Warna hitam
+                  color: Theme.of(context).colorScheme.onSurface, // Warna hitam
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -121,7 +121,7 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
               Text(
                 "(Langkah 2/2)",
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Theme.of(context).colorScheme.surface,
                   fontSize: 12,
                 ),
               ),
@@ -140,11 +140,11 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -177,12 +177,12 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Deskripsi Pekerjaan",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -214,12 +214,12 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Budget Pekerjaan",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -252,12 +252,12 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Tenggat Pekerjaan",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -301,14 +301,14 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7A00),
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "Tambah",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),

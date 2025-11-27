@@ -120,13 +120,13 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          const Text(
+          Text(
             "Satursun Freelance",
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               fontSize: 22,
               fontWeight: FontWeight.w600,
             ),
@@ -144,7 +144,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
       ),
       child: Column(
@@ -160,7 +160,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
               ),
               Switch(
                 value: smartFilter,
-                activeThumbColor: Colors.orange,
+                activeThumbColor: Theme.of(context).colorScheme.secondary,
                 onChanged: (v) => setState(() => smartFilter = v),
               ),
             ],
@@ -204,7 +204,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
@@ -229,7 +229,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
@@ -277,7 +277,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
                   child: LinearProgressIndicator(
                     value: f["progress"],
                     minHeight: 5,
-                    color: Colors.orange,
+                    color: Theme.of(context).colorScheme.secondary,
                     backgroundColor: Colors.grey[200],
                   ),
                 )
@@ -291,12 +291,12 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text(
+            child: Text(
               "Hire",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold),
             ),
           )
         ],

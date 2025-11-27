@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar_klien.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-
 class ProfileKlienScreen extends StatelessWidget {
   const ProfileKlienScreen({super.key});
 
@@ -14,11 +10,11 @@ class ProfileKlienScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [_saturSunBlue, _saturSunLightBlue, _saturSunOrange],
+                colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.onPrimary, Theme.of(context).colorScheme.secondary],
                 stops: [0.0, 0.35, 0.9],
               ),
             ),
@@ -60,16 +56,16 @@ class ProfileKlienScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/home-freelancer');
                     }),
                 Text(
                   'Satursun Freelance',
                   style: textTheme.titleLarge!.copyWith(
-                      fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+                      fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface),
                 ),
-                IconButton(icon: const Icon(Icons.menu, color: Colors.white), onPressed: () {}),
+                IconButton(icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.surface), onPressed: () {}),
               ],
             ),
             const SizedBox(height: 15),
@@ -77,9 +73,9 @@ class ProfileKlienScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20.0),
               child: Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 40,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     backgroundImage: AssetImage('assets/profile_pic.png'),
                   ),
                   const SizedBox(width: 15),
@@ -89,14 +85,14 @@ class ProfileKlienScreen extends StatelessWidget {
                       Text(
                         'Monica Raquella',
                         style: textTheme.headlineMedium!.copyWith(
-                            fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                            fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Klien  |  4.8 (32 reviews)',
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
-                          color: Colors.white.withValues(alpha: 0.8),
+                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -117,10 +113,10 @@ class ProfileKlienScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -130,7 +126,7 @@ class ProfileKlienScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.folder_special_outlined, color: Colors.black, size: 24),
+                  Icon(Icons.folder_special_outlined, color: Theme.of(context).colorScheme.onSurface, size: 24),
                   const SizedBox(width: 8),
                   Text(
                     'Portofolio klien',
@@ -143,7 +139,7 @@ class ProfileKlienScreen extends StatelessWidget {
                 child: Text(
                   'Edit',
                   style: textTheme.bodyLarge!
-                      .copyWith(fontSize: 16, color: _saturSunBlue, fontWeight: FontWeight.w600),
+                      .copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),
                 ),
               )
             ],
@@ -158,7 +154,7 @@ class ProfileKlienScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.cloud_upload_outlined, color: _saturSunBlue, size: 28),
+                Icon(Icons.cloud_upload_outlined, color: Theme.of(context).colorScheme.primary, size: 28),
                 const SizedBox(width: 20),
                 Text(
                   'Upload Portofolio rekrutmen\n (max 5MB)',
@@ -179,10 +175,10 @@ class ProfileKlienScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -193,7 +189,7 @@ class ProfileKlienScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.visibility_off_outlined, color: _saturSunOrange, size: 22),
+                  Icon(Icons.visibility_off_outlined, color: Theme.of(context).colorScheme.secondary, size: 22),
                   const SizedBox(width: 8),
                   Text(
                     'Mode Tersembunyi',
@@ -204,8 +200,8 @@ class ProfileKlienScreen extends StatelessWidget {
               Switch(
                 value: true,
                 onChanged: (bool value) {},
-                activeThumbColor: Colors.white,
-                activeTrackColor: _saturSunOrange,
+                activeThumbColor: Theme.of(context).colorScheme.surface,
+                activeTrackColor: Theme.of(context).colorScheme.secondary,
                 inactiveThumbColor: Colors.grey,
               )
             ],
@@ -233,12 +229,12 @@ class ProfileKlienScreen extends StatelessWidget {
     return Container(
       width: 70,
       height: 70,
-      color: _saturSunLightBlue.withValues(alpha: 0.5),
+      color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
       child: Center(
         child: Text(
           'Ilustrasi $index',
           style: Theme.of(context).textTheme.bodySmall!
-              .copyWith(fontSize: 10, color: _saturSunBlue),
+              .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.primary),
         ),
       ),
     );
@@ -250,10 +246,10 @@ class ProfileKlienScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
@@ -263,7 +259,7 @@ class ProfileKlienScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.bar_chart, color: Colors.black, size: 24),
+                  Icon(Icons.bar_chart, color: Theme.of(context).colorScheme.onSurface, size: 24),
                   const SizedBox(width: 8),
                   Text(
                     'Aktivitas Mei 2025',
@@ -278,16 +274,16 @@ class ProfileKlienScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('5 Unggah Pekerjaan',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: _saturSunBlue)),
+                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.primary)),
               Text('3 Orang di Rekrut',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Colors.black)),
+                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
             ],
           ),
           const SizedBox(height: 10),
           LinearProgressIndicator(
             value: 0.5,
             backgroundColor: Colors.grey[200],
-            valueColor: const AlwaysStoppedAnimation<Color>(_saturSunOrange),
+            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary),
             minHeight: 5,
           ),
           const SizedBox(height: 20),
@@ -295,12 +291,12 @@ class ProfileKlienScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Blokir notifikasi Senin–Jumat',
-                  style: textTheme.bodyMedium!.copyWith(color: Colors.black, fontSize: 15)),
+                  style: textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onSurface, fontSize: 15)),
               Switch(
                 value: true,
                 onChanged: (bool value) {},
-                activeThumbColor: Colors.white,
-                activeTrackColor: _saturSunOrange,
+                activeThumbColor: Theme.of(context).colorScheme.surface,
+                activeTrackColor: Theme.of(context).colorScheme.secondary,
                 inactiveThumbColor: Colors.grey,
               )
             ],
