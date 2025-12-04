@@ -67,20 +67,9 @@ class ProfileKlienScreen extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).colorScheme.surface,
+                  ),
                 ),
                 PopupMenuButton<String>(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  offset: const Offset(0, 40),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: Colors.white,
-                  onSelected: (String result) {
-                    if (result == 'logout') {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/sign-in', (route) => false);
-                    }
-                  },
                   itemBuilder: (BuildContext context) =>
                       <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
@@ -93,7 +82,7 @@ class ProfileKlienScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 2,
                               offset: const Offset(0, 1),
                             )
@@ -119,7 +108,7 @@ class ProfileKlienScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 2,
                               offset: const Offset(0, 1),
                             )
@@ -205,7 +194,6 @@ class ProfileKlienScreen extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   'Edit',
-
                   style: textTheme.bodyLarge!
                       .copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),
                 ),
@@ -350,6 +338,7 @@ class ProfileKlienScreen extends StatelessWidget {
                   style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.primary)),
               Text('3 Orang di Rekrut',
                   style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
+            ],
           ),
           const SizedBox(height: 10),
           LinearProgressIndicator(

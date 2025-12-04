@@ -115,10 +115,10 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           GestureDetector(
             onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context, '/home-klien', (route) => false),
-            child: const Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
