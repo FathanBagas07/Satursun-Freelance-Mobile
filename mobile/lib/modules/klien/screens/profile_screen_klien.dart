@@ -58,14 +58,80 @@ class ProfileKlienScreen extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/home-freelancer');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home-klien', (route) => false);
                     }),
                 Text(
                   'Satursun Freelance',
                   style: textTheme.titleLarge!.copyWith(
-                      fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.surface,
                 ),
-                IconButton(icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.surface), onPressed: () {}),
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.menu, color: Colors.white),
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  color: Colors.white,
+                  onSelected: (String result) {
+                    if (result == 'logout') {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/sign-in', (route) => false);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Logout',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      height: 10,
+                      enabled: false,
+                      child: SizedBox.shrink(), // Spacer
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Settings',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(height: 15),
@@ -130,7 +196,8 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Portofolio klien',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -138,6 +205,7 @@ class ProfileKlienScreen extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   'Edit',
+
                   style: textTheme.bodyLarge!
                       .copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),
                 ),
@@ -159,7 +227,9 @@ class ProfileKlienScreen extends StatelessWidget {
                 Text(
                   'Upload Portofolio rekrutmen\n (max 5MB)',
                   style: textTheme.bodyMedium!.copyWith(
-                      color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.w500),
+                      color: Colors.grey[700],
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -193,7 +263,8 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Mode Tersembunyi',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -209,7 +280,8 @@ class ProfileKlienScreen extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             'Auto Reply: "Saat ini saya sedang membuka rekrutmen secara privat. Hanya kandidat terpilih yang akan dihubungi."',
-            style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 14),
+            style: textTheme.bodyMedium!
+                .copyWith(color: Colors.grey[700], fontSize: 14),
           ),
           const SizedBox(height: 15),
           Row(
@@ -263,7 +335,8 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Aktivitas Mei 2025',
-                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -277,7 +350,6 @@ class ProfileKlienScreen extends StatelessWidget {
                   style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.primary)),
               Text('3 Orang di Rekrut',
                   style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
-            ],
           ),
           const SizedBox(height: 10),
           LinearProgressIndicator(

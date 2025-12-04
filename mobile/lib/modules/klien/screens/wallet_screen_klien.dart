@@ -108,25 +108,36 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
   // HEADER
   Widget _buildHeader() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Row(
         children: [
-          Text(
-            "Wallet - Klien",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.surface,
-            ),
+          // UPDATE: Menambahkan tombol Back Arrow dengan logika navigasi ke Home
+          GestureDetector(
+            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/home-klien', (route) => false),
+            child: const Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
-          SizedBox(height: 8),
-          Text(
-            "Satursun Freelance",
-            style: TextStyle(
-              fontSize: 16,
-              color: Theme.of(context).colorScheme.surface,
-            ),
+          const SizedBox(width: 12),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Wallet - Klien",
+                style: TextStyle(
+                  fontSize: 22, // Sedikit disesuaikan agar proporsional dengan icon
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                "Satursun Freelance",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.surface,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -173,14 +184,16 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 ),
                 const SizedBox(width: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.green[50],
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.arrow_upward, color: Colors.green, size: 14),
+                      const Icon(Icons.arrow_upward,
+                          color: Colors.green, size: 14),
                       const SizedBox(width: 4),
                       Text(
                         "12% vs bulan lalu",
@@ -275,7 +288,8 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
   // ITEM: PEMBAYARAN PEKERJA
   Widget _buildPaymentItem(Map<String, dynamic> payment, int index) {
     return Container(
-      margin: EdgeInsets.only(bottom: index == _pendingPayments.length - 1 ? 0 : 12),
+      margin: EdgeInsets.only(
+          bottom: index == _pendingPayments.length - 1 ? 0 : 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey[50],
@@ -291,7 +305,8 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           GestureDetector(
             onTap: () {
               setState(() {
-                _pendingPayments[index]['selected'] = !_pendingPayments[index]['selected'];
+                _pendingPayments[index]['selected'] =
+                    !_pendingPayments[index]['selected'];
               });
             },
             child: Container(
@@ -416,7 +431,8 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           Image.asset(
             payment['icon'],
             height: 30,
-            errorBuilder: (c, e, s) => const Icon(Icons.payment, size: 30, color: Colors.grey),
+            errorBuilder: (c, e, s) =>
+                const Icon(Icons.payment, size: 30, color: Colors.grey),
           ),
           const SizedBox(height: 8),
           Text(

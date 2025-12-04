@@ -121,7 +121,9 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pop(context),
+            // UPDATE: Navigasi ke Home Klien
+            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/home-klien', (route) => false),
             child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
@@ -129,7 +131,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Satursun Freelance", // REVISI: Smart Academy -> Satursun Freelance
+                "Satursun Freelance",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.surface,
                   fontSize: 22,
@@ -138,7 +140,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               ),
               SizedBox(height: 4),
               Text(
-                "Posting Pekerjaan", // REVISI: Satursun Freelance -> Posting Pekerjaan (warna hitam nanti di card)
+                "Posting Pekerjaan",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.surface,
                   fontSize: 14,
@@ -172,10 +174,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // REVISI: Hapus "Posting Pekerjaan" dari sini
-          // Hanya tampilkan filter fields saja
-
-          const SizedBox(height: 8), // Adjusted spacing
+          const SizedBox(height: 8), 
 
           // SEMUA PEKERJAAN FIELD
           _buildFilterField(
@@ -346,7 +345,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
   }
 
   // ============================
-  // POST JOB BUTTON (MIRIP HOME SCREEN)
+  // POST JOB BUTTON
   // ============================
   Widget _buildPostJobButton() {
     return Padding(

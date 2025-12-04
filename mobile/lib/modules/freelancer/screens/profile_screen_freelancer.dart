@@ -55,9 +55,83 @@ class ProfileScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface), onPressed: () { Navigator.pushReplacementNamed(context, '/home-freelancer'); }),
-                Text('SaturSun Freelance', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface)),
-                IconButton(icon: Icon(Icons.menu, color: Theme.of(context).colorScheme.surface), onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/home-freelancer');
+                    }),
+                Text('SaturSun Freelance',
+                    style: textTheme.titleLarge!.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
+                // --- UPDATE BAGIAN INI UNTUK FITUR LOGOUT ---
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.menu, color: Colors.white),
+                  offset: const Offset(0, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  color: Colors.white,
+                  onSelected: (String result) {
+                    if (result == 'logout') {
+                      // Logika Logout: Kembali ke Sign In dan hapus history route
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/sign-in', (route) => false);
+                    }
+                    // Tambahkan logika settings di sini jika diperlukan
+                  },
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Logout',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      height: 10,
+                      enabled: false,
+                      child: SizedBox.shrink(), // Spacer antar item
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Settings',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                // --- AKHIR UPDATE ---
               ],
             ),
             const SizedBox(height: 15),
@@ -111,9 +185,17 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Row(children: [Icon(Icons.brightness_1, color: Theme.of(context).colorScheme.secondary, size: 14), const SizedBox(width: 8), Text('Mode Kuliah', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold))]), Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Theme.of(context).colorScheme.surface, activeTrackColor: Theme.of(context).colorScheme.secondary, inactiveThumbColor: Colors.grey)]),
           const SizedBox(height: 5),
-          Text('Auto-reply: "Sedang ujian, akan dibalas secepatnya"', style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 14)),
+          Text('Auto-reply: "Sedang ujian, akan dibalas secepatnya"',
+              style: textTheme.bodyMedium!
+                  .copyWith(color: Colors.grey[700], fontSize: 14)),
           const SizedBox(height: 15),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [_buildPlaceholderImage(context, 1), _buildPlaceholderImage(context, 2), _buildPlaceholderImage(context, 3)]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildPlaceholderImage(context, 1),
+                _buildPlaceholderImage(context, 2),
+                _buildPlaceholderImage(context, 3)
+              ]),
         ],
       ),
     );
@@ -133,22 +215,38 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Row(children: [Icon(Icons.assignment_outlined, color: Theme.of(context).colorScheme.onSurface, size: 24), const SizedBox(width: 8), Text('Daftar Tugas', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold))]), GestureDetector(onTap: () {}, child: Text('Lihat Semua', style: textTheme.bodyLarge!.copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)))]),
           const Divider(height: 30),
-          _buildTaskItem(context, title: 'Desain Poster Event Kampus', subTitle: 'Bem Fasilkom-TI', progress: 0.3, progressLabel: '30% Selesai'),
+          _buildTaskItem(context,
+              title: 'Desain Poster Event Kampus',
+              subTitle: 'Bem Fasilkom-TI',
+              progress: 0.3,
+              progressLabel: '30% Selesai'),
           const Divider(height: 30),
-          _buildTaskItem(context, title: 'Editing Video Dokumentasi', subTitle: 'Dikerjakan oleh : Arya', progress: 0.7, progressLabel: '70% Selesai'),
+          _buildTaskItem(context,
+              title: 'Editing Video Dokumentasi',
+              subTitle: 'Dikerjakan oleh : Arya',
+              progress: 0.7,
+              progressLabel: '70% Selesai'),
         ],
       ),
     );
   }
 
-  Widget _buildTaskItem(BuildContext context, {required String title, required String subTitle, required double progress, required String progressLabel}) {
+  Widget _buildTaskItem(BuildContext context,
+      {required String title,
+      required String subTitle,
+      required double progress,
+      required String progressLabel}) {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(title,
+            style: textTheme.bodyLarge!
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 4),
-        Text(subTitle, style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: Colors.grey[600])),
+        Text(subTitle,
+            style: textTheme.bodyMedium!
+                .copyWith(fontSize: 14, color: Colors.grey[600])),
         const SizedBox(height: 10),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Progress', style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onSurface)), Text(progressLabel, style: textTheme.bodySmall!.copyWith(fontSize: 12, color: progress < 1.0 ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600))]),
         const SizedBox(height: 4),
