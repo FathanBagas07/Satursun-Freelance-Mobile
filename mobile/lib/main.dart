@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'modules/auth/screens/get_started_screen.dart';
 import 'modules/auth/screens/sign_in_screen.dart';
@@ -23,7 +25,13 @@ import 'modules/klien/screens/job_screen_klien.dart';
 import 'modules/klien/screens/profile_screen_klien.dart';
 import 'modules/klien/screens/wallet_screen_klien.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  await GoogleSignIn.instance.initialize();
+
   runApp(const SatursunApp());
 }
 
