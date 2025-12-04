@@ -28,13 +28,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color primaryBlue = Colors.blue;
-    Color primaryOrange = Colors.orange;
-
     return Scaffold(
-      backgroundColor: primaryBlue,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        backgroundColor: primaryBlue,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -114,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Checkbox(
                     value: true,
                     onChanged: (bool? newValue) {},
-                    activeColor: primaryOrange,
+                    activeColor: Theme.of(context).colorScheme.secondary,
                   ),
                   Flexible(
                     child: Text.rich(
@@ -129,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             text: 'Ketentuan Pengguna',
                             // MENGGUNAKAN THEME: bodySmall (12) + override size 13, color orange, dan bold
                             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: primaryOrange,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13),
                           ),
@@ -138,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             text: 'Kebijakan Privasi',
                             // MENGGUNAKAN THEME: bodySmall (12) + override size 13, color orange, dan bold
                             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: primaryOrange,
+                                color: Theme.of(context).colorScheme.secondary,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13),
                           ),
@@ -153,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryOrange,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -188,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: 'Masuk',
                         // MENGGUNAKAN THEME: bodyLarge + override color orange, dan bold
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: primaryOrange, 
+                            color: Theme.of(context).colorScheme.secondary, 
                             fontWeight: FontWeight.bold),
                         recognizer: TapGestureRecognizer() // <-- Menambahkan GestureRecognizer
                           ..onTap = () {

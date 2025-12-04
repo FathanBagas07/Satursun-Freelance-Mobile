@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -14,11 +10,11 @@ class ProfileScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [_saturSunBlue, _saturSunLightBlue, _saturSunOrange],
+                colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.onPrimary, Theme.of(context).colorScheme.secondary],
                 stops: [0.0, 0.35, 0.9],
               ),
             ),
@@ -143,27 +139,14 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20.0),
               child: Row(
                 children: [
-                  CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          const AssetImage('assets/profile_pic.png'),
-                      child: const SizedBox.shrink()),
+                  CircleAvatar(radius: 40, backgroundColor: Theme.of(context).colorScheme.surface, backgroundImage: const AssetImage('assets/profile_pic.png'), child: const SizedBox.shrink()),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Monica Raquella',
-                          style: textTheme.headlineMedium!.copyWith(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white)),
+                      Text('Monica Raquella', style: textTheme.headlineMedium!.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface)),
                       const SizedBox(height: 4),
-                      Text('Freelance Teknik | 4.8 (32 reviews)',
-                          style: textTheme.bodyMedium!.copyWith(
-                              fontSize: 14,
-                              color: Colors.white.withValues(alpha: 0.8),
-                              fontWeight: FontWeight.w500)),
+                      Text('Freelance Teknik | 4.8 (32 reviews)', style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8), fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ],
@@ -180,49 +163,12 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              const Icon(Icons.work_outline, color: Colors.black, size: 24),
-              const SizedBox(width: 8),
-              Text('Portofolio',
-                  style: textTheme.titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.bold))
-            ]),
-            GestureDetector(
-                onTap: () {},
-                child: Text('Edit',
-                    style: textTheme.bodyLarge!.copyWith(
-                        fontSize: 16,
-                        color: _saturSunBlue,
-                        fontWeight: FontWeight.w600)))
-          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Row(children: [Icon(Icons.work_outline, color: Theme.of(context).colorScheme.onSurface, size: 24), const SizedBox(width: 8), Text('Portofolio', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold))]), GestureDetector(onTap: () {}, child: Text('Edit', style: textTheme.bodyLarge!.copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)))]),
           const SizedBox(height: 15),
-          Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Icon(Icons.cloud_upload_outlined,
-                    color: _saturSunBlue, size: 28),
-                const SizedBox(width: 10),
-                Text('Upload karya (max 5MB)',
-                    style: textTheme.bodyMedium!.copyWith(
-                        color: Colors.grey[700],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500))
-              ])),
+          Container(padding: const EdgeInsets.all(20), decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade400), borderRadius: BorderRadius.circular(15)), child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.cloud_upload_outlined, color: Theme.of(context).colorScheme.primary, size: 28), const SizedBox(width: 10), Text('Upload karya (max 5MB)', style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.w500))])),
         ],
       ),
     );
@@ -233,33 +179,11 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              const Icon(Icons.brightness_1, color: _saturSunOrange, size: 14),
-              const SizedBox(width: 8),
-              Text('Mode Kuliah',
-                  style: textTheme.titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.bold))
-            ]),
-            Switch(
-                value: true,
-                onChanged: (bool value) {},
-                activeThumbColor: Colors.white,
-                activeTrackColor: _saturSunOrange,
-                inactiveThumbColor: Colors.grey)
-          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Row(children: [Icon(Icons.brightness_1, color: Theme.of(context).colorScheme.secondary, size: 14), const SizedBox(width: 8), Text('Mode Kuliah', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold))]), Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Theme.of(context).colorScheme.surface, activeTrackColor: Theme.of(context).colorScheme.secondary, inactiveThumbColor: Colors.grey)]),
           const SizedBox(height: 5),
           Text('Auto-reply: "Sedang ujian, akan dibalas secepatnya"',
               style: textTheme.bodyMedium!
@@ -278,14 +202,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildPlaceholderImage(BuildContext context, int index) {
-    return Container(
-        width: 70,
-        height: 70,
-        color: _saturSunLightBlue.withValues(alpha: 0.5),
-        child: Center(
-            child: Text('Ilustrasi $index',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontSize: 10, color: _saturSunBlue))));
+    return Container(width: 70, height: 70, color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5), child: Center(child: Text('Ilustrasi $index', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10, color: Theme.of(context).colorScheme.primary))));
   }
 
   Widget _buildTaskListSection(BuildContext context) {
@@ -293,34 +210,10 @@ class ProfileScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(children: [
-              const Icon(Icons.assignment_outlined,
-                  color: Colors.black, size: 24),
-              const SizedBox(width: 8),
-              Text('Daftar Tugas',
-                  style: textTheme.titleLarge!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.bold))
-            ]),
-            GestureDetector(
-                onTap: () {},
-                child: Text('Lihat Semua',
-                    style: textTheme.bodyLarge!.copyWith(
-                        fontSize: 16,
-                        color: _saturSunBlue,
-                        fontWeight: FontWeight.w600)))
-          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Row(children: [Icon(Icons.assignment_outlined, color: Theme.of(context).colorScheme.onSurface, size: 24), const SizedBox(width: 8), Text('Daftar Tugas', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold))]), GestureDetector(onTap: () {}, child: Text('Lihat Semua', style: textTheme.bodyLarge!.copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)))]),
           const Divider(height: 30),
           _buildTaskItem(context,
               title: 'Desain Poster Event Kampus',
@@ -355,22 +248,9 @@ class ProfileScreen extends StatelessWidget {
             style: textTheme.bodyMedium!
                 .copyWith(fontSize: 14, color: Colors.grey[600])),
         const SizedBox(height: 10),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text('Progress',
-              style: textTheme.bodySmall!
-                  .copyWith(fontSize: 12, color: Colors.black54)),
-          Text(progressLabel,
-              style: textTheme.bodySmall!.copyWith(
-                  fontSize: 12,
-                  color: progress < 1.0 ? _saturSunOrange : _saturSunBlue,
-                  fontWeight: FontWeight.w600))
-        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Progress', style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onSurface)), Text(progressLabel, style: textTheme.bodySmall!.copyWith(fontSize: 12, color: progress < 1.0 ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600))]),
         const SizedBox(height: 4),
-        LinearProgressIndicator(
-            value: progress,
-            backgroundColor: Colors.grey[200],
-            valueColor: const AlwaysStoppedAnimation<Color>(_saturSunOrange),
-            minHeight: 5),
+        LinearProgressIndicator(value: progress, backgroundColor: Colors.grey[200], valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary), minHeight: 5),
       ],
     );
   }

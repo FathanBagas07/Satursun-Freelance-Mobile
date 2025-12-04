@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunBlue = Color(0xFF1E88E5);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
 const Color _saturSunGreen = Color(0xFF4CAF50);
 
 class WalletScreenFreelancer extends StatelessWidget {
@@ -15,11 +12,11 @@ class WalletScreenFreelancer extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [_saturSunBlue, _saturSunLightBlue, _saturSunOrange],
+                colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.onPrimary, Theme.of(context).colorScheme.secondary],
                 stops: [0.0, 0.4, 1.0],
               ),
             ),
@@ -41,7 +38,7 @@ class WalletScreenFreelancer extends StatelessWidget {
           _buildAppBar(context),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text('Saldo', style: textTheme.displayMedium!.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+            child: Text('Saldo', style: textTheme.displayMedium!.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface)),
           ),
           const SizedBox(height: 15),
           _buildBalanceCard(context),
@@ -72,12 +69,12 @@ class WalletScreenFreelancer extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home-freelancer');
               },
             ),
-            Text('SaturSun Freelance', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
+            Text('SaturSun Freelance', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface)),
           ],
         ),
       ),
@@ -89,7 +86,7 @@ class WalletScreenFreelancer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,7 +95,7 @@ class WalletScreenFreelancer extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Rp 1.250.000', style: textTheme.displayMedium!.copyWith(fontSize: 28, fontWeight: FontWeight.bold, color: _saturSunBlue)),
+              Text('Rp 1.250.000', style: textTheme.displayMedium!.copyWith(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
               const SizedBox(width: 8),
               Row(children: [Icon(Icons.arrow_upward, color: _saturSunGreen, size: 16), Text('12% vs bulan lalu', style: textTheme.bodyMedium!.copyWith(color: _saturSunGreen, fontSize: 14))]),
             ],
@@ -106,7 +103,7 @@ class WalletScreenFreelancer extends StatelessWidget {
           const SizedBox(height: 20),
           Text('Komisi Tertahan', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
-          LinearProgressIndicator(value: 0.7, backgroundColor: Colors.grey[200], valueColor: const AlwaysStoppedAnimation<Color>(_saturSunOrange), minHeight: 5),
+          LinearProgressIndicator(value: 0.7, backgroundColor: Colors.grey[200], valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary), minHeight: 5),
           const SizedBox(height: 5),
           Text('Akan cair setelah job selesai', style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Colors.grey)),
         ],
@@ -119,17 +116,17 @@ class WalletScreenFreelancer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Pembayaran Instan', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          Row(children: [_buildEWalletIcon(context, 'DANA', Colors.blue), const SizedBox(width: 10), _buildEWalletIcon(context, 'gopay', Colors.green), const SizedBox(width: 10), _buildEWalletIcon(context, 'OVO', Colors.purple), const SizedBox(width: 10), _buildEWalletIcon(context, '...', Colors.grey)]),
+          Row(children: [_buildEWalletIcon(context, 'DANA', Theme.of(context).colorScheme.primary), const SizedBox(width: 10), _buildEWalletIcon(context, 'gopay', Colors.green), const SizedBox(width: 10), _buildEWalletIcon(context, 'OVO', Colors.purple), const SizedBox(width: 10), _buildEWalletIcon(context, '...', Colors.grey)]),
           const SizedBox(height: 5),
-          Text('Rp 2.500/transaksi', style: textTheme.bodySmall!.copyWith(fontSize: 12, color: _saturSunOrange, fontWeight: FontWeight.w600)),
+          Text('Rp 2.500/transaksi', style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w600)),
           const Divider(height: 30),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Bank Transfer', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)), GestureDetector(onTap: () {}, child: Text('pilih bank >', style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: _saturSunBlue, fontWeight: FontWeight.w600)))]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Bank Transfer', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold)), GestureDetector(onTap: () {}, child: Text('pilih bank >', style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)))]),
           const SizedBox(height: 10),
           Row(children: [_buildTransferOption(context, 'Standar (2 hari)', isSelected: true), const SizedBox(width: 15), _buildTransferOption(context, 'Kilat (1 jam)', isSelected: false)]),
         ],
@@ -148,8 +145,8 @@ class WalletScreenFreelancer extends StatelessWidget {
   Widget _buildTransferOption(BuildContext context, String label, {required bool isSelected}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(color: isSelected ? _saturSunLightBlue : Colors.grey[200], borderRadius: BorderRadius.circular(20)),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(isSelected ? Icons.check_circle : Icons.circle_outlined, color: isSelected ? _saturSunGreen : Colors.grey, size: 18), const SizedBox(width: 5), Text(label, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600, color: isSelected ? _saturSunBlue : Colors.grey[700], fontSize: 13))]),
+      decoration: BoxDecoration(color: isSelected ? Theme.of(context).colorScheme.onPrimary : Colors.grey[200], borderRadius: BorderRadius.circular(20)),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(isSelected ? Icons.check_circle : Icons.circle_outlined, color: isSelected ? _saturSunGreen : Colors.grey, size: 18), const SizedBox(width: 5), Text(label, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600, color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey[700], fontSize: 13))]),
     );
   }
 
@@ -158,7 +155,7 @@ class WalletScreenFreelancer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 5))]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -179,9 +176,9 @@ class WalletScreenFreelancer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Flexible(child: Text(description, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w500))), Text('$current/$target', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: progress >= 1.0 ? _saturSunGreen : _saturSunOrange))]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Flexible(child: Text(description, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w500))), Text('$current/$target', style: textTheme.bodyLarge!.copyWith(fontSize: 16, fontWeight: FontWeight.bold, color: progress >= 1.0 ? _saturSunGreen : Theme.of(context).colorScheme.secondary))]),
           const SizedBox(height: 5),
-          LinearProgressIndicator(value: progress, backgroundColor: Colors.grey[200], valueColor: const AlwaysStoppedAnimation<Color>(_saturSunOrange), minHeight: 5),
+          LinearProgressIndicator(value: progress, backgroundColor: Colors.grey[200], valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.secondary), minHeight: 5),
         ],
       ),
     );

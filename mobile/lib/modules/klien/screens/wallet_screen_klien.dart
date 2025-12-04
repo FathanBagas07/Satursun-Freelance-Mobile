@@ -51,11 +51,11 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF009FFD),
-                  Color(0xFFFF7A00),
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -115,7 +115,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           GestureDetector(
             onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context, '/home-klien', (route) => false),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+            child: const Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
           const Column(
@@ -126,7 +126,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 style: TextStyle(
                   fontSize: 22, // Sedikit disesuaikan agar proporsional dengan icon
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
               SizedBox(height: 4),
@@ -134,7 +134,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 "Satursun Freelance",
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.white70,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
             ],
@@ -155,12 +155,12 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Pengeluaran Bulan ini",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 8),
@@ -174,12 +174,12 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             const SizedBox(height: 12),
             Row(
               children: [
-                const Text(
+                Text(
                   "Rp 4.500.000",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -225,21 +225,21 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Dana Proyek Berjalan",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               "Rp 290.000",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],
@@ -255,12 +255,12 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Pembayaran Pekerja",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
           const SizedBox(height: 12),
@@ -269,7 +269,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           Container(
             height: 200, // BATASAN TINGGI SCROLL VERTIKAL
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(18),
             ),
             child: ListView.builder(
@@ -295,9 +295,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
         color: Colors.grey[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: payment['selected'] == true
-              ? const Color(0xFFFF7A00)
-              : Colors.transparent,
+          color: payment['selected'] == true ? Theme.of(context).colorScheme.secondary : Colors.transparent,
           width: 2,
         ),
       ),
@@ -316,13 +314,11 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: payment['selected'] == true
-                    ? const Color(0xFFFF7A00)
-                    : Colors.grey[300],
+                color: payment['selected'] == true ? Theme.of(context).colorScheme.secondary : Colors.grey[300],
                 border: Border.all(color: Colors.grey[400]!),
               ),
               child: payment['selected'] == true
-                  ? const Icon(Icons.check, color: Colors.white, size: 16)
+                  ? Icon(Icons.check, color: Theme.of(context).colorScheme.surface, size: 16)
                   : null,
             ),
           ),
@@ -349,20 +345,20 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 const SizedBox(height: 2),
                 Text(
                   "Rp : ${payment['amount']}",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],
             ),
           ),
-          const Text(
+          Text(
             "Pilih",
             style: TextStyle(
               fontSize: 12,
-              color: Color(0xFFFF7A00),
+              color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -378,12 +374,12 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Pembayaran Instan",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
           const SizedBox(height: 12),
@@ -406,13 +402,13 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             ),
           ),
           const SizedBox(height: 8),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Text(
               "Rp 2.500/transaksi",
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.white70,
+                color: Theme.of(context).colorScheme.surface,
               ),
             ),
           ),
@@ -426,7 +422,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -458,12 +454,12 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Bank Transfer",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
           const SizedBox(height: 12),
@@ -473,7 +469,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -530,7 +526,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? Colors.green : Colors.transparent,
@@ -545,7 +541,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.green : Colors.black,
+                color: isSelected ? Colors.green : Theme.of(context).colorScheme.onSurface,
               ),
             ),
             if (isSelected) ...[
@@ -570,14 +566,14 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7A00),
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "Bayar Sekarang",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),
@@ -591,11 +587,11 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
   // REUSABLE WHITE CARD STYLE (SAMA DENGAN HOME)
   BoxDecoration _whiteCardStyle() {
     return BoxDecoration(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       borderRadius: BorderRadius.circular(18),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
           blurRadius: 10,
           offset: const Offset(0, 4),
         ),

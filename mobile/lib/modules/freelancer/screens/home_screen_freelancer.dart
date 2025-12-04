@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-const Color _saturSunOrange = Color(0xFFF98B00);
-const Color _saturSunLightBlue = Color(0xFFD3E0F0);
-
 class HomeScreenFreelancer extends StatelessWidget {
   const HomeScreenFreelancer({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
@@ -51,7 +48,7 @@ class HomeScreenFreelancer extends StatelessWidget {
               style: textTheme.bodyLarge!.copyWith(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],
@@ -112,7 +109,7 @@ class HomeScreenFreelancer extends StatelessWidget {
             salary: 'Rp 100.000',
             note: '(per poster)',
             recommendation: 'Recommended for Teknik Industri',
-            color: _saturSunOrange,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           const SizedBox(width: 15),
           _buildTrendingJobCard(
@@ -121,7 +118,7 @@ class HomeScreenFreelancer extends StatelessWidget {
             salary: 'Rp 75.00',
             note: '',
             recommendation: 'Recommended...',
-            color: _saturSunLightBlue,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ],
       ),
@@ -142,11 +139,11 @@ class HomeScreenFreelancer extends StatelessWidget {
       width: 280,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -188,11 +185,11 @@ class HomeScreenFreelancer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -209,25 +206,25 @@ class HomeScreenFreelancer extends StatelessWidget {
                 if (deadline != null) ...[
                   const SizedBox(height: 4),
                   Text(deadline,
-                      style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: Colors.red, fontWeight: FontWeight.w500)),
+                      style: textTheme.bodyMedium!.copyWith(fontSize: 14, color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.w500)),
                 ],
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _saturSunOrange,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
                   child: Text('Unggah Portofolio Sekarang',
-                      style: textTheme.labelLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                      style: textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold, fontSize: 14)),
                 ),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: Icon(Icons.assignment_outlined, size: 40, color: _saturSunOrange.withValues(alpha: 0.7)),
+            child: Icon(Icons.assignment_outlined, size: 40, color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.7)),
           ),
         ],
       ),

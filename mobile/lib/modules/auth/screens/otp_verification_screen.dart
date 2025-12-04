@@ -20,9 +20,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   // Inisialisasi Timer secara aman untuk mencegah LateError
   Timer _timer = Timer(Duration.zero, () {}); 
   
-  Color primaryBlue = Colors.blue;
-  Color primaryOrange = Colors.orange;
-
   // Fungsi utilitas untuk masking (menyembunyikan sebagian) kontak
   String _maskContact(String contact) {
     if (contact.isEmpty) return "Kontak tidak valid";
@@ -102,12 +99,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
-      backgroundColor: primaryBlue,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        backgroundColor: primaryBlue,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
           onPressed: () => Navigator.pop(context),
         ),
         // MEMASUKKAN ASET LOGO
@@ -128,7 +125,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
             SizedBox(height: 30),
@@ -137,7 +134,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               "Masukkan kode verifikasi Anda",
               textAlign: TextAlign.center,
               // MENGGUNAKAN THEME: bodyLarge (14) + override size 16 dan color black
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black, fontSize: 16),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface, fontSize: 16),
             ),
             Text(
               "Periksa pesan dari email/telepon Anda",
@@ -149,7 +146,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               maskedContact, 
               textAlign: TextAlign.center,
               // MENGGUNAKAN THEME: bodyLarge (14) + override color white
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.surface),
             ),
             SizedBox(height: 40),
 
@@ -170,10 +167,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     textAlign: TextAlign.center,
                     inputFormatters: [LengthLimitingTextInputFormatter(1)],
                     // MENGGUNAKAN THEME: displayMedium (24) + override color black
-                    style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: Theme.of(context).colorScheme.surface,
                       counterText: "",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -196,7 +193,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       : "Kirim Ulang Kode",           // Tampilkan tombol teks
                   // MENGGUNAKAN THEME: bodyLarge (14) + override color dan decoration
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: isTimerActive ? Colors.white70 : primaryOrange,
+                    color: isTimerActive ? Colors.white70 : Theme.of(context).colorScheme.secondary,
                     decoration: isTimerActive ? TextDecoration.none : TextDecoration.underline,
                   ),
                 ),
@@ -206,7 +203,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryOrange,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

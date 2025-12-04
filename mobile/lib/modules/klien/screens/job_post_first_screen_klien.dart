@@ -46,11 +46,11 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF009FFD),
-                  Color(0xFFFF7A00),
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -105,17 +105,17 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // REVISI: Satursun Freelance warna putih rata kiri
               Text(
                 "Satursun Freelance",
                 style: TextStyle(
-                  color: Colors.white, // Warna putih
+                  color: Theme.of(context).colorScheme.surface,
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),
@@ -125,7 +125,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
               Text(
                 "Posting Pekerjaan",
                 style: TextStyle(
-                  color: Colors.black, // Warna hitam
+                  color: Theme.of(context).colorScheme.onSurface, // Warna hitam
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -134,7 +134,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
               Text(
                 "(Langkah 1/2)",
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Theme.of(context).colorScheme.surface,
                   fontSize: 12,
                 ),
               ),
@@ -153,11 +153,11 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -212,10 +212,10 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -247,12 +247,12 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Kategori Pekerjaan",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -264,7 +264,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonFormField<String>(
-            value: _selectedKategori,
+            initialValue: _selectedKategori,
             decoration: const InputDecoration(
               border: InputBorder.none,
               icon: Icon(Icons.category, color: Colors.grey),
@@ -294,12 +294,12 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Dokumen Pendukung",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -351,14 +351,14 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7A00),
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "Lanjut",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),

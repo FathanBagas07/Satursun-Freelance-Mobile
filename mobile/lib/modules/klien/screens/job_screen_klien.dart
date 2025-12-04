@@ -124,16 +124,16 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
             // UPDATE: Navigasi ke Home Klien
             onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context, '/home-klien', (route) => false),
-            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Satursun Freelance",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),
@@ -142,7 +142,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               Text(
                 "Posting Pekerjaan",
                 style: TextStyle(
-                  color: Colors.white70,
+                  color: Theme.of(context).colorScheme.surface,
                   fontSize: 14,
                 ),
               ),
@@ -161,11 +161,11 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           )
@@ -214,18 +214,18 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface),
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.black87),
+          Icon(icon, color: Theme.of(context).colorScheme.onSurface),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface, // REVISI: Warna hitam untuk teks
               ),
             ),
           ),
@@ -245,10 +245,10 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onSurface, // REVISI: Warna hitam untuk section title
             ),
           ),
           const SizedBox(height: 12),
@@ -271,17 +271,17 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           )
         ],
         border: Border.all(
-          color: job["type"] == "active" ? Colors.blue : Colors.green,
+          color: job["type"] == "active" ? Theme.of(context).colorScheme.primary : Colors.green,
           width: 1,
         ),
       ),
@@ -294,10 +294,10 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               children: [
                 Text(
                   job["title"],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface, // Warna hitam
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -311,10 +311,10 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
                 const SizedBox(height: 8),
                 Text(
                   job["price"],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.orange,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],
@@ -327,13 +327,13 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text(
+            child: Text(
               "Detail",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
@@ -359,14 +359,14 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7A00),
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "+ Posting Pekerjaan Baru",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),

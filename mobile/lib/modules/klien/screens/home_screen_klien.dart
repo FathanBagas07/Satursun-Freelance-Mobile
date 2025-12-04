@@ -19,11 +19,11 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF009FFD),
-                  Color(0xFFFF7A00),
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -109,12 +109,12 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
         children: [
           Image.asset("assets/logo.png", height: 100),
           const SizedBox(height: 1),
-          const Text(
+          Text(
             "Halo, Saturnfren 👋",
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
         ],
@@ -132,14 +132,14 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7A00),
+            color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "+ Posting Pekerjaan Baru",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),
@@ -156,8 +156,8 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 22),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.surface,
           fontSize: 19,
           fontWeight: FontWeight.bold,
         ),
@@ -196,9 +196,9 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 6),
-          const Text(
+          Text(
             "Dikerjakan oleh: Aliafan",
-            style: TextStyle(fontSize: 12, color: Colors.black54),
+            style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface),
           ),
           const SizedBox(height: 12),
           ClipRRect(
@@ -206,12 +206,12 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
             child: LinearProgressIndicator(
               value: .3,
               backgroundColor: Colors.grey[300],
-              color: const Color(0xFFFF7A00),
+              color: Theme.of(context).colorScheme.secondary,
               minHeight: 6,
             ),
           ),
           const SizedBox(height: 8),
-          const Text("30% Selesai", style: TextStyle(fontSize: 12, color: Colors.black54)),
+          Text("30% Selesai", style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface)),
         ],
       ),
     );
@@ -230,12 +230,12 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: const Color(0xFFFF7A00), size: 30),
+          Icon(icon, color: Theme.of(context).colorScheme.secondary, size: 30),
           const SizedBox(height: 12),
           Text(title,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
           const SizedBox(height: 4),
-          Text(subtitle, style: const TextStyle(color: Colors.black54, fontSize: 12)),
+          Text(subtitle, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 12)),
         ],
       ),
     );
@@ -254,12 +254,12 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 26, color: const Color(0xFF009FFD)),
+          Icon(icon, size: 26, color: Theme.of(context).colorScheme.primary),
           const SizedBox(height: 12),
           Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Text(label,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11, color: Colors.black54)),
+              style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurface)),
         ],
       ),
     );
@@ -268,11 +268,11 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
   // REUSABLE WHITE CARD STYLE
   BoxDecoration _whiteCardStyle() {
     return BoxDecoration(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       borderRadius: BorderRadius.circular(18),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.08),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
           blurRadius: 10,
           offset: const Offset(0, 4),
         ),
