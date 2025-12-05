@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1028200829212",
+    "project_id": "satursun-freelance-mobile",
+    "storage_bucket": "satursun-freelance-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028200829212:android:da22de569888de8a94ead9",
+        "android_client_info": {
+          "package_name": "com.example.satursun_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD79tqnqlxJEsidrAwYQ8HkirkUOZXobmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
