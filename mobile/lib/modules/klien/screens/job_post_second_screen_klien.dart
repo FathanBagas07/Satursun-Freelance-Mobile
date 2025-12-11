@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // Pastikan package http sudah diinstall
-import 'dart:convert'; // Untuk jsonEncode
-
 import '../../../core/widgets/custom_bottom_nav_bar_klien.dart';
 
 class JobPostSecondScreenKlien extends StatefulWidget {
@@ -15,91 +12,6 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
   final TextEditingController _deskripsiController = TextEditingController();
   final TextEditingController _budgetController = TextEditingController();
   final TextEditingController _tenggatController = TextEditingController();
-
-  bool _isLoading = false;
-  Map<String, dynamic>? firstScreenData;
-
-  // Mengambil data argumen dari screen sebelumnya
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args != null && args is Map<String, dynamic>) {
-      firstScreenData = args;
-    }
-  }
-
-  // Fungsi untuk Memposting Pekerjaan ke Database
-  Future<void> _postJob() async {
-    // 1. Validasi Input Screen 2
-    if (_deskripsiController.text.isEmpty ||
-        _budgetController.text.isEmpty ||
-        _tenggatController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Harap lengkapi deskripsi, budget, dan tenggat waktu!")),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    // 2. Konfigurasi API (Ganti URL sesuai IP laptop Anda)
-    // Emulator Android: 10.0.2.2 | Device Fisik: 192.168.x.x
-    const String apiUrl = "http://10.0.2.2:8000/api/jobs";
-    
-    // TODO: Ganti ini dengan token asli dari SharedPreferences setelah login
-    const String token = "TOKEN_SEMENTARA_DARI_LOGIN"; 
-
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $token",
-        },
-        body: jsonEncode({
-          "judul": firstScreenData?['judul'],
-          "lokasi": firstScreenData?['lokasi'],
-          "kategori": firstScreenData?['kategori'],
-          "deskripsi": _deskripsiController.text,
-          "budget": int.tryParse(_budgetController.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0, // Hanya ambil angka
-          "tenggat_waktu": _tenggatController.text,
-        }),
-      );
-
-      if (response.statusCode == 201) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Pekerjaan berhasil diposting!")),
-          );
-          // Kembali ke halaman utama job dan hapus history
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/job-klien', (Route<dynamic> route) => false);
-        }
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Gagal: ${response.body}")),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Terjadi kesalahan koneksi: $e")),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
 
   @override
   void dispose() {
@@ -156,11 +68,9 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
                   const SizedBox(height: 32),
 
                   // ============================
-                  // TAMBAH BUTTON (Loading State)
+                  // TAMBAH BUTTON
                   // ============================
-                  _isLoading
-                      ? const Center(child: CircularProgressIndicator(color: Colors.white))
-                      : _buildTambahButton(),
+                  _buildTambahButton(),
 
                   const SizedBox(height: 40),
                 ],
@@ -188,24 +98,26 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // REVISI: Satursun Freelance warna putih rata kiri
               Text(
                 "Satursun Freelance",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.surface, // Warna putih
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
+              // REVISI: Posting Pekerjaan warna hitam
               Text(
                 "Posting Pekerjaan",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.onSurface, // Warna hitam
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2),
               Text(
                 "(Langkah 2/2)",
                 style: TextStyle(
@@ -232,7 +144,7 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -322,7 +234,7 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
             controller: _budgetController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              hintText: "200000",
+              hintText: "RP 200.000",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
               prefixIcon: Icon(Icons.attach_money, color: Colors.grey),
@@ -371,13 +283,20 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
   }
 
   // ============================
-  // TAMBAH BUTTON (UPDATED)
+  // TAMBAH BUTTON (MIRIP LANJUT)
   // ============================
   Widget _buildTambahButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
-        onTap: _postJob, // Panggil fungsi API
+        onTap: () {
+          // ROUTE KEMBALI KE JOB SCREEN
+          Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/job-klien',
+                  (Route<dynamic> route) => false
+          );
+        },
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),

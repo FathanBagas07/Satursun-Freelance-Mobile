@@ -111,6 +111,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // REVISI: Satursun Freelance warna putih rata kiri
               Text(
                 "Satursun Freelance",
                 style: TextStyle(
@@ -119,16 +120,17 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
+              // REVISI: Posting Pekerjaan warna hitam
               Text(
                 "Posting Pekerjaan",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.onSurface, // Warna hitam
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2),
               Text(
                 "(Langkah 1/2)",
                 style: TextStyle(
@@ -155,7 +157,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -262,7 +264,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonFormField<String>(
-            value: _selectedKategori,
+            initialValue: _selectedKategori,
             decoration: const InputDecoration(
               border: InputBorder.none,
               icon: Icon(Icons.category, color: Colors.grey),
@@ -278,7 +280,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
                 _selectedKategori = newValue;
               });
             },
-            hint: const Text("Pilih Kategori"),
+            hint: const Text("Desain Grafis"),
           ),
         ),
       ],
@@ -303,7 +305,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
         const SizedBox(height: 8),
         GestureDetector(
           onTap: () {
-            // Logic untuk memilih file (Opsional untuk saat ini)
+            // Logic untuk memilih file
           },
           child: Container(
             width: double.infinity,
@@ -335,33 +337,15 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
   }
 
   // ============================
-  // LANJUT BUTTON (MODIFIED)
+  // LANJUT BUTTON (MIRIP POSTING PEKERJAAN BARU)
   // ============================
   Widget _buildLanjutButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
         onTap: () {
-          // 1. Validasi Input
-          if (_judulController.text.isEmpty ||
-              _lokasiController.text.isEmpty ||
-              _selectedKategori == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Harap isi Judul, Lokasi, dan Kategori!")),
-            );
-            return;
-          }
-
-          // 2. Kirim Data ke Screen Kedua via Arguments
-          Navigator.pushNamed(
-            context,
-            '/job-post-second',
-            arguments: {
-              'judul': _judulController.text,
-              'lokasi': _lokasiController.text,
-              'kategori': _selectedKategori,
-            },
-          );
+          // ROUTE KE JOB POST SECOND SCREEN
+          Navigator.pushNamed(context, '/job-post-second');
         },
         child: Container(
           width: double.infinity,

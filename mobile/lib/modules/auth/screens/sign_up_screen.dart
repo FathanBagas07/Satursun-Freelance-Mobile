@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text(
                       "Lanjutkan dengan Google",
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.surface),
                     ),
                   ],
                 ),
