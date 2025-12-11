@@ -105,7 +105,7 @@ class SignInScreen extends StatelessWidget {
                       "Lanjutkan dengan Google", 
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface, 
+                        color: Theme.of(context).colorScheme.surface, 
                       ),
                     ),
                   ],
