@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:async'; // Diperlukan untuk Timer
 
 // Ubah menjadi StatefulWidget
@@ -210,7 +211,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/select-role');
+                context.push('/select-role');
               },
               child: Text(
                 "Selanjutnya",

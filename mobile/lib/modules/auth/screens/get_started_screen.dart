@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key});
@@ -78,7 +79,7 @@ class GetStartedScreen extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/sign-in');
+                      context.go('/sign-in');
                     },
                     child: Text(
                       "Ayo Mulai",

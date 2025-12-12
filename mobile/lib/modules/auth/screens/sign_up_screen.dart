@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart'; // <-- Diperlukan untuk TapGestureRecognizer
+import 'package:flutter/gestures.dart';
+import 'package:go_router/go_router.dart'; // <-- Diperlukan untuk TapGestureRecognizer
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -83,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Tombol Google
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   minimumSize: Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -98,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text(
                       "Lanjutkan dengan Google",
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.surface),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                     ),
                   ],
                 ),
@@ -119,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: 'Saya setuju dengan ',
                         // MENGGUNAKAN THEME: bodySmall (12) + override size 13 dan color black
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Colors.black, 
+                            color: Theme.of(context).colorScheme.onSurface, 
                             fontSize: 13),
                         children: [
                           TextSpan(
@@ -158,11 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 onPressed: () {
                   String contact = _contactController.text;
-                  Navigator.pushNamed(
-                    context, 
-                    '/otp-verification',
-                    arguments: contact.isNotEmpty ? contact : 'info kontak tidak diisi',
-                  );
+                  context.push('/otp', extra: contact);
                 },
                 child: Text(
                   "Daftar",
@@ -189,8 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontWeight: FontWeight.bold),
                         recognizer: TapGestureRecognizer() // <-- Menambahkan GestureRecognizer
                           ..onTap = () {
-                            // Menggunakan Navigator.pop karena Sign Up dipanggil dari Sign In
-                            Navigator.pop(context); 
+                            context.pop(); // Navigasi kembali ke layar Sign In
                           },
                       ),
                     ],

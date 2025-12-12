@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 class JobDetailScreen extends StatelessWidget {
-  const JobDetailScreen({super.key});
+  const JobDetailScreen({super.key, String? jobId});
 
   @override
   Widget build(BuildContext context) {
