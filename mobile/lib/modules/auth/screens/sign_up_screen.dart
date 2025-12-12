@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               // Tombol Google
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   minimumSize: Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -98,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Text(
                       "Lanjutkan dengan Google",
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.surface),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                     ),
                   ],
                 ),
@@ -119,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text: 'Saya setuju dengan ',
                         // MENGGUNAKAN THEME: bodySmall (12) + override size 13 dan color black
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Colors.black, 
+                            color: Theme.of(context).colorScheme.onSurface, 
                             fontSize: 13),
                         children: [
                           TextSpan(

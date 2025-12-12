@@ -84,7 +84,7 @@ class SignInScreen extends StatelessWidget {
               
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.onSurface, 
+                  backgroundColor: Theme.of(context).colorScheme.surface, 
                   minimumSize: Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -105,7 +105,7 @@ class SignInScreen extends StatelessWidget {
                       "Lanjutkan dengan Google", 
                       // MENGGUNAKAN THEME: labelLarge (16) + override color black
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.surface, 
+                        color: Theme.of(context).colorScheme.onSurface, 
                       ),
                     ),
                   ],
