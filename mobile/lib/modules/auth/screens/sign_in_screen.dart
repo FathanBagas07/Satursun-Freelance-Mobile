@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatelessWidget {
   final TextEditingController emailUsernameController = TextEditingController();
@@ -173,7 +174,7 @@ class SignInScreen extends StatelessWidget {
                         // Logika navigasi ditambahkan di sini
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, '/sign-up');
+                            context.push('/sign-up');
                           },
                       ),
                     ],

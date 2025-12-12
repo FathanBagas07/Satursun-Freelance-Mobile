@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SelectRoleScreen extends StatelessWidget {
   const SelectRoleScreen({super.key});
@@ -65,12 +66,9 @@ class SelectRoleScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (role == "Freelancer") {
-          // Navigasi ke Home Freelancer dan hapus history login
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/home-freelancer', (Route<dynamic> route) => false);
+        context.go('/sign-in');
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/home-klien', (Route<dynamic> route) => false);
+          context.go('/sign-in');
         }
       },
       child: Card(
