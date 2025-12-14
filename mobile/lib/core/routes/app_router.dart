@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'auth_listenable.dart';
 
 // Auth Screens
 import '../../modules/auth/screens/get_started_screen.dart';
@@ -25,15 +27,18 @@ import '../../modules/klien/screens/profile_screen_klien.dart';
 import '../../modules/klien/screens/job_post_first_screen_klien.dart';
 import '../../modules/klien/screens/job_post_second_screen_klien.dart';
 
-// Fake Auth State (nanti bisa diganti Firebase Auth)
-bool isLoggedIn = false;
-
 class AppRouter {
+  static final _authListenable = AuthListenable();
+
   static final router = GoRouter(
-    initialLocation: '/', // Set default route
+    initialLocation: '/',
+
+    refreshListenable: _authListenable,
+
     redirect: (context, state) {
-      // Route yang tidak butuh login
-      final openRoutes = [
+      final user = FirebaseAuth.instance.currentUser;
+
+      final authRoutes = [
         '/',
         '/sign-in',
         '/sign-up',
@@ -41,12 +46,14 @@ class AppRouter {
         '/select-role',
       ];
 
-      // halaman yang dituju user
-      final goingTo = state.matchedLocation;
+      final isAuthRoute = authRoutes.contains(state.matchedLocation);
 
-      // Jika user belum login dan mencoba masuk ke halaman protected → redirect ke login
-      if (!isLoggedIn && !openRoutes.contains(goingTo)) {
-        return '/sign-in';
+      if (user == null) {
+        return isAuthRoute ? null : '/sign-in';
+      }
+
+      if (isAuthRoute) {
+        return '/freelancer/home'; // nanti bisa role-based
       }
 
       return null;

@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_router.dart';
 
@@ -14,7 +13,7 @@ void main() async {
 class SatursunApp extends StatelessWidget {
   const SatursunApp({super.key});
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Satursun Freelance',
