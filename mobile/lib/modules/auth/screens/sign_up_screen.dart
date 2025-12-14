@@ -158,8 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 onPressed: () {
-                  String contact = _contactController.text;
-                  context.push('/otp', extra: contact);
+                  // Aksi pendaftaran
                 },
                 child: Text(
                   "Daftar",
