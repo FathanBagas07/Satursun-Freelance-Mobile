@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               _buildTextField("Nama Pengguna", _usernameController, context),
               SizedBox(height: 10),
-              _buildTextField("Email atau Nomor Telepon", _contactController, context),
+              _buildTextField("Email", _contactController, context),
               SizedBox(height: 10),
               _buildTextField("Sandi", _passwordController, context, isPassword: true),
               SizedBox(height: 30),
