@@ -10,6 +10,17 @@ class AuthService {
 
   User? get currentUser => _auth.currentUser;
 
+  Future<User?> signUpWithEmail({
+    required String email,
+    required String password,
+    }) async {
+      final cred = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return cred.user;
+    }
+
   Future<User?> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return null;
