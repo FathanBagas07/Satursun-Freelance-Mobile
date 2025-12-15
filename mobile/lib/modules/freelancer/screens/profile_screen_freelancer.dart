@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -73,13 +74,10 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   color: Colors.white,
-                  onSelected: (String result) {
+                  onSelected: (String result) async {
                     if (result == 'logout') {
-                      // Logika Logout: Kembali ke Sign In dan hapus history route
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/sign-in', (route) => false);
+                      await AuthService().signOut();
                     }
-                    // Tambahkan logika settings di sini jika diperlukan
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(

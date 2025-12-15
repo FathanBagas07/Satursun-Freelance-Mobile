@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -110,7 +111,7 @@ class CustomBottomNavBar extends StatelessWidget {
             case 1: Navigator.pushReplacementNamed(context, '/explore-freelancer'); break;
             case 2: Navigator.pushReplacementNamed(context, '/wallet-freelancer'); break;
             case 3: Navigator.pushReplacementNamed(context, '/task-list-freelancer'); break;
-            case 4: Navigator.pushReplacementNamed(context, '/profile-freelancer'); break;
+            case 4: context.push('/freelancer/profile');break;
           }
         }
       },
