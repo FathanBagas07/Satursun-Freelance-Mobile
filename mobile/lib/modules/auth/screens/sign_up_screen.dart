@@ -18,8 +18,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool _agree = true;
-
   @override
   void dispose() {
     _contactController.dispose();
@@ -96,51 +94,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             const SizedBox(height: 20),
 
-            // ===== Checkbox =====
-            Row(
-              children: [
-                Checkbox(
-                  value: _agree,
-                  activeColor: Theme.of(context).colorScheme.secondary,
-                  onChanged: (value) {
-                    setState(() {
-                      _agree = value ?? false;
-                    });
-                  },
-                ),
-                Expanded(
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Saya setuju dengan ',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: 13,
-                            color: Colors.black,
-                          ),
-                      children: [
-                        TextSpan(
-                          text: 'Ketentuan Pengguna',
-                          style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const TextSpan(text: ' dan '),
-                        TextSpan(
-                          text: 'Kebijakan Privasi',
-                          style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
+            // // ===== Checkbox =====
+            // Row(
+            //   children: [
+            //     Checkbox(
+            //       value: _agree,
+            //       activeColor: Theme.of(context).colorScheme.secondary,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           _agree = value ?? false;
+            //         });
+            //       },
+            //     ),
+            //     Expanded(
+            //       child: Text.rich(
+            //         TextSpan(
+            //           text: 'Saya setuju dengan ',
+            //           style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            //                 fontSize: 13,
+            //                 color: Colors.black,
+            //               ),
+            //           children: [
+            //             TextSpan(
+            //               text: 'Ketentuan Pengguna',
+            //               style: TextStyle(
+            //                 color:
+            //                     Theme.of(context).colorScheme.secondary,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             const TextSpan(text: ' dan '),
+            //             TextSpan(
+            //               text: 'Kebijakan Privasi',
+            //               style: TextStyle(
+            //                 color:
+            //                     Theme.of(context).colorScheme.secondary,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 20),
 
             // ===== Tombol Daftar =====
             ElevatedButton(
@@ -173,7 +171,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!
-                    .copyWith(fontSize: 18),
+                    .copyWith(fontSize: 18,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
               ),
             ),
             const SizedBox(height: 25),
@@ -220,7 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .labelLarge!
-                        .copyWith(color: Colors.black),
+                        .copyWith(color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
