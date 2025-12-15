@@ -193,7 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.push('/sign-up');
+                            context.go('/sign-in');
                           },
                       ),
                     ],
