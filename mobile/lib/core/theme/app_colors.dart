@@ -16,4 +16,6 @@ class AppColors {
   static const Color textDark = Color(0xFF212121);
   static const Color textLight = Color(0xFF757575);
   static const Color backgroundWhite = Colors.white;
+
+  static Color? get primary => null;
 }

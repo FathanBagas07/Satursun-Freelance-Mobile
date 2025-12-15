@@ -127,7 +127,8 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22),
       child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/job-first-screen-klien'),
+        // PERBAIKAN: Menggunakan route '/job-post-first' sesuai main.dart
+        onTap: () => Navigator.pushNamed(context, '/job-post-first'),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),

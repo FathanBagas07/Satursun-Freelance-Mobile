@@ -1,3 +1,5 @@
+// File: mobile/lib/core/widgets/custom_bottom_nav_bar.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -106,12 +108,13 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (!isActive) {
+          // PERBAIKAN: Menggunakan context.go dengan path yang benar sesuai AppRouter
           switch (index) {
-            case 0: Navigator.pushReplacementNamed(context, '/home-freelancer'); break;
-            case 1: Navigator.pushReplacementNamed(context, '/explore-freelancer'); break;
-            case 2: Navigator.pushReplacementNamed(context, '/wallet-freelancer'); break;
-            case 3: Navigator.pushReplacementNamed(context, '/task-list-freelancer'); break;
-            case 4: context.push('/freelancer/profile');break;
+            case 0: context.go('/freelancer/home'); break;
+            case 1: context.go('/freelancer/explore'); break;
+            case 2: context.go('/freelancer/wallet'); break;
+            case 3: context.go('/freelancer/tasks'); break;
+            case 4: context.go('/freelancer/profile'); break;
           }
         }
       },
