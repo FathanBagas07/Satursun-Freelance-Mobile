@@ -35,12 +35,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => context.pop(),
-        ),
         centerTitle: true,
         title: Image.asset('assets/logo.png', height: 140),
       ),
@@ -241,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          context.go('/sign-in');
+                          context.pop();
                         },
                     ),
                   ],
