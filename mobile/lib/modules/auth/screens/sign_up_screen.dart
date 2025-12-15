@@ -206,7 +206,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   } on FirebaseAuthException catch (e) {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.message ?? 'Google Login Gagal')),
+                      SnackBar(content: Text(e.message ?? 'Google Sign Up Gagal')),
                     );
                   }
               },
