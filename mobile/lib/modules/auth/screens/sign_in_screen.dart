@@ -1,177 +1,245 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 
-class SignInScreen extends StatelessWidget {
-  final TextEditingController emailUsernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  SignInScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {    
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController emailUsernameController =
+      TextEditingController();
+  final TextEditingController passwordController =
+      TextEditingController();
+
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    emailUsernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final email = emailUsernameController.text.trim();
+      final password = passwordController.text.trim();
+
+      if (email.isEmpty || password.isEmpty) {
+        throw FirebaseAuthException(
+          code: 'empty-fields',
+          message: 'Email dan sandi tidak boleh kosong',
+        );
+      }
+
+      await authService.signInwithEmail(
+        email: email,
+        password: password,
+      );
+
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Login gagal')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary, 
-      
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 0), 
+              const SizedBox(height: 40),
               Center(
-                child: Image.asset('assets/logo.png', height: 170), 
+                child: Image.asset('assets/logo.png', height: 170),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Center(
                 child: Text(
-                  "Selamat Datang", 
+                  "Selamat Datang",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface, 
-                  ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                 ),
               ),
+              const SizedBox(height: 30),
 
-              SizedBox(height: 30),
-              
+              /// EMAIL
               TextField(
                 controller: emailUsernameController,
-                // MENGGUNAKAN THEME: bodyLarge
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                keyboardType: TextInputType.emailAddress,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(
+                        color:
+                            Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Email",
-                  // MENGGUNAKAN THEME: bodyLarge
-                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   filled: true,
-                  fillColor: Theme.of(context).colorScheme.surface,
+                  fillColor:
+                      Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15)
                 ),
               ),
 
-              SizedBox(height: 10),
-              
+              const SizedBox(height: 10),
+
+              /// PASSWORD
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                // MENGGUNAKAN THEME: bodyLarge
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(
+                        color:
+                            Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Sandi",
-                  // MENGGUNAKAN THEME: bodyLarge
-                  hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   filled: true,
-                  fillColor: Theme.of(context).colorScheme.surface,
+                  fillColor:
+                      Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15)
                 ),
               ),
 
-              SizedBox(height: 20),
-              
-              // MENGGUNAKAN THEME: bodyLarge
-              Center(
-                child: Text("—————————— Atau ———————————", style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface)),
-              ),
+              const SizedBox(height: 20),
 
-              SizedBox(height: 20),
-              
+              /// BUTTON LOGIN
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.surface, 
-                  minimumSize: Size(double.infinity, 45),
+                  backgroundColor:
+                      Theme.of(context).colorScheme.secondary,
+                  minimumSize:
+                      const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
-                child: Stack( 
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 1.0),
-                        child: Image.asset('assets/google.png', height: 30),
+                onPressed: _isLoading ? null : _handleLogin,
+                child: _isLoading
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.black,
+                        ),
+                      )
+                    : Text(
+                        "Masuk",
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelLarge!
+                            .copyWith(
+                                fontSize: 18,
+                                color: Colors.black),
                       ),
-                    ),
-                    Text(
-                      "Lanjutkan dengan Google", 
-                      // MENGGUNAKAN THEME: labelLarge (16) + override color black
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface, 
-                      ),
-                    ),
-                  ],
-                ),
               ),
 
-              SizedBox(height: 15),
-              
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary, 
-                  minimumSize: Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 20),
+
+              // ===== Atau =====
+            Center(
+              child: Text(
+                "—————————— Atau ———————————",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.black),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // ===== Masuk dengan Google =====
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.surface,
+                minimumSize: const Size(double.infinity, 45),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () async {
+                  try {
+                    await authService.signInWithGoogle();
+                  } on FirebaseAuthException catch (e) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.message ?? 'Google Sign In Gagal')),
+                    );
+                  }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/google.png', height: 20),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Lanjutkan dengan Google",
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: Colors.black),
                   ),
-                ),
-                onPressed: () {},
-                child: Text(
-                  "Masuk", 
-                  // MENGGUNAKAN THEME: labelLarge (16) + override size 18 dan color black
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: Colors.black, 
-                    fontSize: 18, 
-                  ), 
-                ),
+                ],
               ),
+            ),
+            const SizedBox(height: 25),
 
-              SizedBox(height: 10),
-              
-              Center(
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Lupa kata sandi? ',
-                    // MENGGUNAKAN THEME: bodyLarge
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: 'Klik disini',
-                        // MENGGUNAKAN THEME: bodyLarge
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary, 
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 15),
-              
-              // Bagian "Daftar" yang dapat diklik
+              /// REGISTER
               Center(
                 child: Text.rich(
                   TextSpan(
                     text: 'Belum punya akun? ',
-                    // MENGGUNAKAN THEME: bodyLarge
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black), 
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Daftar',
-                        // MENGGUNAKAN THEME: bodyLarge
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary, 
-                            fontWeight: FontWeight.bold),
-                        // Logika navigasi ditambahkan di sini
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondary,
+                              fontWeight: FontWeight.bold,
+                            ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             context.push('/sign-up');
@@ -181,8 +249,6 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
-              SizedBox(height: 30),
             ],
           ),
         ),
