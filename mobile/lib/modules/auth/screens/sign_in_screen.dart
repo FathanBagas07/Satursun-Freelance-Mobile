@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 
 class SignInScreen extends StatelessWidget {
   final TextEditingController emailUsernameController = TextEditingController();
@@ -123,7 +125,22 @@ class SignInScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    final email = emailUsernameController.text.trim();
+                    final password = passwordController.text.trim();
+
+                    await authService.signInwithEmail(
+                      email: email,
+                      password: password,
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.message ?? 'Login Gagal')),
+                    );
+                  }
+                },
                 child: Text(
                   "Masuk", 
                   // MENGGUNAKAN THEME: labelLarge (16) + override size 18 dan color black
