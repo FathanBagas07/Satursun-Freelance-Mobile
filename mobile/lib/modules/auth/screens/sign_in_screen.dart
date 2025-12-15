@@ -40,7 +40,7 @@ class SignInScreen extends StatelessWidget {
                 // MENGGUNAKAN THEME: bodyLarge
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
-                  hintText: "Email / Nama Pengguna",
+                  hintText: "Email",
                   // MENGGUNAKAN THEME: bodyLarge
                   hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   filled: true,

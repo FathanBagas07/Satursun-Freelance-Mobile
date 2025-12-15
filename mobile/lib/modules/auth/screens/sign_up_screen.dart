@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:go_router/go_router.dart'; // <-- Diperlukan untuk TapGestureRecognizer
+import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/auth_service.dart'; // <-- Diperlukan untuk TapGestureRecognizer
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -70,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               _buildTextField("Nama Pengguna", _usernameController, context),
               SizedBox(height: 10),
-              _buildTextField("Email atau Nomor Telepon", _contactController, context),
+              _buildTextField("Email", _contactController, context),
               SizedBox(height: 10),
               _buildTextField("Sandi", _passwordController, context, isPassword: true),
               SizedBox(height: 30),
@@ -157,9 +158,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () {
-                  String contact = _contactController.text;
-                  context.push('/otp', extra: contact);
+                onPressed: () async {
+                  final email = _contactController.text.trim();
+                  final password = _passwordController.text.trim();
+
+                  final user = await authService.signUpWithEmail(
+                    email: email,
+                    password: password,
+                  );
+
+                  if (user != null) {
+                    // setelah ini router akan auto redirect
+                  }                
                 },
                 child: Text(
                   "Daftar",
