@@ -200,7 +200,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                  try {
+                    await authService.signInWithGoogle();
+                  } on FirebaseAuthException catch (e) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.message ?? 'Google Login Gagal')),
+                    );
+                  }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
