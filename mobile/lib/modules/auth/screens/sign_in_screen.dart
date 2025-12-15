@@ -170,6 +170,55 @@ class _SignInScreenState extends State<SignInScreen> {
 
               const SizedBox(height: 20),
 
+              // ===== Atau =====
+            Center(
+              child: Text(
+                "—————————— Atau ———————————",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.black),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // ===== Masuk dengan Google =====
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.surface,
+                minimumSize: const Size(double.infinity, 45),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () async {
+                  try {
+                    await authService.signInWithGoogle();
+                  } on FirebaseAuthException catch (e) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(e.message ?? 'Google Sign In Gagal')),
+                    );
+                  }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/google.png', height: 20),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Lanjutkan dengan Google",
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 25),
+
               /// REGISTER
               Center(
                 child: Text.rich(
