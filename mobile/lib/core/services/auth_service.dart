@@ -32,7 +32,6 @@ class AuthService {
     return credential.user;
   }
 
-
   Future<User?> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return null;
