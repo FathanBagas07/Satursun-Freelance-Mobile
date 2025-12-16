@@ -128,7 +128,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
                             return _buildJobItem(
                               fullData: data,
                               title: data['title'] ?? 'Tanpa Judul',
-                              description: data['description'] ?? '-',
+                              description: data['deadline'] ?? '-',
                               price: _formatRupiah(budget),
                               isActive: true,
                             );
@@ -163,9 +163,9 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Satursun Freelance", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 22, fontWeight: FontWeight.w600)),
+              Text("Satursun Freelance", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text("Posting Pekerjaan", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 14)),
+              Text("Posting Pekerjaan", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 14, fontWeight: FontWeight.w600)),
             ],
           ),
         ],

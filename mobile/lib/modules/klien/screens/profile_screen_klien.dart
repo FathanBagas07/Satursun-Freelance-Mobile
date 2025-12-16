@@ -126,9 +126,9 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
                 Text(
                   'Satursun Freelance',
                   style: textTheme.titleLarge!.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.surface,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 // MENU LOGOUT & SETTINGS
@@ -212,14 +212,14 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
                         : Text(
                             _fullName,
                             style: textTheme.headlineMedium!.copyWith(
-                                fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface),
+                                fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface),
                           ),
                       const SizedBox(height: 4),
                       Text(
                         '$_role  |  4.8 (32 reviews)',
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
                           fontWeight: FontWeight.w500,
                         ),
                       ),

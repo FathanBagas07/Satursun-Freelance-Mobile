@@ -155,7 +155,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
           Text(
             "Satursun Freelance",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.onSurface,
               fontSize: 22,
               fontWeight: FontWeight.w600,
             ),
@@ -219,7 +219,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Filter Detail",
+                "Filter Pintar",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Switch(
