@@ -1,8 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/job_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 class ExploreScreenFreelancer extends StatelessWidget {
   const ExploreScreenFreelancer({super.key});
+
+  // Helper format rupiah
+  String _formatRupiah(dynamic price) {
+    if (price == null) return "Rp 0";
+    String priceStr = price.toString();
+    String cleanPrice = priceStr.replaceAll(RegExp(r'[^0-9]'), '');
+    return "Rp ${cleanPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +32,9 @@ class ExploreScreenFreelancer extends StatelessWidget {
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/home-freelancer');
+          context.go('/freelancer/home');
         },
       ),
-      // Menggunakan style dari tema
       title: Text('SaturSun Freelance',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.w600, fontSize: 18)),
     );
@@ -38,8 +48,38 @@ class ExploreScreenFreelancer extends StatelessWidget {
           _buildTopSection(context),
           const SizedBox(height: 20),
           _buildSectionHeader(context, icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
-          _buildJobRecommendationCard(context, title: 'Desain Poster Acara', subtitle: 'Cocok dengan keahlian desain grafis', price: 'Rp 75.000'),
-          _buildJobRecommendationCard(context, title: 'Asisten Riset Psikologi', subtitle: 'Populer untuk mahasiswa Psikologi', price: 'Rp 60.000'),
+          
+          // === STREAM BUILDER (Ganti Card Manual dengan Data Firebase) ===
+          StreamBuilder<QuerySnapshot>(
+            stream: jobService.getAllJobsStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: Padding(padding: EdgeInsets.all(20), child: CircularProgressIndicator()));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Padding(padding: EdgeInsets.all(20), child: Center(child: Text("Belum ada lowongan tersedia")));
+              }
+
+              final docs = snapshot.data!.docs;
+
+              return Column(
+                children: docs.map((doc) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  // Sisipkan ID dokumen
+                  final fullData = {...data, 'id': doc.id};
+
+                  return _buildJobRecommendationCard(
+                    context,
+                    fullData: fullData, // Kirim data lengkap
+                    title: data['title'] ?? 'Tanpa Judul',
+                    subtitle: data['category'] ?? 'Umum',
+                    price: _formatRupiah(data['budget']),
+                  );
+                }).toList(),
+              );
+            },
+          ),
+
           const SizedBox(height: 20),
           _buildSectionHeader(context, icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
           _buildPackageCard(context, title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
@@ -56,7 +96,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,11 +175,18 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildJobRecommendationCard(BuildContext context, {required String title, required String subtitle, required String price}) {
+  // DESAIN KARTU TETAP SAMA
+  Widget _buildJobRecommendationCard(BuildContext context, {
+    required Map<String, dynamic> fullData, 
+    required String title, 
+    required String subtitle, 
+    required String price
+  }) {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/job-detail');
+        // Navigasi ke detail
+        context.push('/freelancer/job-detail', extra: fullData);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),

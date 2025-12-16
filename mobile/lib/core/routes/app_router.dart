@@ -24,7 +24,6 @@ import '../../modules/klien/screens/home_screen_klien.dart';
 import '../../modules/klien/screens/explore_screen_klien.dart';
 import '../../modules/klien/screens/wallet_screen_klien.dart';
 import '../../modules/klien/screens/job_screen_klien.dart';
-// PASTIKAN IMPORT DI BAWAH INI BENAR MENGARAH KE FILE PROFILE YANG BARU DIUPDATE
 import '../../modules/klien/screens/profile_screen_klien.dart';
 import '../../modules/klien/screens/job_post_first_screen_klien.dart';
 import '../../modules/klien/screens/job_post_second_screen_klien.dart';
@@ -89,13 +88,17 @@ class AppRouter {
       GoRoute(path: '/freelancer/wallet', builder: (context, state) => const WalletScreenFreelancer()),
       GoRoute(path: '/freelancer/tasks', builder: (context, state) => const TaskListScreen()),
       GoRoute(path: '/freelancer/profile', builder: (context, state) => const ProfileScreen()),
+      
+      // === UPDATE ROUTE DETAIL FREELANCER ===
       GoRoute(
-        path: '/freelancer/job/:id',
+        path: '/freelancer/job-detail', 
         builder: (context, state) {
-          final jobId = state.pathParameters['id'];
-          return JobDetailScreen(jobId: jobId);
+          // Terima data map dari extra
+          final jobData = state.extra as Map<String, dynamic>? ?? {}; 
+          return JobDetailScreen(jobData: jobData);
         },
       ),
+      
       GoRoute(path: '/freelancer/task-submission', builder: (context, state) => const TaskSubmissionScreen()),
 
       /// =============================
@@ -105,10 +108,7 @@ class AppRouter {
       GoRoute(path: '/klien/explore', builder: (context, state) => const ExploreScreenKlien()),
       GoRoute(path: '/klien/wallet', builder: (context, state) => const WalletScreenKlien()),
       GoRoute(path: '/klien/job', builder: (context, state) => const JobScreenKlien()),
-      
-      // PASTIKAN CLASS ProfileKlienScreen DI BAWAH INI SESUAI
       GoRoute(path: '/klien/profile', builder: (context, state) => const ProfileKlienScreen()),
-      
       GoRoute(path: '/klien/job-post-first', builder: (context, state) => const JobPostFirstScreenKlien()),
       GoRoute(
         path: '/klien/job-post-second',
