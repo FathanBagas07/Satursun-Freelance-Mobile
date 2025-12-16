@@ -231,23 +231,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               onPressed: () async {
-                try {
-                  await authService.loginProcessThenLogout();
-              
-                  if (!context.mounted) return;
-              
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Login berhasil, silakan login ulang'),
-                    ),
-                  );
-                } catch (e) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(e.toString())),
-                  );
-                }
-              },
+  try {
+    await authService.loginProcessThenLogout();
+
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Login berhasil, silakan login ulang'),
+      ),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(e.toString())),
+    );
+  }
+},
 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
