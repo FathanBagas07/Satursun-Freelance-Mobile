@@ -20,8 +20,9 @@ class UserService {
   }
 
   Future<void> createUserIfNotExists({
-    required String fullName,
-    required String email,
+    required String firstName,
+    String? lastName,
+    required String email, required String uid, required String username,
   }) async {
     final user = FirebaseAuth.instance.currentUser!;
     final ref = _db.collection('users').doc(user.uid);
@@ -30,7 +31,8 @@ class UserService {
       await ref.set({
         'uid': user.uid,
         'email': email,
-        'fullName': fullName,
+        'firstName': firstName,
+        'lastName': lastName,
         'createdAt': FieldValue.serverTimestamp(),
       });
     }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/core/services/user_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -177,7 +178,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     password: password,
                   );
                   if (user != null) {
-                    await authService.saveUserData(
+                    await userService.createUserIfNotExists(
                       uid: user.uid,
                       firstName: firstName,
                       lastName: lastName,
@@ -186,9 +187,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     );
 
                     if (!context.mounted) return;
-                    
-                    // 3. Pindah ke Halaman Pilih Role
-                    context.go('/select-role'); 
                   }
                 } on FirebaseAuthException catch (e) {
                   if (!context.mounted) return;
