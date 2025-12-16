@@ -258,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               onPressed: () async {
                 try {
-                  await authService.loginProcessThenLogout();
+                  await authService.signInWithGoogle();
 
                   if (!context.mounted) return;
 
