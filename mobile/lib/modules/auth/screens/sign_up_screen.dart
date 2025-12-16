@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
-import 'package:satursun_app/core/services/api_service.dart';
 import 'package:satursun_app/core/services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {

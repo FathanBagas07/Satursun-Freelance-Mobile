@@ -62,7 +62,7 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
                         height: 150,
                         margin: const EdgeInsets.symmetric(horizontal: 22),
                         width: double.infinity,
-                        decoration: _whiteCardStyle().copyWith(color: Colors.white.withOpacity(0.9)),
+                        decoration: _whiteCardStyle().copyWith(color: Colors.white.withValues(alpha: 0.9)),
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -136,7 +136,7 @@ class _JobPostFirstScreenKlienState extends State<JobPostFirstScreenKlien> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(color: Colors.grey[50], borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey[300]!)),
           child: DropdownButtonFormField<String>(
-            value: _selectedKategori,
+            initialValue: _selectedKategori,
             decoration: const InputDecoration(border: InputBorder.none, icon: Icon(Icons.category, color: Colors.grey)),
             items: _kategoriList.map((String value) => DropdownMenuItem(value: value, child: Text(value))).toList(),
             onChanged: (newValue) => setState(() => _selectedKategori = newValue),
