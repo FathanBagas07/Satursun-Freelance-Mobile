@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 
 class UserService {
   final _db = FirebaseFirestore.instance;
@@ -52,6 +53,7 @@ class UserService {
       }
 
       tx.update(ref, {'role': role});
+      await authService.signOut();
     });
   }
 }
