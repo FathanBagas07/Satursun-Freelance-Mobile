@@ -7,7 +7,6 @@ import '../../../core/widgets/custom_bottom_nav_bar.dart';
 class ExploreScreenFreelancer extends StatelessWidget {
   const ExploreScreenFreelancer({super.key});
 
-  // Helper format rupiah
   String _formatRupiah(dynamic price) {
     if (price == null) return "Rp 0";
     String priceStr = price.toString();
@@ -49,7 +48,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
           const SizedBox(height: 20),
           _buildSectionHeader(context, icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
           
-          // === STREAM BUILDER (Ganti Card Manual dengan Data Firebase) ===
+          // === STREAM BUILDER DATA ===
           StreamBuilder<QuerySnapshot>(
             stream: jobService.getAllJobsStream(),
             builder: (context, snapshot) {
@@ -65,12 +64,12 @@ class ExploreScreenFreelancer extends StatelessWidget {
               return Column(
                 children: docs.map((doc) {
                   final data = doc.data() as Map<String, dynamic>;
-                  // Sisipkan ID dokumen
+                  // Sisipkan ID agar bisa diambil saat detail
                   final fullData = {...data, 'id': doc.id};
 
                   return _buildJobRecommendationCard(
                     context,
-                    fullData: fullData, // Kirim data lengkap
+                    fullData: fullData, 
                     title: data['title'] ?? 'Tanpa Judul',
                     subtitle: data['category'] ?? 'Umum',
                     price: _formatRupiah(data['budget']),
@@ -90,6 +89,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
+  // Desain Asli Anda
   Widget _buildTopSection(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Container(
@@ -175,7 +175,7 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  // DESAIN KARTU TETAP SAMA
+  // DESAIN KARTU TETAP SAMA, DITAMBAH ONTAP
   Widget _buildJobRecommendationCard(BuildContext context, {
     required Map<String, dynamic> fullData, 
     required String title, 
@@ -185,7 +185,6 @@ class ExploreScreenFreelancer extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        // Navigasi ke detail
         context.push('/freelancer/job-detail', extra: fullData);
       },
       child: Container(
