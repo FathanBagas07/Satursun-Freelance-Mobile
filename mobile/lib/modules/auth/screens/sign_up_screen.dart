@@ -165,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return;
                     }
 
-                    final email = _usernameController.text.trim();
+                    final email = _contactController.text.trim();
                     final password =_passwordController.text.trim();
                     final fullName = ('${_firstNameController.text.trim()} ${_lastNameController.text.trim()}');
 
