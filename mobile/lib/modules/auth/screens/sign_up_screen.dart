@@ -20,7 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _agree = true;
-  bool _isLoading = false; // Tambahan untuk indikator loading
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -172,13 +172,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      throw FirebaseAuthException(code: 'invalid-input', message: 'Email dan password harus diisi');
                   }
 
-                  // 1. Buat User Authentication
                   User? user = await authService.signUpWithEmail(
                     email: email,
                     password: password,
                   );
                   if (user != null) {
-                    // 2. Simpan Data ke Firestore
                     await authService.saveUserData(
                       uid: user.uid,
                       firstName: firstName,
