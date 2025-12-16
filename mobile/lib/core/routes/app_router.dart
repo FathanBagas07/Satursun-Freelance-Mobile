@@ -65,9 +65,7 @@ class AppRouter {
     },
 
     routes: [
-      /// =============================
-      /// 🔵 AUTH ROUTES
-      /// =============================
+      // AUTH
       GoRoute(path: '/', builder: (context, state) => const GetStartedScreen()),
       GoRoute(path: '/sign-in', builder: (context, state) => const SignInScreen()),
       GoRoute(path: '/sign-up', builder: (context, state) => const SignUpScreen()),
@@ -80,30 +78,32 @@ class AppRouter {
       // ),
       GoRoute(path: '/select-role', builder: (context, state) => const SelectRoleScreen()),
 
-      /// =============================
-      /// 🟢 FREELANCER ROUTES
-      /// =============================
+      // FREELANCER
       GoRoute(path: '/freelancer/home', builder: (context, state) => const HomeScreenFreelancer()),
       GoRoute(path: '/freelancer/explore', builder: (context, state) => const ExploreScreenFreelancer()),
       GoRoute(path: '/freelancer/wallet', builder: (context, state) => const WalletScreenFreelancer()),
       GoRoute(path: '/freelancer/tasks', builder: (context, state) => const TaskListScreen()),
       GoRoute(path: '/freelancer/profile', builder: (context, state) => const ProfileScreen()),
       
-      // === UPDATE ROUTE DETAIL FREELANCER ===
       GoRoute(
         path: '/freelancer/job-detail', 
         builder: (context, state) {
-          // Terima data map dari extra
           final jobData = state.extra as Map<String, dynamic>? ?? {}; 
           return JobDetailScreen(jobData: jobData);
         },
       ),
       
-      GoRoute(path: '/freelancer/task-submission', builder: (context, state) => const TaskSubmissionScreen()),
+      // === PERBAIKAN DI SINI (Menangkap parameter taskData) ===
+      GoRoute(
+        path: '/freelancer/task-submission',
+        builder: (context, state) {
+          // Ambil data dari extra, jika null berikan map kosong
+          final taskData = state.extra as Map<String, dynamic>? ?? {};
+          return TaskSubmissionScreen(taskData: taskData);
+        },
+      ),
 
-      /// =============================
-      /// 🔴 KLIEN ROUTES
-      /// =============================
+      // KLIEN
       GoRoute(path: '/klien/home', builder: (context, state) => const HomeScreenKlien()),
       GoRoute(path: '/klien/explore', builder: (context, state) => const ExploreScreenKlien()),
       GoRoute(path: '/klien/wallet', builder: (context, state) => const WalletScreenKlien()),

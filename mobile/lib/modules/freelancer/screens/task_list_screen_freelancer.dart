@@ -7,9 +7,14 @@ import '../../../core/widgets/custom_bottom_nav_bar.dart';
 const Color _saturSunGreen = Color(0xFF4CAF50); 
 const Color _saturSunYellow = Color(0xFFFFC107); 
 
-class TaskListScreen extends StatelessWidget {
+class TaskListScreen extends StatefulWidget {
   const TaskListScreen({super.key});
 
+  @override
+  State<TaskListScreen> createState() => _TaskListScreenState();
+}
+
+class _TaskListScreenState extends State<TaskListScreen> {
   String _formatRupiah(dynamic price) {
     if (price == null) return "Rp 0";
     String priceStr = price.toString();
@@ -35,7 +40,7 @@ class TaskListScreen extends StatelessWidget {
           _buildBody(context),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3), // Pastikan index benar (biasanya 2 atau 3)
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 2), // Index Task List
     );
   }
 
@@ -64,43 +69,45 @@ class TaskListScreen extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           
-          // === HEADER TUGAS AKTIF ===
           _buildTaskHeader(context, 'Tugas Aktif'),
-
-          // === STREAM BUILDER ===
+          
           StreamBuilder<QuerySnapshot>(
-            stream: jobService.getFreelancerTasksStream(),
+            stream: jobService.getActiveTasksStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator(color: Colors.white));
               }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-                  child: const Center(child: Text("Belum ada tugas aktif")),
+              
+              // Tampilkan Error jika ada (untuk debugging)
+              if (snapshot.hasError) {
+                return Padding(
+                  padding: const EdgeInsets.all(20), 
+                  child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.white))
                 );
               }
 
-              final docs = snapshot.data!.docs;
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text("Tidak ada tugas aktif", style: TextStyle(color: Colors.white)),
+                );
+              }
 
               return Column(
-                children: docs.map((doc) {
+                children: snapshot.data!.docs.map((doc) {
                   final data = doc.data() as Map<String, dynamic>;
-                  final status = data['status'] ?? 'Active';
+                  // Sisipkan ID dokumen
+                  final fullData = {...data, 'id': doc.id};
                   
-                  // Hanya tampilkan yang Active di section ini
-                  if (status != 'Active') return const SizedBox.shrink();
-
                   return _buildTaskCard(
                     context, 
-                    title: data['title'] ?? 'Tanpa Judul', 
-                    subTitle: 'Proyek Berjalan', 
-                    price: _formatRupiah(data['budget']), 
-                    progress: 0.0, 
-                    progressLabel: '0% Selesai', 
-                    isComplete: false
+                    title: data['title'] ?? 'Tanpa Judul',
+                    subTitle: 'Proyek Berjalan',
+                    price: _formatRupiah(data['budget']),
+                    progress: 0.0,
+                    progressLabel: '0% Selesai',
+                    isComplete: false,
+                    taskData: fullData, // Pass data ini
                   );
                 }).toList(),
               );
@@ -109,9 +116,37 @@ class TaskListScreen extends StatelessWidget {
 
           const SizedBox(height: 30),
           
-          // TUGAS SELESAI (Masih Dummy dulu)
           _buildTaskHeader(context, 'Tugas Selesai'),
-          _buildTaskCard(context, title: 'Editing Video Dokumentasi', subTitle: 'IMILKOM', price: 'Rp 75.000', progress: 1.0, progressLabel: '100% Selesai', isComplete: true),
+          
+          StreamBuilder<QuerySnapshot>(
+            stream: jobService.getCompletedTasksStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) return const SizedBox.shrink();
+              
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text("Belum ada tugas selesai", style: TextStyle(color: Colors.grey[600])),
+                );
+              }
+
+              return Column(
+                children: snapshot.data!.docs.map((doc) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  return _buildTaskCard(
+                    context, 
+                    title: data['title'] ?? 'Tanpa Judul',
+                    subTitle: 'Selesai',
+                    price: _formatRupiah(data['budget']),
+                    progress: 1.0,
+                    progressLabel: '100% Selesai',
+                    isComplete: true,
+                    taskData: {},
+                  );
+                }).toList(),
+              );
+            },
+          ),
           
           const SizedBox(height: 100),
         ],
@@ -143,26 +178,22 @@ class TaskListScreen extends StatelessWidget {
   Widget _buildFilterButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
     final bool isWide = !label.contains(':');
     final textTheme = Theme.of(context).textTheme;
-    return Material(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(15),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(15),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: isWide ? Border.all(color: Colors.grey[300]!) : null),
-          child: Row(mainAxisAlignment: isWide ? MainAxisAlignment.start : MainAxisAlignment.center, children: [Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20), if (isWide) const SizedBox(width: 10), Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis))]),
-        ),
-      ),
-    );
+    return Material(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(15), child: InkWell(onTap: onTap, borderRadius: BorderRadius.circular(15), child: Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12), decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: isWide ? Border.all(color: Colors.grey[300]!) : null), child: Row(mainAxisAlignment: isWide ? MainAxisAlignment.start : MainAxisAlignment.center, children: [Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20), if (isWide) const SizedBox(width: 10), Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis))]))));
   }
 
   Widget _buildTaskHeader(BuildContext context, String title) {
     return Padding(padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5), child: Text(title, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface)));
   }
 
-  Widget _buildTaskCard(BuildContext context, {required String title, required String subTitle, required String price, required double progress, required String progressLabel, required bool isComplete}) {
+  Widget _buildTaskCard(BuildContext context, {
+    required String title, 
+    required String subTitle, 
+    required String price, 
+    required double progress, 
+    required String progressLabel, 
+    required bool isComplete,
+    required Map<String, dynamic> taskData
+  }) {
     final Color detailColor = isComplete ? _saturSunGreen : Theme.of(context).colorScheme.error;
     final textTheme = Theme.of(context).textTheme;
     
@@ -188,16 +219,15 @@ class TaskListScreen extends StatelessWidget {
             const SizedBox(width: 10), 
             Text(progressLabel, style: textTheme.bodySmall!.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)), 
             const SizedBox(width: 15), 
-            GestureDetector(
-              onTap: () { 
-                context.push('/freelancer/task-submission'); 
-              }, 
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), 
-                decoration: BoxDecoration(color: detailColor, borderRadius: BorderRadius.circular(5)), 
-                child: Text('Detail', style: textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.surface, fontSize: 12, fontWeight: FontWeight.bold))
+            if (!isComplete)
+              GestureDetector(
+                onTap: () { 
+                  context.push('/freelancer/task-submission', extra: taskData); 
+                }, 
+                child: Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: detailColor, borderRadius: BorderRadius.circular(5)), child: Text('Detail', style: textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.surface, fontSize: 12, fontWeight: FontWeight.bold)))
               )
-            )
+            else
+              Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), decoration: BoxDecoration(color: detailColor, borderRadius: BorderRadius.circular(5)), child: Text('Selesai', style: textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.surface, fontSize: 12, fontWeight: FontWeight.bold)))
           ]),
         ],
       ),
