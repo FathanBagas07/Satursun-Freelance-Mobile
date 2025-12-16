@@ -2,6 +2,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/auth/register', [AuthController::class, 'register'])
+    ->middleware('firebase.auth');
