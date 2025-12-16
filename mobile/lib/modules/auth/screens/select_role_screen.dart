@@ -52,10 +52,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         title: Image.asset('assets/logo.png', height: 40),
         centerTitle: true,
       ),
