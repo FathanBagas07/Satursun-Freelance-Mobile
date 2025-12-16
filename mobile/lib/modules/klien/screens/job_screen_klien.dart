@@ -12,7 +12,6 @@ class JobScreenKlien extends StatefulWidget {
 }
 
 class _JobScreenKlienState extends State<JobScreenKlien> {
-  // Helper format rupiah sederhana
   String _formatRupiah(int price) {
     return "Rp ${price.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
   }
@@ -23,9 +22,6 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       bottomNavigationBar: const CustomBottomNavBarClient(currentIndex: 3),
       body: Stack(
         children: [
-          // ============================
-          //   BLUE GRADIENT HEADER
-          // ============================
           Container(
             height: 240,
             decoration: const BoxDecoration(
@@ -49,49 +45,25 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
                   _buildFilterCard(),
                   const SizedBox(height: 24),
 
-                  // ============================
-                  // PEKERJAAN AKTIF SECTION (REALTIME)
-                  // ============================
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Pekerjaan Aktif",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
+                    child: Text("Pekerjaan Aktif", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface)),
                   ),
                   const SizedBox(height: 12),
 
                   StreamBuilder<QuerySnapshot>(
                     stream: jobService.getClientJobsStream(),
                     builder: (context, snapshot) {
-                      // 1. Loading
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
                       
-                      // 2. Error (Tampilkan jika ada masalah koneksi/index)
                       if (snapshot.hasError) {
-                        return Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text("Error: ${snapshot.error}", 
-                            style: const TextStyle(color: Colors.red)),
-                        );
+                        return Padding(padding: const EdgeInsets.all(20), child: Text("Error: ${snapshot.error}", style: const TextStyle(color: Colors.red)));
                       }
 
-                      // 3. Kosong
                       if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                          child: Center(
-                            child: Text(
-                              "Belum ada pekerjaan aktif",
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                          ),
+                          child: Center(child: Text("Belum ada pekerjaan aktif", style: TextStyle(color: Colors.grey[600]))),
                         );
                       }
 
@@ -103,37 +75,26 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
                           children: docs.map((doc) {
                             final data = doc.data() as Map<String, dynamic>;
                             
-                            // Ambil data dengan safety check
-                            final title = data['title'] ?? 'Tanpa Judul';
-                            final desc = data['description'] ?? '-';
-                            
-                            // Handle Budget (bisa int atau string)
                             int budget = 0;
                             if (data['budget'] != null) {
                               budget = int.tryParse(data['budget'].toString()) ?? 0;
                             }
 
-                            return _buildJobItem({
-                              "title": title,
-                              "description": desc,
-                              "price": _formatRupiah(budget),
-                              "type": "active",
-                            });
+                            return _buildJobItem(
+                              fullData: data, // Pass full data
+                              title: data['title'] ?? 'Tanpa Judul',
+                              description: data['description'] ?? '-',
+                              price: _formatRupiah(budget),
+                              isActive: true,
+                            );
                           }).toList(),
                         ),
                       );
                     },
                   ),
 
-                  // BAGIAN PEKERJAAN SELESAI SUDAH DIHAPUS
-
                   const SizedBox(height: 24),
-                  
-                  // ============================
-                  // POSTING PEKERJAAN BARU BUTTON
-                  // ============================
                   _buildPostJobButton(),
-
                   const SizedBox(height: 40),
                 ],
               ),
@@ -144,36 +105,19 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
     );
   }
 
-  // Header Navigasi
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => context.go('/klien/home'),
-            child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
-          ),
+          GestureDetector(onTap: () => context.go('/klien/home'), child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26)),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Satursun Freelance",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.surface,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              Text("Satursun Freelance", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 22, fontWeight: FontWeight.w600)),
               const SizedBox(height: 4),
-              Text(
-                "Posting Pekerjaan",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.surface,
-                  fontSize: 14,
-                ),
-              ),
+              Text("Posting Pekerjaan", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 14)),
             ],
           ),
         ],
@@ -181,7 +125,6 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
     );
   }
 
-  // Card Filter
   Widget _buildFilterCard() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -189,13 +132,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          )
-        ],
+        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 6, offset: const Offset(0, 3))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,48 +155,26 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
   Widget _buildFilterField({required IconData icon, required String label}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Theme.of(context).colorScheme.onSurface),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), border: Border.all(color: Theme.of(context).colorScheme.onSurface)),
       child: Row(
         children: [
           Icon(icon, color: Theme.of(context).colorScheme.onSurface),
           const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ),
+          Expanded(child: Text(label, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface))),
         ],
       ),
     );
   }
 
-  // Job Item Widget
-  Widget _buildJobItem(Map<String, dynamic> job) {
+  Widget _buildJobItem({required Map<String, dynamic> fullData, required String title, required String description, required String price, required bool isActive}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          )
-        ],
-        border: Border.all(
-          // Hijau karena semua yang ditampilkan adalah Active
-          color: Theme.of(context).colorScheme.primary,
-          width: 1,
-        ),
+        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 6, offset: const Offset(0, 3))],
+        border: Border.all(color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey, width: 1),
       ),
       child: Row(
         children: [
@@ -267,50 +182,21 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  job["title"],
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
+                Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface)),
                 const SizedBox(height: 4),
-                Text(
-                  job["description"],
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                ),
+                Text(description, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                 const SizedBox(height: 8),
-                Text(
-                  job["price"],
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
+                Text(price, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondary)),
               ],
             ),
           ),
           const SizedBox(width: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              "Detail",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.surface,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+          GestureDetector(
+            onTap: () => context.push('/klien/job-detail', extra: fullData), // NAVIGASI DI SINI
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: BorderRadius.circular(20)),
+              child: Text("Detail", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.bold, fontSize: 12)),
             ),
           )
         ],
@@ -318,31 +204,16 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
     );
   }
 
-  // Tombol Posting Pekerjaan
   Widget _buildPostJobButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
-        onTap: () {
-          context.push('/klien/job-post-first');
-        },
+        onTap: () => context.push('/klien/job-post-first'),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Center(
-            child: Text(
-              "+ Posting Pekerjaan Baru",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.surface,
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary, borderRadius: BorderRadius.circular(30)),
+          child: Center(child: Text("+ Posting Pekerjaan Baru", style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 17, fontWeight: FontWeight.w700))),
         ),
       ),
     );

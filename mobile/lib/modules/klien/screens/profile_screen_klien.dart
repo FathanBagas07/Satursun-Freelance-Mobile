@@ -1,8 +1,67 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar_klien.dart';
 
-class ProfileKlienScreen extends StatelessWidget {
+class ProfileKlienScreen extends StatefulWidget {
   const ProfileKlienScreen({super.key});
+
+  @override
+  State<ProfileKlienScreen> createState() => _ProfileKlienScreenState();
+}
+
+class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
+  String _fullName = "Memuat...";
+  String _role = "Klien";
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  // Fungsi mengambil data user dari Firestore
+  Future<void> _fetchUserData() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          final data = doc.data() as Map<String, dynamic>;
+          if (mounted) {
+            setState(() {
+              // Gabungkan Nama Depan dan Belakang
+              String first = data['firstName'] ?? '';
+              String last = data['lastName'] ?? '';
+              _fullName = "$first $last".trim();
+              if (_fullName.isEmpty) _fullName = "User Tanpa Nama";
+              
+              _role = data['role'] ?? 'Klien';
+              _isLoading = false;
+            });
+          }
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _fullName = "Error memuat data";
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  // Fungsi Logout
+  Future<void> _handleLogout() async {
+    await authService.signOut();
+    if (mounted) {
+      context.go('/sign-in');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +73,12 @@ class ProfileKlienScreen extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.onPrimary, Theme.of(context).colorScheme.secondary],
-                stops: [0.0, 0.35, 0.9],
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.onPrimary,
+                  Theme.of(context).colorScheme.secondary
+                ],
+                stops: const [0.0, 0.35, 0.9],
               ),
             ),
           ),
@@ -58,8 +121,7 @@ class ProfileKlienScreen extends StatelessWidget {
                 IconButton(
                     icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/home-klien', (route) => false);
+                      context.go('/klien/home');
                     }),
                 Text(
                   'Satursun Freelance',
@@ -69,9 +131,14 @@ class ProfileKlienScreen extends StatelessWidget {
                       color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
+                // MENU LOGOUT & SETTINGS
                 PopupMenuButton<String>(
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<String>>[
+                  onSelected: (value) {
+                    if (value == 'logout') {
+                      _handleLogout();
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
                       value: 'logout',
                       child: Container(
@@ -89,8 +156,7 @@ class ProfileKlienScreen extends StatelessWidget {
                           ],
                         ),
                         alignment: Alignment.center,
-                        child: const Text('Logout',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: const Text('Logout', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ),
                     const PopupMenuItem<String>(
@@ -115,8 +181,7 @@ class ProfileKlienScreen extends StatelessWidget {
                           ],
                         ),
                         alignment: Alignment.center,
-                        child: const Text('Settings',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: const Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],
@@ -131,20 +196,27 @@ class ProfileKlienScreen extends StatelessWidget {
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: Theme.of(context).colorScheme.surface,
-                    backgroundImage: AssetImage('assets/profile_pic.png'),
+                    backgroundImage: const AssetImage('assets/profile_pic.png'),
+                    onBackgroundImageError: (exception, stackTrace) {
+                      // Fallback jika gambar tidak ada
+                    },
+                    child: _isLoading ? null : const Icon(Icons.person, size: 40, color: Colors.grey),
                   ),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Monica Raquella',
-                        style: textTheme.headlineMedium!.copyWith(
-                            fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface),
-                      ),
+                      // NAMA USER DARI FIREBASE
+                      _isLoading 
+                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                        : Text(
+                            _fullName,
+                            style: textTheme.headlineMedium!.copyWith(
+                                fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface),
+                          ),
                       const SizedBox(height: 4),
                       Text(
-                        'Klien  |  4.8 (32 reviews)',
+                        '$_role  |  4.8 (32 reviews)',
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
                           color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
@@ -185,8 +257,7 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Portofolio klien',
-                    style: textTheme.titleLarge!
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -194,8 +265,7 @@ class ProfileKlienScreen extends StatelessWidget {
                 onTap: () {},
                 child: Text(
                   'Edit',
-                  style: textTheme.bodyLarge!
-                      .copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),
+                  style: textTheme.bodyLarge!.copyWith(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600),
                 ),
               )
             ],
@@ -214,10 +284,7 @@ class ProfileKlienScreen extends StatelessWidget {
                 const SizedBox(width: 20),
                 Text(
                   'Upload Portofolio rekrutmen\n (max 5MB)',
-                  style: textTheme.bodyMedium!.copyWith(
-                      color: Colors.grey[700],
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
+                  style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -251,8 +318,7 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Mode Tersembunyi',
-                    style: textTheme.titleLarge!
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -268,34 +334,9 @@ class ProfileKlienScreen extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             'Auto Reply: "Saat ini saya sedang membuka rekrutmen secara privat. Hanya kandidat terpilih yang akan dihubungi."',
-            style: textTheme.bodyMedium!
-                .copyWith(color: Colors.grey[700], fontSize: 14),
-          ),
-          const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildPlaceholderImage(context, 1),
-              _buildPlaceholderImage(context, 2),
-              _buildPlaceholderImage(context, 3),
-            ],
+            style: textTheme.bodyMedium!.copyWith(color: Colors.grey[700], fontSize: 14),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPlaceholderImage(BuildContext context, int index) {
-    return Container(
-      width: 70,
-      height: 70,
-      color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
-      child: Center(
-        child: Text(
-          'Ilustrasi $index',
-          style: Theme.of(context).textTheme.bodySmall!
-              .copyWith(fontSize: 10, color: Theme.of(context).colorScheme.primary),
-        ),
       ),
     );
   }
@@ -323,8 +364,7 @@ class ProfileKlienScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     'Aktivitas Mei 2025',
-                    style: textTheme.titleLarge!
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -334,10 +374,8 @@ class ProfileKlienScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('5 Unggah Pekerjaan',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.primary)),
-              Text('3 Orang di Rekrut',
-                  style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
+              Text('5 Unggah Pekerjaan', style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.primary)),
+              Text('3 Orang di Rekrut', style: textTheme.bodyMedium!.copyWith(fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
             ],
           ),
           const SizedBox(height: 10),
