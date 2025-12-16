@@ -12,14 +12,14 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -48,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
               // EMAIL INPUT
               TextField(
-                controller: emailController,
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
@@ -67,7 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
               // PASSWORD INPUT
               TextField(
-                controller: passwordController,
+                controller: _passwordController,
                 obscureText: true,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
@@ -99,17 +99,21 @@ class _SignInScreenState extends State<SignInScreen> {
                         final messenger = ScaffoldMessenger.of(context);
                         setState(() => _isLoading = true);
 
-                        try {
-                          final email = emailController.text.trim();
-                          final password = passwordController.text.trim();
+                        if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Semua bidang harus diisi'),
+                            ),
+                          );
+                          return;
+                        }
 
-                          if (email.isEmpty || password.isEmpty) {
-                            throw FirebaseAuthException(
-                              code: 'empty-fields',
-                              message: 'Email dan sandi tidak boleh kosong',
-                            );
-                          }
-                          await authService.signInwithEmail(
+                        try {
+                          final email = _emailController.text.trim();
+                          final password = _passwordController.text.trim();
+
+                          await authService.signUpWithEmail(
                             email: email,
                             password: password,
                           );
