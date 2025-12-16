@@ -24,12 +24,29 @@ class AuthService {
   Future<User?> signInwithEmail({
     required String email,
     required String password,
+    required String firstName,
+    String? lastName,
+    required String username,
   }) async {
     final credential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    return credential.user;
+
+    final user = credential.user;
+
+    if (user != null) {
+      // Pastikan user ada di Firestore
+      await userService.createUserIfNotExists(
+        uid: user.uid,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+      );
+    }
+
+    return user;
   }
 
   Future<User?> signInWithGoogle() async {
