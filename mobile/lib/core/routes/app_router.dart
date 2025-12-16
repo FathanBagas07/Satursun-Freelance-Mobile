@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:satursun_app/core/services/auth_service.dart';
+// import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/core/services/user_service.dart';
 import 'auth_listenable.dart';
 
 // Auth Screens
@@ -55,12 +56,18 @@ class AppRouter {
       if (currentPath == '/select-role') return null;
 
       if (isAuthRoute) {
-        final role = await authService.getUserRole(user.uid);
-        if (role == 'Freelancer') return '/freelancer/home';
-        if (role == 'Klien') return '/klien/home';
-        return '/select-role';
-      }
+         final role = await userService.getRole();
 
+         switch (role) {
+           case 'Freelancer':
+             return '/freelancer/home';
+           case 'Klien':
+             return '/klien/home';
+           default:
+             return '/select-role';
+         }
+      }
+      
       return null;
     },
 
