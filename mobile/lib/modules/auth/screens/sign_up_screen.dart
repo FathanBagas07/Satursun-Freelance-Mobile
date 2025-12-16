@@ -14,7 +14,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   // Controller form
-  final TextEditingController _contactController =
+  final TextEditingController _ =
       TextEditingController(); // Ini untuk Email
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _contactController.dispose();
+    _.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
     _usernameController.dispose();
@@ -88,8 +88,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             _buildTextField("Nama Pengguna", _usernameController, context),
             const SizedBox(height: 10),
 
-            // Email menggunakan _contactController
-            _buildTextField("Email", _contactController, context),
+            // Email menggunakan _
+            _buildTextField("Email", _, context),
             const SizedBox(height: 10),
 
             _buildTextField(
@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   : () async {
                       if (_firstNameController.text.isEmpty ||
                           _usernameController.text.isEmpty ||
-                          _contactController.text.isEmpty ||
+                          _.text.isEmpty ||
                           _passwordController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -181,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       setState(() => _isLoading = true);
 
                       try {
-                        final email = _contactController.text.trim();
+                        final email = _.text.trim();
                         final password = _passwordController.text.trim();
                         final firstName = _firstNameController.text.trim();
                         final lastName = _lastNameController.text.trim();
