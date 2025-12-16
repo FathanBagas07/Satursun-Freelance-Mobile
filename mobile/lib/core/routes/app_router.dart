@@ -7,7 +7,7 @@ import 'auth_listenable.dart';
 import '../../modules/auth/screens/get_started_screen.dart';
 import '../../modules/auth/screens/sign_in_screen.dart';
 import '../../modules/auth/screens/sign_up_screen.dart';
-import '../../modules/auth/screens/otp_verification_screen.dart';
+// import '../../modules/auth/screens/otp_verification_screen.dart';
 import '../../modules/auth/screens/select_role_screen.dart';
 
 // Freelancer Screens
@@ -44,8 +44,8 @@ class AppRouter {
       final isAuthRoute = 
           currentPath == '/' || 
           currentPath == '/sign-in' || 
-          currentPath == '/sign-up' || 
-          currentPath == '/otp';
+          currentPath == '/sign-up';
+          // currentPath == '/otp';
 
       if (!isLoggedIn) {
         if (!isAuthRoute) return '/sign-in';
@@ -71,13 +71,13 @@ class AppRouter {
       GoRoute(path: '/', builder: (context, state) => const GetStartedScreen()),
       GoRoute(path: '/sign-in', builder: (context, state) => const SignInScreen()),
       GoRoute(path: '/sign-up', builder: (context, state) => const SignUpScreen()),
-      GoRoute(
-        path: '/otp',
-        builder: (context, state) {
-          final contactInfo = state.extra as String? ?? 'Unknown';
-          return OtpVerificationScreen(contactInfo: contactInfo);
-        },
-      ),
+      // GoRoute(
+      //   path: '/otp',
+      //   builder: (context, state) {
+      //     final contactInfo = state.extra as String? ?? 'Unknown';
+      //     return OtpVerificationScreen(contactInfo: contactInfo);
+      //   },
+      // ),
       GoRoute(path: '/select-role', builder: (context, state) => const SelectRoleScreen()),
 
       /// =============================
