@@ -14,7 +14,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   // Controller form
-  final TextEditingController _contactController = TextEditingController(); // Ini untuk Email
+  final TextEditingController _contactController =
+      TextEditingController(); // Ini untuk Email
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -49,16 +50,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
             // =====Judul=====
             Center(
               child: Text(
                 "Daftar",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(height: 30),
@@ -116,9 +116,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextSpan(
                       text: 'Saya setuju dengan ',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: 13,
-                            color: Colors.black,
-                          ),
+                        fontSize: 13,
+                        color: Colors.black,
+                      ),
                       children: [
                         TextSpan(
                           text: 'Ketentuan Pengguna',
@@ -152,60 +152,87 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: _isLoading ? null : () async {
-                if (!_agree) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Anda harus menyetujui ketentuan pengguna')),
-                  );
-                  return;
-                }
+              onPressed: _isLoading
+                  ? null
+                  : () async {
+                      if (_firstNameController.text.isEmpty ||
+                          _usernameController.text.isEmpty ||
+                          _contactController.text.isEmpty ||
+                          _passwordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Semua bidang harus diisi'),
+                          ),
+                        );
+                        return;
+                      }
 
-                setState(() => _isLoading = true);
+                      if (!_agree) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Anda harus menyetujui ketentuan pengguna',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
 
-                try {
-                  final email = _contactController.text.trim();
-                  final password = _passwordController.text.trim();
-                  final firstName = _firstNameController.text.trim();
-                  final lastName = _lastNameController.text.trim();
-                  final username = _usernameController.text.trim();
+                      setState(() => _isLoading = true);
 
-                  if (email.isEmpty || password.isEmpty) {
-                     throw FirebaseAuthException(code: 'invalid-input', message: 'Email dan password harus diisi');
-                  }
+                      try {
+                        final email = _contactController.text.trim();
+                        final password = _passwordController.text.trim();
+                        final firstName = _firstNameController.text.trim();
+                        final lastName = _lastNameController.text.trim();
+                        final username = _usernameController.text.trim();
 
-                  User? user = await authService.signUpWithEmail(
-                    email: email,
-                    password: password,
-                  );
-                  if (user != null) {
-                    await userService.createUserIfNotExists(
-                      uid: user.uid,
-                      firstName: firstName,
-                      lastName: lastName,
-                      username: username,
-                      email: email,
-                    );
+                        if (email.isEmpty || password.isEmpty) {
+                          throw FirebaseAuthException(
+                            code: 'invalid-input',
+                            message: 'Email dan password harus diisi',
+                          );
+                        }
 
-                    if (!context.mounted) return;
-                  }
-                } on FirebaseAuthException catch (e) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(e.message ?? 'Daftar Gagal')),
-                  );
-                } finally {
-                  if (mounted) setState(() => _isLoading = false);
-                }
-              },
-              child: _isLoading 
-                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
-                : Text(
-                  "Daftar",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge!
-                      .copyWith(fontSize: 18),
-                ),
+                        User? user = await authService.signUpWithEmail(
+                          email: email,
+                          password: password,
+                        );
+                        if (user != null) {
+                          await userService.createUserIfNotExists(
+                            uid: user.uid,
+                            firstName: firstName,
+                            lastName: lastName,
+                            username: username,
+                            email: email,
+                          );
+
+                          if (!context.mounted) return;
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.message ?? 'Daftar Gagal')),
+                        );
+                      } finally {
+                        if (mounted) setState(() => _isLoading = false);
+                      }
+                    },
+              child: _isLoading
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.black,
+                      ),
+                    )
+                  : Text(
+                      "Daftar",
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelLarge!.copyWith(fontSize: 18),
+                    ),
             ),
             const SizedBox(height: 25),
 
@@ -213,10 +240,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Center(
               child: Text(
                 "—————————— Atau ———————————",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.black),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge!.copyWith(color: Colors.black),
               ),
             ),
             const SizedBox(height: 20),
@@ -231,23 +257,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               onPressed: () async {
-  try {
-    await authService.loginProcessThenLogout();
+                try {
+                  await authService.loginProcessThenLogout();
 
-    if (!context.mounted) return;
+                  if (!context.mounted) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Login berhasil, silakan login ulang'),
-      ),
-    );
-  } catch (e) {
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(e.toString())),
-    );
-  }
-},
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Login berhasil, silakan login ulang'),
+                    ),
+                  );
+                } catch (e) {
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(e.toString())));
+                }
+              },
 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -256,10 +282,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(width: 10),
                   Text(
                     "Lanjutkan dengan Google",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge!
-                        .copyWith(color: Theme.of(context).colorScheme.onSurface),
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ],
               ),
@@ -271,10 +296,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Text.rich(
                 TextSpan(
                   text: 'Sudah punya akun? ',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.black),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge!.copyWith(color: Colors.black),
                   children: [
                     TextSpan(
                       text: 'Masuk',
@@ -307,24 +331,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge!
-          .copyWith(color: Colors.black),
+      style: Theme.of(
+        context,
+      ).textTheme.bodyLarge!.copyWith(color: Colors.black),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyLarge!
-            .copyWith(color: Colors.grey),
+        hintStyle: Theme.of(
+          context,
+        ).textTheme.bodyLarge!.copyWith(color: Colors.grey),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: 15,
+        ),
       ),
     );
   }
