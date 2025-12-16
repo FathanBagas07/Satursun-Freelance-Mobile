@@ -4,25 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 class UserService {
   final _db = FirebaseFirestore.instance;
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    return _db.collection('users').doc(uid).get();
-  }
-
-  Future<bool> hasRole() async {
-    final doc = await getUserDoc();
-    return doc.exists && doc.data()?['role'] != null;
-  }
-
-  Future<String?> getRole() async {
-    final doc = await getUserDoc();
-    return doc.data()?['role'];
-  }
-
   Future<void> createUserIfNotExists({
     required String firstName,
     String? lastName,
-    required String email, required String uid, required String username,
+    required String email,
+    required String uid,
+    required String username,
   }) async {
     final user = FirebaseAuth.instance.currentUser!;
     final ref = _db.collection('users').doc(user.uid);
@@ -36,6 +23,21 @@ class UserService {
         'createdAt': FieldValue.serverTimestamp(),
       });
     }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    return _db.collection('users').doc(uid).get();
+  }
+
+  Future<bool> hasRole() async {
+    final doc = await getUserDoc();
+    return doc.exists && doc.data()?['role'] != null;
+  }
+
+  Future<String?> getRole() async {
+    final doc = await getUserDoc();
+    return doc.data()?['role'];
   }
 
   Future<void> setRoleOnce(String role) async {
