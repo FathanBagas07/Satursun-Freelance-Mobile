@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:satursun_app/core/services/auth_service.dart'; // Pastikan import ini benar
 import 'auth_listenable.dart';
 
 // Auth Screens
@@ -32,28 +33,54 @@ class AppRouter {
 
   static final router = GoRouter(
     initialLocation: '/',
-
     refreshListenable: _authListenable,
 
-    redirect: (context, state) {
+    // LOGIKA REDIRECT DIPERBAIKI DI SINI
+    redirect: (context, state) async {
       final user = FirebaseAuth.instance.currentUser;
+      final isLoggedIn = user != null;
+      
+      final currentPath = state.matchedLocation;
 
-      final authRoutes = [
-        '/',
-        '/sign-in',
-        '/sign-up',
-        '/otp',
-        '/select-role',
-      ];
+      // Daftar halaman Public (Auth Routes)
+      final isAuthRoute = 
+          currentPath == '/' || 
+          currentPath == '/sign-in' || 
+          currentPath == '/sign-up' || 
+          currentPath == '/otp';
 
-      final isAuthRoute = authRoutes.contains(state.matchedLocation);
-
-      if (user == null) {
-        return isAuthRoute ? null : '/sign-in';
+      // 1. Jika User BELUM Login
+      if (!isLoggedIn) {
+        // Jika user mencoba akses halaman private (bukan auth route), lempar ke sign-in
+        // Kecuali sedang di halaman sign-up/otp/get-started, biarkan.
+        if (!isAuthRoute) {
+          return '/sign-in';
+        }
+        return null;
       }
 
+      // 2. Jika User SUDAH Login
+
+      // PENTING: Izinkan user berada di halaman Select Role jika mereka sudah login
+      // Ini agar setelah Sign Up, mereka tidak ditendang keluar.
+      if (currentPath == '/select-role') {
+        return null;
+      }
+
+      // Jika user sudah login tapi ada di halaman Auth (Login/Register/GetStarted),
+      // Kita harus arahkan ke Home yang sesuai dengan Role mereka.
       if (isAuthRoute) {
-        return '/freelancer/home'; // nanti bisa role-based
+        // Cek Role via AuthService (Firestore)
+        final role = await authService.getUserRole(user.uid);
+
+        if (role == 'Freelancer') {
+          return '/freelancer/home';
+        } else if (role == 'Klien') {
+          return '/klien/home';
+        } else {
+          // Jika role belum diset (user baru daftar), arahkan ke pilih role
+          return '/select-role';
+        }
       }
 
       return null;
@@ -69,11 +96,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/sign-in',
-        builder: (context, state) => SignInScreen(),
+        builder: (context, state) => const SignInScreen(),
       ),
       GoRoute(
         path: '/sign-up',
-        builder: (context, state) => SignUpScreen(),
+        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: '/otp',
@@ -84,7 +111,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/select-role',
-        builder: (context, state) => SelectRoleScreen(),
+        builder: (context, state) => const SelectRoleScreen(),
       ),
 
       /// =============================
