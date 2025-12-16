@@ -126,7 +126,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 style: TextStyle(
                   fontSize: 22, // Sedikit disesuaikan agar proporsional dengan icon
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.surface,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               SizedBox(height: 4),
@@ -134,7 +134,8 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                 "Satursun Freelance",
                 style: TextStyle(
                   fontSize: 14,
-                  color: Theme.of(context).colorScheme.surface,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ],
@@ -179,7 +180,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -239,7 +240,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],
@@ -260,7 +261,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 12),
@@ -354,14 +355,6 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
               ],
             ),
           ),
-          Text(
-            "Pilih",
-            style: TextStyle(
-              fontSize: 12,
-              color: Theme.of(context).colorScheme.secondary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
         ],
       ),
     );
@@ -379,7 +372,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 12),
@@ -459,7 +452,7 @@ class _WalletScreenKlienState extends State<WalletScreenKlien> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 12),

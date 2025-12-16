@@ -135,7 +135,7 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
         children: [
           Image.asset("assets/logo.png", height: 100),
           const SizedBox(height: 1),
-          Text("Halo, Saturnfren 👋", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface)),
+          Text("Halo, Saturnfren 👋", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface)),
         ],
       ),
     );
@@ -162,7 +162,7 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22),
-      child: Text(title, style: TextStyle(color: Theme.of(context).colorScheme.surface, fontSize: 19, fontWeight: FontWeight.bold)),
+      child: Text(title, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 19, fontWeight: FontWeight.bold)),
     );
   }
 
