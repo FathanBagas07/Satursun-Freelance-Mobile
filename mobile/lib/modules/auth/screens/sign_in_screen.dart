@@ -12,11 +12,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController emailUsernameController =
-      TextEditingController();
-  final TextEditingController passwordController =
-      TextEditingController();
-
+  final TextEditingController emailUsernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
@@ -28,10 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<void> _handleLogin() async {
     if (_isLoading) return;
-
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
       final email = emailUsernameController.text.trim();
@@ -44,10 +38,28 @@ class _SignInScreenState extends State<SignInScreen> {
         );
       }
 
-      await authService.signInwithEmail(
+      // 1. Login Firebase
+      User? user = await authService.signInwithEmail(
         email: email,
         password: password,
       );
+
+      if (user != null) {
+        // 2. Ambil Role dari Firestore
+        String? role = await authService.getUserRole(user.uid);
+
+        if (!mounted) return;
+
+        // 3. Arahkan Berdasarkan Role
+        if (role == 'Freelancer') {
+          context.go('/freelancer/home'); 
+        } else if (role == 'Klien') {
+          context.go('/klien/home'); 
+        } else {
+          // Jika belum ada role (misal error sebelumnya), arahkan ke pilih role
+          context.go('/select-role');
+        }
+      }
 
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
@@ -55,11 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
         SnackBar(content: Text(e.message ?? 'Login gagal')),
       );
     } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -74,9 +82,7 @@ class _SignInScreenState extends State<SignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              Center(
-                child: Image.asset('assets/logo.png', height: 170),
-              ),
+              Center(child: Image.asset('assets/logo.png', height: 170)),
               const SizedBox(height: 10),
               Center(
                 child: Text(
@@ -88,61 +94,47 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 30),
 
-              /// EMAIL
+              // EMAIL INPUT
               TextField(
                 controller: emailUsernameController,
                 keyboardType: TextInputType.emailAddress,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSurface),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Email",
                   filled: true,
-                  fillColor:
-                      Theme.of(context).colorScheme.surface,
+                  fillColor: Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-
               const SizedBox(height: 10),
 
-              /// PASSWORD
+              // PASSWORD INPUT
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSurface),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface),
                 decoration: InputDecoration(
                   hintText: "Sandi",
                   filled: true,
-                  fillColor:
-                      Theme.of(context).colorScheme.surface,
+                  fillColor: Theme.of(context).colorScheme.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
-              /// BUTTON LOGIN
+              // LOGIN BUTTON
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.secondary,
-                  minimumSize:
-                      const Size(double.infinity, 50),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -150,100 +142,67 @@ class _SignInScreenState extends State<SignInScreen> {
                 onPressed: _isLoading ? null : _handleLogin,
                 child: _isLoading
                     ? const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.black,
-                        ),
-                      )
-                    : Text(
-                        "Masuk",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge!
-                            .copyWith(
-                                fontSize: 18,
-                                color: Colors.black),
+                        height: 24, width: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
+                    : Text("Masuk",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                fontSize: 18, color: Colors.black),
                       ),
               ),
-
               const SizedBox(height: 20),
 
-              // ===== Atau =====
-            Center(
-              child: Text(
-                "—————————— Atau ———————————",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: Colors.black),
+              // GOOGLE SIGN IN & REGISTER LINK
+              Center(
+                child: Text("—————————— Atau ———————————",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black)),
               ),
-            ),
-            const SizedBox(height: 20),
-
-            // ===== Masuk dengan Google =====
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    Theme.of(context).colorScheme.surface,
-                minimumSize: const Size(double.infinity, 45),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                  minimumSize: const Size(double.infinity, 45),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+                onPressed: () async {
+                   // Logic Google Sign In juga harus cek role
+                   try {
+                     User? user = await authService.signInWithGoogle();
+                     if (user != null && context.mounted) {
+                        String? role = await authService.getUserRole(user.uid);
+                        if (context.mounted) {
+                           if (role == 'Freelancer') context.go('/freelancer/home');
+                           else if (role == 'Klien') context.go('/klien/home');
+                           else context.go('/select-role');
+                        }
+                     }
+                   } catch (e) {
+                     // Handle error
+                   }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/google.png', height: 20),
+                    const SizedBox(width: 10),
+                    Text("Lanjutkan dengan Google",
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black)),
+                  ],
                 ),
               ),
-              onPressed: () async {
-                  try {
-                    await authService.signInWithGoogle();
-                  } on FirebaseAuthException catch (e) {
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.message ?? 'Google Sign In Gagal')),
-                    );
-                  }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/google.png', height: 20),
-                  const SizedBox(width: 10),
-                  Text(
-                    "Lanjutkan dengan Google",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge!
-                        .copyWith(color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 25),
-
-              /// REGISTER
+              const SizedBox(height: 25),
               Center(
                 child: Text.rich(
                   TextSpan(
                     text: 'Belum punya akun? ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Daftar',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
                               fontWeight: FontWeight.bold,
                             ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.push('/sign-up');
-                          },
+                        recognizer: TapGestureRecognizer()..onTap = () => context.push('/sign-up'),
                       ),
                     ],
                   ),
