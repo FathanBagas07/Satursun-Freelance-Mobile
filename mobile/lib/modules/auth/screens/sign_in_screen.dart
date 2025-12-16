@@ -159,21 +159,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: _isLoading
-                    ? null
-                    : () async {
-                        setState(() => _isLoading = true);
-
-                        try {
-                          // 🔥 LOGIN GOOGLE SAJA
-                          await authService.signInWithGoogle();
-
-                          // ❌ TIDAK ADA CEK ROLE
-                          // ❌ TIDAK ADA NAVIGASI
-                        } finally {
-                          if (mounted) setState(() => _isLoading = false);
-                        }
-                      },
+                onPressed: () async {
+                  try {
+                    await authService.signInWithGoogle();
+                  } catch (e) {
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Login Google gagal')),
+                    );
+                  }
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
