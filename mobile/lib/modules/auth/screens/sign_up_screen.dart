@@ -152,8 +152,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               onPressed: () async {
                   try {
+                    if (_firstNameController.text.isEmpty ||
+                        _usernameController.text.isEmpty ||
+                        _contactController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Harap lengkapi semua bidang')),
+                      );
+                      return;
+                    }
+
                     final email = _usernameController.text.trim();
                     final password =_passwordController.text.trim();
+                    final fullName = ('${_firstNameController.text.trim()} ${_lastNameController.text.trim()}');
 
                     await authService.signInwithEmail(
                       email: email,
