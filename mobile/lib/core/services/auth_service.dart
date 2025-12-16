@@ -37,12 +37,12 @@ class AuthService {
 
     return user;
   }
-  
+
   Future<User?> signInWithEmail({
     required String email,
     required String password,
   }) async {
-    final cred = await _auth.createUserWithEmailAndPassword(
+    final cred = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
