@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:satursun_app/core/services/user_service.dart';
 
 class SelectRoleScreen extends StatefulWidget {
@@ -83,15 +82,17 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
   }
 
   Widget _buildRoleCard(BuildContext context, String iconPath, String role) {
+    final messenger = ScaffoldMessenger.of(context);
+
     return GestureDetector(
       onTap: () async {
         try {
           await userService.setRoleOnce(role);
         } catch (e) {
           if (!mounted) return;
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(e.toString())));
+           messenger.showSnackBar(
+          SnackBar(content: Text(e.toString())),
+          );
         }
       },
       child: Card(
