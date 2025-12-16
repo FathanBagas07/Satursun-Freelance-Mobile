@@ -196,18 +196,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         User? user = await authService.signUpWithEmail(
                           email: email,
                           password: password,
+                          firstName: firstName,
+                          lastName: lastName,
+                          username: username,
                         );
-                        if (user != null) {
-                          await userService.createUserIfNotExists(
-                            uid: user.uid,
-                            firstName: firstName,
-                            lastName: lastName,
-                            username: username,
-                            email: email,
-                          );
-
-                          if (!context.mounted) return;
-                        }
                       } on FirebaseAuthException catch (e) {
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
