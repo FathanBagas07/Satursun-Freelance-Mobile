@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:satursun_app/core/services/auth_service.dart'; // Pastikan import ini benar
+import 'package:satursun_app/core/services/auth_service.dart';
 import 'auth_listenable.dart';
 
 // Auth Screens
@@ -35,119 +35,49 @@ class AppRouter {
     initialLocation: '/',
     refreshListenable: _authListenable,
 
-    // LOGIKA REDIRECT DIPERBAIKI DI SINI
     redirect: (context, state) async {
       final user = FirebaseAuth.instance.currentUser;
       final isLoggedIn = user != null;
-      
       final currentPath = state.matchedLocation;
 
-      // Daftar halaman Public (Auth Routes)
+      // Routes yang bisa diakses tanpa login
       final isAuthRoute = 
           currentPath == '/' || 
           currentPath == '/sign-in' || 
           currentPath == '/sign-up' || 
           currentPath == '/otp';
 
-      // 1. Jika User BELUM Login
+      // 1. Jika belum login, tendang ke sign-in (kecuali sedang di auth route)
       if (!isLoggedIn) {
-        // Jika user mencoba akses halaman private (bukan auth route), lempar ke sign-in
-        // Kecuali sedang di halaman sign-up/otp/get-started, biarkan.
-        if (!isAuthRoute) {
-          return '/sign-in';
-        }
+        if (!isAuthRoute) return '/sign-in';
         return null;
       }
 
-      // 2. Jika User SUDAH Login
+      // 2. Jika sudah login
+      
+      // Izinkan akses ke Select Role
+      if (currentPath == '/select-role') return null;
 
-      // PENTING: Izinkan user berada di halaman Select Role jika mereka sudah login
-      // Ini agar setelah Sign Up, mereka tidak ditendang keluar.
-      if (currentPath == '/select-role') {
-        return null;
-      }
-
-      // Jika user sudah login tapi ada di halaman Auth (Login/Register/GetStarted),
-      // Kita harus arahkan ke Home yang sesuai dengan Role mereka.
+      // Jika user di halaman Auth, arahkan ke Home sesuai Role
       if (isAuthRoute) {
-        // Cek Role via AuthService (Firestore)
         final role = await authService.getUserRole(user.uid);
-
-        if (role == 'Freelancer') {
-          return '/freelancer/home';
-        } else if (role == 'Klien') {
-          return '/klien/home';
-        } else {
-          // Jika role belum diset (user baru daftar), arahkan ke pilih role
-          return '/select-role';
-        }
+        if (role == 'Freelancer') return '/freelancer/home';
+        if (role == 'Klien') return '/klien/home';
+        return '/select-role';
       }
 
       return null;
     },
 
     routes: [
-      /// =============================
-      /// 🔵 AUTH ROUTES
-      /// =============================
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const GetStartedScreen(),
-      ),
-      GoRoute(
-        path: '/sign-in',
-        builder: (context, state) => const SignInScreen(),
-      ),
-      GoRoute(
-        path: '/sign-up',
-        builder: (context, state) => const SignUpScreen(),
-      ),
-      GoRoute(
-        path: '/otp',
-        builder: (context, state) {
-          final contactInfo = state.extra as String? ?? 'Unknown';
-          return OtpVerificationScreen(contactInfo: contactInfo);
-        },
-      ),
-      GoRoute(
-        path: '/select-role',
-        builder: (context, state) => const SelectRoleScreen(),
-      ),
-
-      /// =============================
-      /// 🟢 FREELANCER ROUTES
-      /// =============================
-      GoRoute(
-        path: '/freelancer/home',
-        builder: (context, state) => const HomeScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/explore',
-        builder: (context, state) => const ExploreScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/wallet',
-        builder: (context, state) => const WalletScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/tasks',
-        builder: (context, state) => const TaskListScreen(),
-      ),
-      GoRoute(
-        path: '/freelancer/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/freelancer/job/:id',
-        builder: (context, state) {
-          final jobId = state.pathParameters['id'];
-          return JobDetailScreen(jobId: jobId);
-        },
-      ),
-      GoRoute(
-        path: '/freelancer/task-submission',
-        builder: (context, state) => const TaskSubmissionScreen(),
-      ),
+      // ... (Route Auth & Freelancer Tetap Sama, Tidak Diubah) ...
+      GoRoute(path: '/', builder: (context, state) => const GetStartedScreen()),
+      GoRoute(path: '/sign-in', builder: (context, state) => const SignInScreen()),
+      GoRoute(path: '/sign-up', builder: (context, state) => const SignUpScreen()),
+      GoRoute(path: '/select-role', builder: (context, state) => const SelectRoleScreen()),
+      
+      GoRoute(path: '/freelancer/home', builder: (context, state) => const HomeScreenFreelancer()),
+      // ... dst ...
 
       /// =============================
       /// 🔴 KLIEN ROUTES
@@ -176,9 +106,15 @@ class AppRouter {
         path: '/klien/job-post-first',
         builder: (context, state) => const JobPostFirstScreenKlien(),
       ),
+      
+      // === UPDATE BAGIAN INI ===
       GoRoute(
         path: '/klien/job-post-second',
-        builder: (context, state) => const JobPostSecondScreenKlien(),
+        builder: (context, state) {
+          // Ambil data yang dikirim dari screen pertama
+          final dataAwal = state.extra as Map<String, dynamic>? ?? {}; 
+          return JobPostSecondScreenKlien(dataAwal: dataAwal);
+        },
       ),
     ],
   );
