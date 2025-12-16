@@ -1,13 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:satursun_app/core/services/auth_service.dart';
+// import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/core/services/user_service.dart';
 import 'auth_listenable.dart';
 
 // Auth Screens
 import '../../modules/auth/screens/get_started_screen.dart';
 import '../../modules/auth/screens/sign_in_screen.dart';
 import '../../modules/auth/screens/sign_up_screen.dart';
-import '../../modules/auth/screens/otp_verification_screen.dart';
+// import '../../modules/auth/screens/otp_verification_screen.dart';
 import '../../modules/auth/screens/select_role_screen.dart';
 
 // Freelancer Screens
@@ -44,8 +45,8 @@ class AppRouter {
       final isAuthRoute = 
           currentPath == '/' || 
           currentPath == '/sign-in' || 
-          currentPath == '/sign-up' || 
-          currentPath == '/otp';
+          currentPath == '/sign-up';
+          // currentPath == '/otp';
 
       if (!isLoggedIn) {
         if (!isAuthRoute) return '/sign-in';
@@ -55,12 +56,18 @@ class AppRouter {
       if (currentPath == '/select-role') return null;
 
       if (isAuthRoute) {
-        final role = await authService.getUserRole(user.uid);
-        if (role == 'Freelancer') return '/freelancer/home';
-        if (role == 'Klien') return '/klien/home';
-        return '/select-role';
-      }
+         final role = await userService.getRole();
 
+         switch (role) {
+           case 'Freelancer':
+             return '/freelancer/home';
+           case 'Klien':
+             return '/klien/home';
+           default:
+             return '/select-role';
+         }
+      }
+      
       return null;
     },
 
@@ -69,13 +76,13 @@ class AppRouter {
       GoRoute(path: '/', builder: (context, state) => const GetStartedScreen()),
       GoRoute(path: '/sign-in', builder: (context, state) => const SignInScreen()),
       GoRoute(path: '/sign-up', builder: (context, state) => const SignUpScreen()),
-      GoRoute(
-        path: '/otp',
-        builder: (context, state) {
-          final contactInfo = state.extra as String? ?? 'Unknown';
-          return OtpVerificationScreen(contactInfo: contactInfo);
-        },
-      ),
+      // GoRoute(
+      //   path: '/otp',
+      //   builder: (context, state) {
+      //     final contactInfo = state.extra as String? ?? 'Unknown';
+      //     return OtpVerificationScreen(contactInfo: contactInfo);
+      //   },
+      // ),
       GoRoute(path: '/select-role', builder: (context, state) => const SelectRoleScreen()),
 
       // FREELANCER
