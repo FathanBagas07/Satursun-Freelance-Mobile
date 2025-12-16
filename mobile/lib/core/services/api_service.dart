@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'auth_service.dart';
 
@@ -5,34 +6,31 @@ class ApiService {
   final String baseUrl = 'https://api-kamu.com/api';
 
   Future<void> registerUser({
-    required String firstName,
-    required String lastName,
+    required String displayName,
     required String username,
     required String email,
-    required String role,
   }) async {
     final token = await authService.getIdToken();
 
     if (token == null) {
-      throw Exception('User not authenticated');
+      throw Exception('Pengguna Belum Terautentikasi');
     }
 
     final response = await http.post(
-      Uri.parse('$baseUrl/register'),
+      Uri.parse('$baseUrl/auth/register'),
       headers: {
         'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
       },
-      body: {
-        'first_name': firstName,
-        'last_name': lastName,
+      body: jsonEncode({
+        'display_name': displayName,
         'username': username,
         'email': email,
-        'role': role,
-      },
+      }),
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to register user');
+      throw Exception('Gagal Mendaftarkan Pengguna');
     }
   }
 }

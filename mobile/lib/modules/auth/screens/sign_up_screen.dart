@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/api_service.dart';
 import 'package:satursun_app/core/services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -98,7 +99,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               isPassword: true,
             ),
             const SizedBox(height: 20),
-
             // ===== Checkbox =====
             Row(
               children: [
@@ -178,7 +178,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     email: email,
                     password: password,
                   );
-
                   if (user != null) {
                     // 2. Simpan Data ke Firestore
                     await authService.saveUserData(
@@ -267,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: Theme.of(context)
                         .textTheme
                         .labelLarge!
-                        .copyWith(color: Colors.black),
+                        .copyWith(color: Theme.of(context).colorScheme.onSurface),
                   ),
                 ],
               ),
