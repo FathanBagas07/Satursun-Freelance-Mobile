@@ -19,6 +19,17 @@ class AuthService {
     return cred.user;
   }
 
+  Future<User?> signInwithEmail({
+    required String email,
+    required String password,
+  }) async {
+    final credential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return credential.user;
+  }
+
   Future<User?> signInWithGoogle() async {
   final GoogleSignInAccount? googleUser =
       await GoogleSignIn().signIn();
@@ -36,19 +47,6 @@ class AuthService {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
   return userCredential.user;
-  }
-
-  Future<void> loginProcessThenLogout() async {
-    final user = await signInWithGoogle();
-
-    if (user == null) {
-      throw FirebaseAuthException(
-        code: 'cancelled',
-        message: 'Login dibatalkan',
-      );
-    }
-
-    await FirebaseAuth.instance.signOut();
   }
 
   Future<void> signOut() async {
