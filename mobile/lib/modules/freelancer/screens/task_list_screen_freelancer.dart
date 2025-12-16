@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/job_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 const Color _saturSunGreen = Color(0xFF4CAF50); 
@@ -6,6 +9,13 @@ const Color _saturSunYellow = Color(0xFFFFC107);
 
 class TaskListScreen extends StatelessWidget {
   const TaskListScreen({super.key});
+
+  String _formatRupiah(dynamic price) {
+    if (price == null) return "Rp 0";
+    String priceStr = price.toString();
+    String cleanPrice = priceStr.replaceAll(RegExp(r'[^0-9]'), '');
+    return "Rp ${cleanPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +28,14 @@ class TaskListScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [Theme.of(context).colorScheme.primary, Theme.of(context).colorScheme.onPrimary, Theme.of(context).colorScheme.secondary],
-                stops: [0.0, 0.3, 0.9],
+                stops: const [0.0, 0.3, 0.9],
               ),
             ),
           ),
           _buildBody(context),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3), // Pastikan index benar (biasanya 2 atau 3)
     );
   }
 
@@ -53,11 +63,56 @@ class TaskListScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
+          
+          // === HEADER TUGAS AKTIF ===
           _buildTaskHeader(context, 'Tugas Aktif'),
-          _buildTaskCard(context, title: 'Desain Poster Event Kampus', subTitle: 'Bem Fasilkom-TI', price: 'Rp 75.000', progress: 0.3, progressLabel: '30% Selesai', isComplete: false),
+
+          // === STREAM BUILDER ===
+          StreamBuilder<QuerySnapshot>(
+            stream: jobService.getFreelancerTasksStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator(color: Colors.white));
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                  child: const Center(child: Text("Belum ada tugas aktif")),
+                );
+              }
+
+              final docs = snapshot.data!.docs;
+
+              return Column(
+                children: docs.map((doc) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  final status = data['status'] ?? 'Active';
+                  
+                  // Hanya tampilkan yang Active di section ini
+                  if (status != 'Active') return const SizedBox.shrink();
+
+                  return _buildTaskCard(
+                    context, 
+                    title: data['title'] ?? 'Tanpa Judul', 
+                    subTitle: 'Proyek Berjalan', 
+                    price: _formatRupiah(data['budget']), 
+                    progress: 0.0, 
+                    progressLabel: '0% Selesai', 
+                    isComplete: false
+                  );
+                }).toList(),
+              );
+            },
+          ),
+
           const SizedBox(height: 30),
+          
+          // TUGAS SELESAI (Masih Dummy dulu)
           _buildTaskHeader(context, 'Tugas Selesai'),
           _buildTaskCard(context, title: 'Editing Video Dokumentasi', subTitle: 'IMILKOM', price: 'Rp 75.000', progress: 1.0, progressLabel: '100% Selesai', isComplete: true),
+          
           const SizedBox(height: 100),
         ],
       ),
@@ -74,7 +129,7 @@ class TaskListScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                IconButton(icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface), onPressed: () { Navigator.pushReplacementNamed(context, '/home-freelancer'); }),
+                IconButton(icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface), onPressed: () { context.go('/freelancer/home'); }),
                 Text('SaturSun Freelance', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface)),
               ],
             ),
@@ -135,7 +190,7 @@ class TaskListScreen extends StatelessWidget {
             const SizedBox(width: 15), 
             GestureDetector(
               onTap: () { 
-                Navigator.pushNamed(context, '/task-submission'); 
+                context.push('/freelancer/task-submission'); 
               }, 
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), 

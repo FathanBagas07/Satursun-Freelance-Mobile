@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 import 'auth_listenable.dart';
 
 // Auth Screens
@@ -26,34 +27,38 @@ import '../../modules/klien/screens/job_screen_klien.dart';
 import '../../modules/klien/screens/profile_screen_klien.dart';
 import '../../modules/klien/screens/job_post_first_screen_klien.dart';
 import '../../modules/klien/screens/job_post_second_screen_klien.dart';
+import '../../modules/klien/screens/job_detail_screen_klien.dart';
 
 class AppRouter {
   static final _authListenable = AuthListenable();
 
   static final router = GoRouter(
     initialLocation: '/',
-
     refreshListenable: _authListenable,
 
-    redirect: (context, state) {
+    redirect: (context, state) async {
       final user = FirebaseAuth.instance.currentUser;
+      final isLoggedIn = user != null;
+      final currentPath = state.matchedLocation;
 
-      final authRoutes = [
-        '/',
-        '/sign-in',
-        '/sign-up',
-        '/otp',
-        '/select-role',
-      ];
+      final isAuthRoute = 
+          currentPath == '/' || 
+          currentPath == '/sign-in' || 
+          currentPath == '/sign-up' || 
+          currentPath == '/otp';
 
-      final isAuthRoute = authRoutes.contains(state.matchedLocation);
-
-      if (user == null) {
-        return isAuthRoute ? null : '/sign-in';
+      if (!isLoggedIn) {
+        if (!isAuthRoute) return '/sign-in';
+        return null;
       }
 
+      if (currentPath == '/select-role') return null;
+
       if (isAuthRoute) {
-        return '/freelancer/home'; // nanti bisa role-based
+        final role = await authService.getUserRole(user.uid);
+        if (role == 'Freelancer') return '/freelancer/home';
+        if (role == 'Klien') return '/klien/home';
+        return '/select-role';
       }
 
       return null;
@@ -63,18 +68,9 @@ class AppRouter {
       /// =============================
       /// 🔵 AUTH ROUTES
       /// =============================
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const GetStartedScreen(),
-      ),
-      GoRoute(
-        path: '/sign-in',
-        builder: (context, state) => SignInScreen(),
-      ),
-      GoRoute(
-        path: '/sign-up',
-        builder: (context, state) => SignUpScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const GetStartedScreen()),
+      GoRoute(path: '/sign-in', builder: (context, state) => const SignInScreen()),
+      GoRoute(path: '/sign-up', builder: (context, state) => const SignUpScreen()),
       GoRoute(
         path: '/otp',
         builder: (context, state) {
@@ -82,76 +78,51 @@ class AppRouter {
           return OtpVerificationScreen(contactInfo: contactInfo);
         },
       ),
-      GoRoute(
-        path: '/select-role',
-        builder: (context, state) => SelectRoleScreen(),
-      ),
+      GoRoute(path: '/select-role', builder: (context, state) => const SelectRoleScreen()),
 
       /// =============================
       /// 🟢 FREELANCER ROUTES
       /// =============================
+      GoRoute(path: '/freelancer/home', builder: (context, state) => const HomeScreenFreelancer()),
+      GoRoute(path: '/freelancer/explore', builder: (context, state) => const ExploreScreenFreelancer()),
+      GoRoute(path: '/freelancer/wallet', builder: (context, state) => const WalletScreenFreelancer()),
+      GoRoute(path: '/freelancer/tasks', builder: (context, state) => const TaskListScreen()),
+      GoRoute(path: '/freelancer/profile', builder: (context, state) => const ProfileScreen()),
+      
+      // === UPDATE ROUTE DETAIL FREELANCER ===
       GoRoute(
-        path: '/freelancer/home',
-        builder: (context, state) => const HomeScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/explore',
-        builder: (context, state) => const ExploreScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/wallet',
-        builder: (context, state) => const WalletScreenFreelancer(),
-      ),
-      GoRoute(
-        path: '/freelancer/tasks',
-        builder: (context, state) => const TaskListScreen(),
-      ),
-      GoRoute(
-        path: '/freelancer/profile',
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: '/freelancer/job/:id',
+        path: '/freelancer/job-detail', 
         builder: (context, state) {
-          final jobId = state.pathParameters['id'];
-          return JobDetailScreen(jobId: jobId);
+          // Terima data map dari extra
+          final jobData = state.extra as Map<String, dynamic>? ?? {}; 
+          return JobDetailScreen(jobData: jobData);
         },
       ),
-      GoRoute(
-        path: '/freelancer/task-submission',
-        builder: (context, state) => const TaskSubmissionScreen(),
-      ),
+      
+      GoRoute(path: '/freelancer/task-submission', builder: (context, state) => const TaskSubmissionScreen()),
 
       /// =============================
       /// 🔴 KLIEN ROUTES
       /// =============================
-      GoRoute(
-        path: '/klien/home',
-        builder: (context, state) => const HomeScreenKlien(),
-      ),
-      GoRoute(
-        path: '/klien/explore',
-        builder: (context, state) => const ExploreScreenKlien(),
-      ),
-      GoRoute(
-        path: '/klien/wallet',
-        builder: (context, state) => const WalletScreenKlien(),
-      ),
-      GoRoute(
-        path: '/klien/job',
-        builder: (context, state) => const JobScreenKlien(),
-      ),
-      GoRoute(
-        path: '/klien/profile',
-        builder: (context, state) => const ProfileKlienScreen(),
-      ),
-      GoRoute(
-        path: '/klien/job-post-first',
-        builder: (context, state) => const JobPostFirstScreenKlien(),
-      ),
+      GoRoute(path: '/klien/home', builder: (context, state) => const HomeScreenKlien()),
+      GoRoute(path: '/klien/explore', builder: (context, state) => const ExploreScreenKlien()),
+      GoRoute(path: '/klien/wallet', builder: (context, state) => const WalletScreenKlien()),
+      GoRoute(path: '/klien/job', builder: (context, state) => const JobScreenKlien()),
+      GoRoute(path: '/klien/profile', builder: (context, state) => const ProfileKlienScreen()),
+      GoRoute(path: '/klien/job-post-first', builder: (context, state) => const JobPostFirstScreenKlien()),
       GoRoute(
         path: '/klien/job-post-second',
-        builder: (context, state) => const JobPostSecondScreenKlien(),
+        builder: (context, state) {
+          final dataAwal = state.extra as Map<String, dynamic>? ?? {}; 
+          return JobPostSecondScreenKlien(dataAwal: dataAwal);
+        },
+      ),
+      GoRoute(
+        path: '/klien/job-detail',
+        builder: (context, state) {
+          final jobData = state.extra as Map<String, dynamic>;
+          return JobDetailScreenKlien(jobData: jobData);
+        },
       ),
     ],
   );

@@ -1,11 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:satursun_app/core/services/auth_service.dart';
 
-class SelectRoleScreen extends StatelessWidget {
+class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
 
   @override
+  State<SelectRoleScreen> createState() => _SelectRoleScreenState();
+}
+
+class _SelectRoleScreenState extends State<SelectRoleScreen> {
+  bool _isLoading = false;
+
+  Future<void> _handleRoleSelection(String role) async {
+    setState(() => _isLoading = true);
+    
+    try {
+      final user = authService.currentUser;
+      if (user != null) {
+        // 1. Simpan Role ke Firestore
+        await authService.updateUserRole(user.uid, role);
+
+        // 2. Logout (Sign Out) agar user masuk kembali
+        await authService.signOut();
+
+        if (!mounted) return;
+
+        // 3. Arahkan ke Login
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Akun berhasil dibuat. Silakan login kembali.')),
+        );
+        context.go('/sign-in'); 
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        body: const Center(child: CircularProgressIndicator(color: Colors.white)),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
@@ -26,7 +70,6 @@ class SelectRoleScreen extends StatelessWidget {
             Center(
               child: Text(
                 "Pilih Peran",
-                // MENGGUNAKAN THEME: displayMedium (24) + override color white dan bold
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.surface),
@@ -37,13 +80,11 @@ class SelectRoleScreen extends StatelessWidget {
             Text(
               "Silahkan pilih peran Anda",
               textAlign: TextAlign.center,
-              // MENGGUNAKAN THEME: bodyLarge (14) + override size 16 dan color white70
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70, fontSize: 16),
             ),
             Text(
               "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
               textAlign: TextAlign.center,
-              // MENGGUNAKAN THEME: bodyLarge (14) + override color white70
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white70),
             ),
             const SizedBox(height: 40),
@@ -64,13 +105,7 @@ class SelectRoleScreen extends StatelessWidget {
 
   Widget _buildRoleCard(BuildContext context, String iconPath, String role) {
     return GestureDetector(
-      onTap: () {
-        if (role == "Freelancer") {
-        context.go('/sign-in');
-        } else {
-          context.go('/sign-in');
-        }
-      },
+      onTap: () => _handleRoleSelection(role),
       child: Card(
         color: Theme.of(context).colorScheme.surface,
         elevation: 4,
@@ -91,7 +126,6 @@ class SelectRoleScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 role,
-                // MENGGUNAKAN THEME: titleLarge (18) + override color black dan bold
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface),
