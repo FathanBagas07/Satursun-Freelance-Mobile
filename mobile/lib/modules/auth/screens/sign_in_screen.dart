@@ -113,7 +113,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           final email = _emailController.text.trim();
                           final password = _passwordController.text.trim();
 
-                          await authService.signUpWithEmail(
+                          await authService.signInWithEmail(
                             email: email,
                             password: password,
                           );
