@@ -7,12 +7,10 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Stream user untuk refresh router
   Stream<User?> get userChanges => _auth.authStateChanges();
 
   User? get currentUser => _auth.currentUser;
 
-  // 1. Sign Up (Mendaftar)
   Future<User?> signUpWithEmail({
     required String email,
     required String password,
@@ -24,7 +22,6 @@ class AuthService {
     return cred.user;
   }
 
-  // 2. Simpan Data User Baru ke Firestore
   Future<void> saveUserData({
     required String uid,
     required String firstName,
@@ -38,18 +35,16 @@ class AuthService {
       'username': username,
       'email': email,
       'createdAt': FieldValue.serverTimestamp(),
-      'role': '', // Role kosong saat awal daftar
+      'role': '',
     });
   }
 
-  // 3. Update Role User (Dipanggil di Select Role Screen)
   Future<void> updateUserRole(String uid, String role) async {
     await _firestore.collection('users').doc(uid).update({
       'role': role,
     });
   }
 
-  // 4. Ambil Role User (Dipanggil saat Sign In)
   Future<String?> getUserRole(String uid) async {
     try {
       DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();
@@ -64,7 +59,6 @@ class AuthService {
     }
   }
 
-  // 5. Sign In (Masuk)
   Future<User?> signInwithEmail({
     required String email,
     required String password,
@@ -76,7 +70,6 @@ class AuthService {
     return credential.user;
   }
 
-  // 6. Sign In Google
   Future<User?> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return null;
@@ -89,7 +82,6 @@ class AuthService {
 
     final userCred = await _auth.signInWithCredential(credential);
 
-    // Cek apakah user baru, jika ya simpan data dasar ke Firestore
     if (userCred.additionalUserInfo?.isNewUser ?? false) {
       await saveUserData(
         uid: userCred.user!.uid,
@@ -103,13 +95,11 @@ class AuthService {
     return userCred.user;
   }
 
-  // 7. Sign Out
   Future<void> signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
 
-  // Ambil Firebase ID token
   Future<String?> getIdToken() async {
     final user = _auth.currentUser;
     if (user == null) return null;

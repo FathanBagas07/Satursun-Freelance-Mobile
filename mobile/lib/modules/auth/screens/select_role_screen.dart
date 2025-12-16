@@ -18,15 +18,12 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
     try {
       final user = authService.currentUser;
       if (user != null) {
-        // 1. Simpan Role ke Firestore
         await authService.updateUserRole(user.uid, role);
 
-        // 2. Logout (Sign Out) agar user masuk kembali
         await authService.signOut();
 
         if (!mounted) return;
 
-        // 3. Arahkan ke Login
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Akun berhasil dibuat. Silakan login kembali.')),
         );
