@@ -14,8 +14,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   // Controller form
-  final TextEditingController _ =
-      TextEditingController(); // Ini untuk Email
+  final TextEditingController _ = TextEditingController(); // Ini untuk Email
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -259,19 +258,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onPressed: () async {
                 try {
                   await authService.signInWithGoogle();
-
-                  if (!context.mounted) return;
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Login berhasil, silakan login ulang'),
-                    ),
-                  );
                 } catch (e) {
                   if (!context.mounted) return;
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(e.toString())));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Login Google gagal')),
+                  );
                 }
               },
 
