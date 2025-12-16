@@ -231,26 +231,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               onPressed: () async {
-                  try {
-                    User? user = await authService.signInWithGoogle();
-                    if (user != null && context.mounted) {
-                      // Cek jika belum punya role, arahkan ke select role
-                      String? role = await authService.getUserRole(user.uid);
-                      if (role == null || role.isEmpty) {
-                        context.go('/select-role');
-                      } else {
-                        // Jika sudah ada role, logout agar login ulang sesuai flow
-                        await authService.signOut();
-                        if (context.mounted) context.go('/sign-in');
-                      }
-                    }
-                  } on FirebaseAuthException catch (e) {
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(e.message ?? 'Google Sign Up Gagal')),
-                    );
-                  }
+                try {
+                  await authService.loginProcessThenLogout();
+              
+                  if (!context.mounted) return;
+              
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Login berhasil, silakan login ulang'),
+                    ),
+                  );
+                } catch (e) {
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString())),
+                  );
+                }
               },
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
