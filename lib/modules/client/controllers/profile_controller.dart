@@ -6,14 +6,13 @@ class ProfileController extends ChangeNotifier {
 
   ProfileController(this._service);
 
-  bool loading = true;
-  String fullName = '';
-  String role = '';
+  bool isLoading = true;
+  String fullName = 'Memuat...';
+  String role = 'Klien';
   String? photoUrl;
 
-  /// 🔹 Ambil data user
   Future<void> loadProfile() async {
-    loading = true;
+    isLoading = true;
     notifyListeners();
 
     final data = await _service.fetchUserProfile();
@@ -21,22 +20,14 @@ class ProfileController extends ChangeNotifier {
       final first = data['firstName'] ?? '';
       final last = data['lastName'] ?? '';
 
-      fullName = '$first $last'.trim().isEmpty
-          ? 'User Tanpa Nama'
-          : '$first $last'.trim();
+      fullName =
+          '$first $last'.trim().isEmpty ? 'User Tanpa Nama' : '$first $last';
 
       role = data['role'] ?? 'Klien';
       photoUrl = data['photoUrl'];
     }
 
-    loading = false;
-    notifyListeners();
-  }
-
-  /// 🔹 Update foto + refresh state
-  Future<void> setProfilePhoto(String url) async {
-    await _service.updateProfilePhoto(url);
-    photoUrl = url;
+    isLoading = false;
     notifyListeners();
   }
 }

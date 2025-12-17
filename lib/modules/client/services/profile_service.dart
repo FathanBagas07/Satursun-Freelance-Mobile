@@ -12,14 +12,4 @@ class ProfileService {
     final doc = await _firestore.collection('users').doc(user.uid).get();
     return doc.data();
   }
-
-  Future<void> updateProfilePhoto(String photoUrl) async {
-    final user = _auth.currentUser;
-    if (user == null) return;
-
-    await _firestore.collection('users').doc(user.uid).update({
-      'photoUrl': photoUrl,
-      'updatedAt': FieldValue.serverTimestamp(),
-    });
-  }
 }
