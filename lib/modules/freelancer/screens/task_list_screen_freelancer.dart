@@ -7,14 +7,19 @@ import '../../../core/widgets/custom_bottom_nav_bar.dart';
 const Color _saturSunGreen = Color(0xFF4CAF50); 
 const Color _saturSunYellow = Color(0xFFFFC107); 
 
-class TaskListScreen extends StatefulWidget {
-  const TaskListScreen({super.key});
+class TaskListScreenFreelancer extends StatefulWidget {
+  const TaskListScreenFreelancer({super.key});
 
   @override
-  State<TaskListScreen> createState() => _TaskListScreenState();
+  State<TaskListScreenFreelancer> createState() => _TaskListScreenFreelancerState();
 }
 
-class _TaskListScreenState extends State<TaskListScreen> {
+class _TaskListScreenFreelancerState extends State<TaskListScreenFreelancer> {
+  // State untuk menyimpan nilai pencarian
+  String _searchName = '';
+  String _searchLocation = '';
+  String _searchMinPrice = '';
+
   String _formatRupiah(dynamic price) {
     if (price == null) return "Rp 0";
     String priceStr = price.toString();
@@ -22,11 +27,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
     return "Rp ${cleanPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
   }
 
+  int _parsePrice(dynamic price) {
+    if (price == null) return 0;
+    String priceStr = price.toString().replaceAll(RegExp(r'[^0-9]'), '');
+    return int.tryParse(priceStr) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          // Background Gradient (Tetap sama)
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -40,7 +52,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
           _buildBody(context),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 2), // Index Task List
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3), // Index Task List
     );
   }
 
@@ -55,13 +67,42 @@ class _TaskListScreenState extends State<TaskListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                _buildFilterButton(context, icon: Icons.calendar_today, label: 'Semua Pekerjaan', onTap: () {}),
+                // INPUT 1: Nama Proyek (Langsung ketik)
+                // Menggantikan "Semua Pekerjaan"
+                _buildSearchInput(
+                  context,
+                  icon: Icons.search,
+                  hint: 'Cari Nama Proyek...',
+                  isWide: true, // Agar ada border seperti desain awal
+                  onChanged: (val) => setState(() => _searchName = val),
+                ),
+                
                 const SizedBox(height: 15),
+                
                 Row(
                   children: [
-                    Expanded(child: _buildFilterButton(context, icon: Icons.location_on, label: 'Lokasi: USU Medan', onTap: () {})),
+                    // INPUT 2: Lokasi (Langsung ketik)
+                    Expanded(
+                      child: _buildSearchInput(
+                        context,
+                        icon: Icons.location_on,
+                        hint: 'Cari Lokasi...',
+                        isWide: false, // Menyesuaikan style baris kedua
+                        onChanged: (val) => setState(() => _searchLocation = val),
+                      ),
+                    ),
                     const SizedBox(width: 10),
-                    Expanded(child: _buildFilterButton(context, icon: Icons.account_balance_wallet_outlined, label: 'Harga: Rp 25k - 100k', onTap: () {})),
+                    // INPUT 3: Harga (Langsung ketik)
+                    Expanded(
+                      child: _buildSearchInput(
+                        context,
+                        icon: Icons.account_balance_wallet_outlined,
+                        hint: 'Min Harga...',
+                        isWide: false,
+                        isNumber: true,
+                        onChanged: (val) => setState(() => _searchMinPrice = val),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -71,6 +112,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
           
           _buildTaskHeader(context, 'Tugas Aktif'),
           
+          // StreamBuilder dengan Logika Search
           StreamBuilder<QuerySnapshot>(
             stream: jobService.getActiveTasksStream(),
             builder: (context, snapshot) {
@@ -78,7 +120,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 return const Center(child: CircularProgressIndicator(color: Colors.white));
               }
               
-              // Tampilkan Error jika ada (untuk debugging)
               if (snapshot.hasError) {
                 return Padding(
                   padding: const EdgeInsets.all(20), 
@@ -93,10 +134,43 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 );
               }
 
+              // === LOGIKA FILTER DI SINI ===
+              var filteredDocs = snapshot.data!.docs.where((doc) {
+                var data = doc.data() as Map<String, dynamic>;
+                
+                // Filter Nama
+                String title = (data['title'] ?? '').toString().toLowerCase();
+                if (_searchName.isNotEmpty && !title.contains(_searchName.toLowerCase())) {
+                  return false;
+                }
+
+                // Filter Lokasi
+                String location = (data['location'] ?? '').toString().toLowerCase();
+                if (_searchLocation.isNotEmpty && !location.contains(_searchLocation.toLowerCase())) {
+                  return false;
+                }
+
+                // Filter Harga
+                if (_searchMinPrice.isNotEmpty) {
+                  int budget = _parsePrice(data['budget']);
+                  int minBudget = int.tryParse(_searchMinPrice) ?? 0;
+                  if (budget < minBudget) {
+                    return false;
+                  }
+                }
+                return true;
+              }).toList();
+
+              if (filteredDocs.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text("Tidak ada tugas yang cocok", style: TextStyle(color: Colors.black)),
+                );
+              }
+
               return Column(
-                children: snapshot.data!.docs.map((doc) {
+                children: filteredDocs.map((doc) {
                   final data = doc.data() as Map<String, dynamic>;
-                  // Sisipkan ID dokumen
                   final fullData = {...data, 'id': doc.id};
                   
                   return _buildTaskCard(
@@ -107,7 +181,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                     progress: 0.0,
                     progressLabel: '0% Selesai',
                     isComplete: false,
-                    taskData: fullData, // Pass data ini
+                    taskData: fullData, 
                   );
                 }).toList(),
               );
@@ -130,8 +204,17 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 );
               }
 
+              // Opsional: Filter juga untuk tugas selesai
+              var filteredDocs = snapshot.data!.docs.where((doc) {
+                var data = doc.data() as Map<String, dynamic>;
+                String title = (data['title'] ?? '').toString().toLowerCase();
+                if (_searchName.isNotEmpty && !title.contains(_searchName.toLowerCase())) return false;
+                // Tambahkan filter lain jika perlu
+                return true;
+              }).toList();
+
               return Column(
-                children: snapshot.data!.docs.map((doc) {
+                children: filteredDocs.map((doc) {
                   final data = doc.data() as Map<String, dynamic>;
                   return _buildTaskCard(
                     context, 
@@ -168,17 +251,59 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 Text('SaturSun Freelance', style: textTheme.titleLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.surface)),
               ],
             ),
-            Padding(padding: const EdgeInsets.only(left: 20.0, top: 5), child: Text('Daftar Tugas', style: textTheme.displayMedium!.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.surface))),
+            Padding(padding: const EdgeInsets.only(left: 20.0, top: 5), child: Text('Daftar Tugas', style: textTheme.displayMedium!.copyWith(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.onSurface))),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildFilterButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
-    final bool isWide = !label.contains(':');
-    final textTheme = Theme.of(context).textTheme;
-    return Material(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(15), child: InkWell(onTap: onTap, borderRadius: BorderRadius.circular(15), child: Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12), decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: isWide ? Border.all(color: Colors.grey[300]!) : null), child: Row(mainAxisAlignment: isWide ? MainAxisAlignment.start : MainAxisAlignment.center, children: [Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20), if (isWide) const SizedBox(width: 10), Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis))]))));
+  // --- Widget PENCARIAN BARU (Menggantikan _buildFilterButton) ---
+  // Didesain agar terlihat SAMA PERSIS dengan tombol sebelumnya, tapi ini adalah TextField
+  Widget _buildSearchInput(
+    BuildContext context, {
+    required IconData icon,
+    required String hint,
+    required Function(String) onChanged,
+    required bool isWide,
+    bool isNumber = false,
+  }) {
+    return Container(
+      // Styling container sama persis dengan desain tombol sebelumnya
+      padding: const EdgeInsets.symmetric(horizontal: 10), // Padding vertikal diatur di TextField contentPadding
+      height: 48, // Tinggi disesuaikan agar pas dengan desain sebelumnya
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(15),
+        // Logic border sama: Jika wide (atas) pakai border grey, jika tidak (bawah) tidak pakai (atau sesuaikan)
+        // Agar terlihat konsisten sebagai input, saya sarankan semua pakai border tipis
+        border: Border.all(color: Colors.grey[300]!), 
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
+          if (isWide) const SizedBox(width: 10) else const SizedBox(width: 5),
+          Expanded(
+            child: TextField(
+              onChanged: onChanged,
+              keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 14, 
+                fontWeight: FontWeight.w600
+              ),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: TextStyle(fontSize: 13, color: Colors.grey[500], fontWeight: FontWeight.normal),
+                border: InputBorder.none, // Hilangkan border bawaan TextField
+                contentPadding: const EdgeInsets.only(bottom: 2), // Penyesuaian posisi teks vertikal
+                isDense: true,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildTaskHeader(BuildContext context, String title) {
