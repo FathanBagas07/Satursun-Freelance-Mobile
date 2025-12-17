@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/widgets/custom_bottom_nav_bar_klien.dart';
 
 class ExploreScreenKlien extends StatefulWidget {
@@ -11,68 +13,11 @@ class ExploreScreenKlien extends StatefulWidget {
 class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
   bool smartFilter = true;
 
-  // Variabel untuk menampung input pencarian
+  // Variabel Pencarian
   String _keywordName = "";
+  // Variabel Lokasi & Skill (Dummy/Visual Saja)
   String _keywordLocation = "";
   String _keywordSkill = "";
-
-  // Data Master (Ditambah field 'location')
-  final List<Map<String, dynamic>> freelancers = [
-    {
-      "name": "Alfatan",
-      "skill": "Web & Mobile Dev",
-      "location": "Medan",
-      "image": "assets/freelancer_icon.png",
-      "progress": 0.90,
-    },
-    {
-      "name": "Rezky",
-      "skill": "AI Development",
-      "location": "Jakarta",
-      "image": "assets/freelancer_icon.png",
-      "progress": 0.85,
-    },
-    {
-      "name": "Arya",
-      "skill": "Web Development",
-      "location": "Medan",
-      "image": "assets/freelancer_icon.png",
-      "progress": 0.70,
-    },
-    {
-      "name": "Nowel",
-      "skill": "UI/UX Design",
-      "location": "Bandung",
-      "image": "assets/freelancer_icon.png",
-      "progress": 0.60,
-    },
-  ];
-
-  List<Map<String, dynamic>> _foundFreelancers = [];
-
-  @override
-  void initState() {
-    _foundFreelancers = freelancers;
-    super.initState();
-  }
-
-  // Fungsi Filter Gabungan (Nama + Lokasi + Skill)
-  void _runFilter() {
-    List<Map<String, dynamic>> results = [];
-    
-    results = freelancers.where((user) {
-      final nameMatch = user["name"].toLowerCase().contains(_keywordName.toLowerCase());
-      final locationMatch = user["location"].toLowerCase().contains(_keywordLocation.toLowerCase());
-      final skillMatch = user["skill"].toLowerCase().contains(_keywordSkill.toLowerCase());
-
-      // Tampilkan jika semua kriteria cocok (Logic AND)
-      return nameMatch && locationMatch && skillMatch;
-    }).toList();
-
-    setState(() {
-      _foundFreelancers = results;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +25,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       bottomNavigationBar: const CustomBottomNavBarClient(currentIndex: 1),
       body: Stack(
         children: [
-          // Background Gradient
+          // ==============================
+          // BACKGROUND GRADIENT
+          // ==============================
           Container(
             height: 240,
             decoration: const BoxDecoration(
@@ -102,12 +49,12 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
                   _buildHeader(),
                   const SizedBox(height: 16),
                   
-                  // Search Bar Utama (Nama)
+                  // Search Bar Utama
                   _buildMainSearchBar(),
                   
                   const SizedBox(height: 16),
                   
-                  // Filter Card (Lokasi & Skill Input)
+                  // Filter Card (Visual Saja)
                   _buildFilterInputCard(),
 
                   const SizedBox(height: 24),
@@ -122,16 +69,85 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
 
                   const SizedBox(height: 12),
 
-                  // List Hasil
-                  Column(
-                    children: _foundFreelancers.isNotEmpty
-                        ? _foundFreelancers.map((f) => _buildFreelancerItem(f)).toList()
-                        : [
-                            const Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Center(child: Text("Freelancer tidak ditemukan")),
-                            )
-                          ],
+                  // ==============================
+                  // STREAM BUILDER (PERBAIKAN)
+                  // ==============================
+                  StreamBuilder<QuerySnapshot>(
+                    // PERBAIKAN: Ambil semua user dulu, filter role dilakukan di bawah
+                    // agar tidak masalah huruf besar/kecil (Freelancer vs freelancer)
+                    stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                    builder: (context, snapshot) {
+                      // 1. Loading
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 50.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      // 2. Error
+                      if (snapshot.hasError) {
+                        return Center(child: Text("Error: ${snapshot.error}"));
+                      }
+
+                      // 3. Logic Filter Data
+                      var docs = snapshot.data?.docs ?? [];
+                      
+                      var filteredList = docs.where((doc) {
+                        var data = doc.data() as Map<String, dynamic>;
+
+                        // A. FILTER ROLE (Case Insensitive)
+                        // Pastikan role ada, ubah ke string, lalu kecilkan hurufnya
+                        String role = (data['role'] ?? '').toString().toLowerCase();
+                        // Hanya ambil jika role mengandung kata 'freelancer'
+                        if (!role.contains('freelancer')) {
+                          return false; 
+                        }
+
+                        // B. FILTER NAMA (Pencarian)
+                        String firstName = (data['firstName'] ?? '').toString();
+                        String lastName = (data['lastName'] ?? '').toString();
+                        String fullName = "$firstName $lastName".trim();
+                        if (fullName.isEmpty) fullName = (data['name'] ?? '').toString();
+
+                        // Cek kecocokan nama dengan input pencarian
+                        bool nameMatch = fullName.toLowerCase().contains(_keywordName.toLowerCase());
+
+                        return nameMatch;
+                      }).toList();
+
+                      // 4. Jika Kosong
+                      if (filteredList.isEmpty) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(40.0),
+                          child: Column(
+                            children: [
+                              Icon(Icons.person_search_outlined, size: 60, color: Colors.grey[300]),
+                              const SizedBox(height: 10),
+                              Text(
+                                "Freelancer tidak ditemukan",
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                "(Pastikan ada user dengan role 'freelancer' di Database)",
+                                style: TextStyle(fontSize: 10, color: Colors.grey[400]),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      // 5. Tampilkan Hasil
+                      return Column(
+                        children: filteredList.map((doc) {
+                          var data = doc.data() as Map<String, dynamic>;
+                          return _buildFreelancerItem(data);
+                        }).toList(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -148,16 +164,16 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home-klien', (route) => false),
+            onTap: () => context.go('/klien/home'),
             child: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface, size: 26),
           ),
           const SizedBox(width: 12),
-          Text(
+          const Text(
             "Satursun Freelance",
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: Colors.black, // Hitam
               fontSize: 22,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold, // Bold
             ),
           ),
         ],
@@ -165,7 +181,6 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
     );
   }
 
-  // 1. Search Bar Utama (Nama)
   Widget _buildMainSearchBar() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -175,7 +190,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -183,8 +198,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       ),
       child: TextField(
         onChanged: (value) {
-          _keywordName = value;
-          _runFilter();
+          setState(() {
+            _keywordName = value;
+          });
         },
         decoration: const InputDecoration(
           border: InputBorder.none,
@@ -196,7 +212,6 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
     );
   }
 
-  // 2. Filter Card (Input Lokasi & Skill)
   Widget _buildFilterInputCard() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -206,7 +221,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -219,7 +234,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Filter Pintar",
+                "Filter Detail",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Switch(
@@ -230,30 +245,24 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
             ],
           ),
           const SizedBox(height: 16),
-          
-          // Row Input Lokasi & Skill
           Row(
             children: [
-              // Input Lokasi
               Expanded(
                 child: _buildInputBox(
                   icon: Icons.location_on_outlined,
                   hint: "Cari Lokasi...",
                   onChanged: (val) {
-                    _keywordLocation = val;
-                    _runFilter();
+                    setState(() => _keywordLocation = val);
                   },
                 ),
               ),
               const SizedBox(width: 12),
-              // Input Skill
               Expanded(
                 child: _buildInputBox(
                   icon: Icons.badge_rounded,
                   hint: "Cari Skill...",
                   onChanged: (val) {
-                    _keywordSkill = val;
-                    _runFilter();
+                    setState(() => _keywordSkill = val);
                   },
                 ),
               ),
@@ -264,7 +273,6 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
     );
   }
 
-  // Widget Input Kecil di dalam Filter Card
   Widget _buildInputBox({
     required IconData icon, 
     required String hint, 
@@ -274,7 +282,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
+        border: Border.all(color: Colors.grey.withOpacity(0.3)),
       ),
       child: Row(
         children: [
@@ -297,7 +305,37 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
     );
   }
 
-  Widget _buildFreelancerItem(Map<String, dynamic> f) {
+  Widget _buildFreelancerItem(Map<String, dynamic> data) {
+    // 1. Ambil Nama (Gabungan firstName + lastName)
+    String firstName = (data['firstName'] ?? '').toString();
+    String lastName = (data['lastName'] ?? '').toString();
+    String fullName = "$firstName $lastName".trim();
+    if (fullName.isEmpty) fullName = (data['name'] ?? 'Tanpa Nama').toString();
+
+    // 2. Skill & Lokasi (Dummy jika kosong agar tampilan tidak rusak)
+    String skill = (data['skill'] != null && data['skill'].toString().isNotEmpty) 
+        ? data['skill'] 
+        : 'Freelancer'; 
+    
+    String location = (data['location'] != null && data['location'].toString().isNotEmpty)
+        ? data['location']
+        : 'Indonesia';
+
+    // 3. Rating (Dummy)
+    double progress = 0.8;
+    if (data['rating'] != null) {
+      progress = (double.tryParse(data['rating'].toString()) ?? 0.0) / 5.0;
+    }
+
+    // 4. Foto Profil
+    ImageProvider imageProvider;
+    String? photoUrl = data['photo_url'];
+    if (photoUrl != null && photoUrl.isNotEmpty && photoUrl.startsWith('http')) {
+      imageProvider = NetworkImage(photoUrl);
+    } else {
+      imageProvider = const AssetImage("assets/freelancer_icon.png");
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       padding: const EdgeInsets.all(12),
@@ -306,7 +344,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           )
@@ -316,7 +354,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         children: [
           CircleAvatar(
             radius: 28,
-            backgroundImage: AssetImage(f["image"]),
+            backgroundColor: Colors.grey[200],
+            backgroundImage: imageProvider,
+            onBackgroundImageError: (_, __) {},
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -324,12 +364,12 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  f["name"],
+                  fullName,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  "${f["skill"]} • ${f["location"]}", // Tampilkan Lokasi juga
+                  "$skill • $location",
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -338,7 +378,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
-                    value: f["progress"],
+                    value: progress,
                     minHeight: 5,
                     color: Theme.of(context).colorScheme.secondary,
                     backgroundColor: Colors.grey[200],
