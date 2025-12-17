@@ -1,22 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:io';
-import 'package:satursun_app/core/services/storage_service.dart';
 
 class ProfileService {
-  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  final _storageService = StorageService();
+  final _firestore = FirebaseFirestore.instance;
 
-  Future<String> updateProfilePhoto(File image) async {
-    final uid = _auth.currentUser!.uid;
+  Future<Map<String, dynamic>?> fetchUserProfile() async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
 
-    final photoUrl = await _storageService.uploadProfilePhoto(image);
+    final doc = await _firestore.collection('users').doc(user.uid).get();
+    return doc.data();
+  }
 
-    await _firestore.collection('users').doc(uid).update({
+  Future<void> updateProfilePhoto(String photoUrl) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).update({
       'photoUrl': photoUrl,
+      'updatedAt': FieldValue.serverTimestamp(),
     });
-
-    return photoUrl;
   }
 }
