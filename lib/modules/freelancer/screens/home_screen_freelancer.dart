@@ -58,7 +58,7 @@ class HomeScreenFreelancer extends StatelessWidget {
                       children: [
                         Image.asset(
                           'assets/logo.png',
-                          height: 30,
+                          height: 100,
                           errorBuilder: (c, e, s) => Text(
                             "SATURSUN",
                             style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
