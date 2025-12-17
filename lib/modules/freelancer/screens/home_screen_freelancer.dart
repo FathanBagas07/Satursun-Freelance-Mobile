@@ -89,7 +89,7 @@ class HomeScreenFreelancer extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         // Mengubah warna jadi putih agar terlihat di background gradient
                         // Atau gunakan onSurface jika background di area ini tertutup container putih
-                        color: Colors.white, 
+                        color: Colors.black, 
                       ),
                     ),
                   ),
@@ -102,7 +102,7 @@ class HomeScreenFreelancer extends StatelessWidget {
                   const SizedBox(height: 20),
                   Padding(
                      padding: const EdgeInsets.only(left: 20.0, bottom: 10),
-                     child: Text("Rekomendasi Lainnya", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                     child: Text("Rekomendasi Lainnya", style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
                   _buildJobCard(
                     context,

@@ -89,7 +89,7 @@ class AppRouter {
       GoRoute(path: '/freelancer/home', builder: (context, state) => const HomeScreenFreelancer()),
       GoRoute(path: '/freelancer/explore', builder: (context, state) => const ExploreScreenFreelancer()),
       GoRoute(path: '/freelancer/wallet', builder: (context, state) => const WalletScreenFreelancer()),
-      GoRoute(path: '/freelancer/tasks', builder: (context, state) => const TaskListScreen()),
+      GoRoute(path: '/freelancer/tasks', builder: (context, state) => const TaskListScreenFreelancer()),
       GoRoute(path: '/freelancer/profile', builder: (context, state) => const ProfileScreen()),
       
       GoRoute(
