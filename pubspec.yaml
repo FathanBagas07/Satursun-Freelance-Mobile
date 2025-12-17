@@ -1,8 +1,7 @@
 name: satursun_app
 description: A Flutter project for Satursun Freelance App
 
-publish_to: 'none' 
-
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -31,11 +30,18 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
 
+# ✅ CONFIG HARUS DI ROOT
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logo.png
+
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/logo.png
 
 flutter:
-
-
   uses-material-design: true
 
   assets:
