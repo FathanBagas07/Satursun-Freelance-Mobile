@@ -181,7 +181,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(26),
-        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 3))],
+        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 6, offset: const Offset(0, 3))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +238,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4), // Adjusted padding for TextField height
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14), 
-        border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3)) // Sedikit transparan agar tidak terlalu tebal
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3)) // Sedikit transparan agar tidak terlalu tebal
       ),
       child: Row(
         children: [
@@ -252,7 +252,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
               decoration: InputDecoration(
                 isDense: true,
                 hintText: hint,
-                hintStyle: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5)),
+                hintStyle: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)),
                 border: InputBorder.none, // Hilangkan garis bawah default TextField
               ),
             )
@@ -269,7 +269,7 @@ class _JobScreenKlienState extends State<JobScreenKlien> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 3))],
+        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 6, offset: const Offset(0, 3))],
         border: Border.all(color: isActive ? Theme.of(context).colorScheme.primary : Colors.grey, width: 1),
       ),
       child: Row(
