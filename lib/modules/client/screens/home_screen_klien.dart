@@ -67,11 +67,11 @@ class _HomeScreenKlienState extends State<HomeScreenKlien> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.assignment_outlined, size: 40, color: Colors.grey[400]),
+                              Icon(Icons.assignment_outlined, size: 40, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)),
                               const SizedBox(height: 8),
                               Text(
                                 "Belum ada proyek aktif",
-                                style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 14),
                               ),
                             ],
                           ),
