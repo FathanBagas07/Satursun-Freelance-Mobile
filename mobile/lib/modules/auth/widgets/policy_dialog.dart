@@ -19,29 +19,29 @@ class PolicyDialog extends StatelessWidget {
     switch (type) {
       case PolicyType.terms:
         return '''
-Selamat datang di Satursun Freelance.
+          Selamat datang di Satursun Freelance.
 
-Dengan menggunakan aplikasi ini, Anda setuju untuk:
-1. Menggunakan layanan secara bertanggung jawab
-2. Tidak menyalahgunakan fitur aplikasi
-3. Menjaga etika dan profesionalisme
-4. Mematuhi hukum yang berlaku
-''';
+          Dengan menggunakan aplikasi ini, Anda setuju untuk:
+          1. Menggunakan layanan secara bertanggung jawab
+          2. Tidak menyalahgunakan fitur aplikasi
+          3. Menjaga etika dan profesionalisme
+          4. Mematuhi hukum yang berlaku
+          ''';
 
       case PolicyType.privacy:
         return '''
-Kami menghargai privasi Anda.
+          Kami menghargai privasi Anda.
 
-Data yang kami kumpulkan:
-- Nama dan email
-- Informasi akun
+          Data yang kami kumpulkan:
+          - Nama dan email
+          - Informasi akun
 
-Data digunakan untuk:
-- Autentikasi pengguna
-- Peningkatan layanan
+          Data digunakan untuk:
+          - Autentikasi pengguna
+          - Peningkatan layanan
 
-Kami tidak membagikan data Anda tanpa izin.
-''';
+          Kami tidak membagikan data Anda tanpa izin.
+          ''';
     }
   }
 
