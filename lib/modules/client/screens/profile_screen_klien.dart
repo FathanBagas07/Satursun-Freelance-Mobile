@@ -165,7 +165,7 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
                       child: SizedBox.shrink(), // Spacer
                     ),
                     PopupMenuItem<String>(
-                      value: 'settings',
+                      value: 'tambahFoto',
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -181,7 +181,7 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
                           ],
                         ),
                         alignment: Alignment.center,
-                        child: const Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: const Text('Tambah Foto', style: TextStyle(fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ],
