@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:satursun_app/modules/auth/services/auth_service.dart';
-import '../../../core/widgets/custom_bottom_nav_bar_klien.dart';
+import 'package:satursun_app/core/widgets/custom_bottom_nav_bar_klien.dart';
 
 class ProfileKlienScreen extends StatefulWidget {
   const ProfileKlienScreen({super.key});
