@@ -45,18 +45,21 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
 
               Text(
                 "Silahkan pilih peran Anda",
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Colors.white70,
-                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold, // ← ini yang membuat bold
                 ),
               ),
+
               Text(
                 "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
-                textAlign: TextAlign.center,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge!.copyWith(color: Colors.white70),
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.surface,
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 40),
 
@@ -68,7 +71,10 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
                     'assets/freelancer_icon.png',
                     "Freelancer",
                   ),
-                  _buildRoleCard(context, 'assets/client_icon.png', "Klien"),
+                  _buildRoleCard(
+                    context, 
+                    'assets/client_icon.png', 
+                    "Klien"),
                 ],
               ),
             ],
@@ -79,47 +85,59 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
   }
 
   Widget _buildRoleCard(BuildContext context, String iconPath, String role) {
-    final messenger = ScaffoldMessenger.of(context);
+  final messenger = ScaffoldMessenger.of(context);
 
-    return GestureDetector(
-      onTap: () async {
-        try {
-          await userService.setRoleOnce(role);
-        } catch (e) {
-          if (!mounted) return;
-          messenger.showSnackBar(SnackBar(content: Text(e.toString())));
-        }
-      },
-      child: Card(
+  return GestureDetector(
+    onTap: () async {
+      try {
+        await userService.setRoleOnce(role);
+      } catch (e) {
+        if (!mounted) return;
+        messenger.showSnackBar(
+          SnackBar(content: Text(e.toString())),
+        );
+      }
+    },
+    child: Container(
+      width: 140,
+      decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-          width: 140,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                iconPath,
-                height: 70,
-                errorBuilder: (c, e, s) =>
-                    const Icon(Icons.person, size: 70, color: Colors.grey),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                role,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              const SizedBox(height: 5),
-              const Icon(Icons.arrow_forward, color: Colors.grey),
-            ],
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.15),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
-        ),
+        ],
       ),
-    );
-  }
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            iconPath,
+            height: 70,
+            errorBuilder: (c, e, s) =>
+                const Icon(Icons.person, size: 70, color: Colors.grey),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            role,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Icon(
+            Icons.arrow_forward,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 }
