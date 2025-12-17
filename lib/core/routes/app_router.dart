@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:satursun_app/core/services/auth_service.dart';
 import 'package:satursun_app/core/services/user_service.dart';
-import 'auth_listenable.dart';
+import '../../modules/auth/services/auth_listenable.dart';
 
 // Auth Screens
 import '../../modules/auth/screens/get_started_screen.dart';
@@ -21,14 +21,14 @@ import '../../modules/freelancer/screens/job_detail_screen.dart';
 import '../../modules/freelancer/screens/task_submission_screen_freelancer.dart';
 
 // Klien Screens
-import '../../modules/klien/screens/home_screen_klien.dart';
-import '../../modules/klien/screens/explore_screen_klien.dart';
-import '../../modules/klien/screens/wallet_screen_klien.dart';
-import '../../modules/klien/screens/job_screen_klien.dart';
-import '../../modules/klien/screens/profile_screen_klien.dart';
-import '../../modules/klien/screens/job_post_first_screen_klien.dart';
-import '../../modules/klien/screens/job_post_second_screen_klien.dart';
-import '../../modules/klien/screens/job_detail_screen_klien.dart';
+import '../../modules/client/screens/home_screen_klien.dart';
+import '../../modules/client/screens/explore_screen_klien.dart';
+import '../../modules/client/screens/wallet_screen_klien.dart';
+import '../../modules/client/screens/job_screen_klien.dart';
+import '../../modules/client/screens/profile_screen_klien.dart';
+import '../../modules/client/screens/job_post_first_screen_klien.dart';
+import '../../modules/client/screens/job_post_second_screen_klien.dart';
+import '../../modules/client/screens/job_detail_screen_klien.dart';
 
 class AppRouter {
   static final _authListenable = AuthListenable();

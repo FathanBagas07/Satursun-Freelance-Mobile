@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/modules/auth/services/auth_service.dart';
 
 class UserService {
   final _db = FirebaseFirestore.instance;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> createUserIfNotExists({
     required String firstName,
@@ -55,6 +56,10 @@ class UserService {
       tx.update(ref, {'role': role});
       await authService.signOut();
     });
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
-import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/modules/auth/services/auth_service.dart';
 import 'package:satursun_app/modules/auth/enums/policy_type.dart';
 import 'package:satursun_app/modules/auth/helpers/policy_dialog_helper.dart';
 
@@ -235,7 +235,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       "Daftar",
                       style: Theme.of(
                         context,
-                      ).textTheme.labelLarge!.copyWith(fontSize: 18),
+                      ).textTheme.labelLarge!.copyWith(
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
             ),
             const SizedBox(height: 25),
