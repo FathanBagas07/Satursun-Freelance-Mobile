@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satursun_app/core/services/user_service.dart';
+import 'package:satursun_app/modules/auth/widgets/role_card.dart';
 
 class SelectRoleScreen extends StatefulWidget {
   const SelectRoleScreen({super.key});
@@ -64,17 +65,37 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
               const SizedBox(height: 40),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildRoleCard(
-                    context,
-                    'assets/freelancer_icon.png',
-                    "Freelancer",
+                  RoleCard(
+                    iconPath: 'assets/icons/freelancer.png',
+                    role: 'Freelancer',
+                    onTap: () async {
+                      final messenger = ScaffoldMessenger.of(context);
+
+                      try {
+                        await userService.setRoleOnce('Freelancer');
+                      } catch (e) {
+                        if (!mounted) return;
+                        messenger.showSnackBar(SnackBar(content: Text(e.toString())));
+                      }
+                    },
                   ),
-                  _buildRoleCard(
-                    context, 
-                    'assets/client_icon.png', 
-                    "Klien"),
+                  const SizedBox(width: 20),
+                  RoleCard(
+                    iconPath: 'assets/icons/client.png',
+                    role: 'Klien',
+                    onTap: () async {
+                      final messenger = ScaffoldMessenger.of(context);
+
+                      try {
+                        await userService.setRoleOnce('Klien');
+                      } catch (e) {
+                        if (!mounted) return;
+                        messenger.showSnackBar(SnackBar(content: Text(e.toString())));
+                      }
+                    },
+                  ),
                 ],
               ),
             ],
@@ -83,61 +104,4 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
       ),
     );
   }
-
-  Widget _buildRoleCard(BuildContext context, String iconPath, String role) {
-  final messenger = ScaffoldMessenger.of(context);
-
-  return GestureDetector(
-    onTap: () async {
-      try {
-        await userService.setRoleOnce(role);
-      } catch (e) {
-        if (!mounted) return;
-        messenger.showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
-      }
-    },
-    child: Container(
-      width: 140,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.15),
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            iconPath,
-            height: 70,
-            errorBuilder: (c, e, s) =>
-                const Icon(Icons.person, size: 70, color: Colors.grey),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            role,
-            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Icon(
-            Icons.arrow_forward,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
 }
