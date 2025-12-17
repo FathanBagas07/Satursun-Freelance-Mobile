@@ -55,14 +55,6 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
     }
   }
 
-  // Fungsi Logout
-  Future<void> _handleLogout() async {
-    await authService.signOut();
-    if (mounted) {
-      context.go('/sign-in');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +127,7 @@ class _ProfileKlienScreenState extends State<ProfileKlienScreen> {
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     if (value == 'logout') {
-                      _handleLogout();
+                      authService.signOut();
                     }
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
