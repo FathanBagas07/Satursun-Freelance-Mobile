@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/policy_dialog.dart';
+import '../widgets/policy_dialog.dart';
 
 class PolicyDialogHelper {
   static void show(

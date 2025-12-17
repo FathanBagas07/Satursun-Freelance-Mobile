@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:satursun_app/core/services/auth_service.dart';
-import 'package:satursun_app/modules/auth/screens/helpers/policy_dialog_helper.dart';
+import 'package:satursun_app/modules/auth/helpers/policy_dialog_helper.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
