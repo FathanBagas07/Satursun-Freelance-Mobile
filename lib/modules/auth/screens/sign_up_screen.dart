@@ -235,7 +235,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       "Daftar",
                       style: Theme.of(
                         context,
-                      ).textTheme.labelLarge!.copyWith(fontSize: 18),
+                      ).textTheme.labelLarge!.copyWith(
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
             ),
             const SizedBox(height: 25),
