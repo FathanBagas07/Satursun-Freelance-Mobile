@@ -11,9 +11,9 @@
 | **Nama Kelompok** | **Ada Apanya** |
 | **Mata Kuliah** | Pemrograman Mobile |
 | **LAB** | [Isi Nomor Lab] |
-| **Anggota 1** | [Bhenarezky Suranta Ginting] (231401003) |
-| **Anggota 2** | [Alfatan Bagas Kurnia] (231401012) |
-| **Anggota 3** | [Aryasatya Wicaksana] (231401114) |
+| **Anggota 1** | Bhenarezky Suranta Ginting (231401003) |
+| **Anggota 2** | Alfatan Bagas Kurnia (231401012) |
+| **Anggota 3** | Aryasatya Wicaksana (231401114) |
 
 ---
 
