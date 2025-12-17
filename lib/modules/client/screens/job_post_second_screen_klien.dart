@@ -114,7 +114,7 @@ class _JobPostSecondScreenKlienState extends State<JobPostSecondScreenKlien> {
         children: [
           _buildField("Deskripsi Pekerjaan", _deskripsiController, maxLines: 5, hint: "Jelaskan detail..."),
           const SizedBox(height: 20),
-          _buildField("Budget Pekerjaan", _budgetController, hint: "Rp 200.000", isNumber: true, icon: Icons.attach_money),
+          _buildField("Bayaran Pekerjaan", _budgetController, hint: "Rp 200.000", isNumber: true, icon: Icons.attach_money),
           const SizedBox(height: 20),
           _buildField("Tenggat Pekerjaan", _tenggatController, hint: "10 Hari", icon: Icons.calendar_today),
         ],
