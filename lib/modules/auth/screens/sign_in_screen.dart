@@ -147,13 +147,14 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 20),
 
               // FORGOT PASSWORD LINK
-              Center(
+              Align(
+                alignment: Alignment.centerLeft,
                 child: Text.rich(
                   TextSpan(
                     text: 'Lupa kata sandi? ',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Ubah Sandi',
@@ -171,8 +172,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ],
                   ),
+                  textAlign: TextAlign.left,
                 ),
               ),
+              const SizedBox(height: 30),
 
               // GOOGLE SIGN IN & REGISTER LINK
               Center(
