@@ -4,8 +4,18 @@ import 'package:go_router/go_router.dart';
 import 'package:satursun_app/core/services/job_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
-class ExploreScreenFreelancer extends StatelessWidget {
+class ExploreScreenFreelancer extends StatefulWidget {
   const ExploreScreenFreelancer({super.key});
+
+  @override
+  State<ExploreScreenFreelancer> createState() => _ExploreScreenFreelancerState();
+}
+
+class _ExploreScreenFreelancerState extends State<ExploreScreenFreelancer> {
+  // State untuk menyimpan nilai pencarian
+  String _searchName = '';
+  String _searchLocation = '';
+  String _searchMinPrice = '';
 
   String _formatRupiah(dynamic price) {
     if (price == null) return "Rp 0";
@@ -14,89 +24,174 @@ class ExploreScreenFreelancer extends StatelessWidget {
     return "Rp ${cleanPrice.replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}";
   }
 
+  // Helper untuk membersihkan format harga menjadi angka murni (int)
+  int _parsePrice(dynamic price) {
+    if (price == null) return 0;
+    String priceStr = price.toString().replaceAll(RegExp(r'[^0-9]'), '');
+    return int.tryParse(priceStr) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      appBar: _buildAppBar(context),
-      body: _buildBody(context),
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Theme.of(context).colorScheme.surface),
-        onPressed: () {
-          context.go('/freelancer/home');
-        },
-      ),
-      title: Text('SaturSun Freelance',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.surface, fontWeight: FontWeight.w600, fontSize: 18)),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          _buildTopSection(context),
-          const SizedBox(height: 20),
-          _buildSectionHeader(context, icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
-          
-          // === STREAM BUILDER DATA ===
-          StreamBuilder<QuerySnapshot>(
-            stream: jobService.getAllJobsStream(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: Padding(padding: EdgeInsets.all(20), child: CircularProgressIndicator()));
-              }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return const Padding(padding: EdgeInsets.all(20), child: Center(child: Text("Belum ada lowongan tersedia")));
-              }
-
-              final docs = snapshot.data!.docs;
-
-              return Column(
-                children: docs.map((doc) {
-                  final data = doc.data() as Map<String, dynamic>;
-                  // Sisipkan ID agar bisa diambil saat detail
-                  final fullData = {...data, 'id': doc.id};
-
-                  return _buildJobRecommendationCard(
-                    context,
-                    fullData: fullData, 
-                    title: data['title'] ?? 'Tanpa Judul',
-                    subtitle: data['category'] ?? 'Umum',
-                    price: _formatRupiah(data['budget']),
-                  );
-                }).toList(),
-              );
-            },
+          // ==============================
+          // 1. BACKGROUND GRADIENT
+          // ==============================
+          Container(
+            height: 240,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF009FFD), Color(0xFF00A3FF)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
           ),
 
-          const SizedBox(height: 20),
-          _buildSectionHeader(context, icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
-          _buildPackageCard(context, title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
-          _buildPackageCard(context, title: 'Tutor 2 Mata Kuliah', originalPrice: 'Rp 120.000', discountedPrice: 'Rp 93.500', discount: '22% off'),
-          const SizedBox(height: 80),
+          // ==============================
+          // 2. KONTEN
+          // ==============================
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 80),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  _buildHeader(context),
+                  const SizedBox(height: 16),
+                  
+                  // Bagian Pencarian (Dulu Filter Pintar)
+                  _buildSearchSection(context),
+                  
+                  const SizedBox(height: 20),
+                  
+                  _buildSectionHeader(context, icon: Icons.star_border, title: 'Rekomendasi untuk Anda', isNew: true),
+                  
+                  // Stream Builder dengan Logika Filter
+                  StreamBuilder<QuerySnapshot>(
+                    stream: jobService.getAllJobsStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: Padding(padding: EdgeInsets.all(20), child: CircularProgressIndicator()));
+                      }
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return const Padding(padding: EdgeInsets.all(20), child: Center(child: Text("Belum ada lowongan tersedia")));
+                      }
+
+                      // LOGIKA SEARCH / FILTERING
+                      var docs = snapshot.data!.docs.where((doc) {
+                        var data = doc.data() as Map<String, dynamic>;
+                        
+                        // 1. Filter Nama Proyek
+                        String title = (data['title'] ?? '').toString().toLowerCase();
+                        if (_searchName.isNotEmpty && !title.contains(_searchName.toLowerCase())) {
+                          return false;
+                        }
+
+                        // 2. Filter Lokasi
+                        // Mengasumsikan field 'location' ada, jika tidak, kita cari di 'category' atau anggap cocok
+                        String location = (data['location'] ?? '').toString().toLowerCase();
+                        if (_searchLocation.isNotEmpty && !location.contains(_searchLocation.toLowerCase())) {
+                          return false;
+                        }
+
+                        // 3. Filter Harga Minimal
+                        if (_searchMinPrice.isNotEmpty) {
+                          int budget = _parsePrice(data['budget']);
+                          int minBudget = int.tryParse(_searchMinPrice) ?? 0;
+                          if (budget < minBudget) {
+                            return false;
+                          }
+                        }
+
+                        return true;
+                      }).toList();
+
+                      if (docs.isEmpty) {
+                         return Container(
+                           padding: const EdgeInsets.all(20),
+                           alignment: Alignment.center,
+                           child: Column(
+                             children: [
+                               Icon(Icons.search_off, size: 50, color: Colors.grey[400]),
+                               const SizedBox(height: 10),
+                               Text("Proyek tidak ditemukan", style: TextStyle(color: Colors.grey[600])),
+                             ],
+                           ),
+                         );
+                      }
+
+                      return Column(
+                        children: docs.map((doc) {
+                          final data = doc.data() as Map<String, dynamic>;
+                          final fullData = {...data, 'id': doc.id};
+
+                          return _buildJobRecommendationCard(
+                            context,
+                            fullData: fullData, 
+                            title: data['title'] ?? 'Tanpa Judul',
+                            subtitle: data['category'] ?? 'Umum',
+                            price: _formatRupiah(data['budget']),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+                  _buildSectionHeader(context, icon: Icons.bookmark_outline, title: 'Paket Lainnya', isNew: false),
+                  _buildPackageCard(context, title: 'Tutor 3 Mata Kuliah', originalPrice: 'Rp 150.000', discountedPrice: 'Rp 120.000', discount: '20% off'),
+                  _buildPackageCard(context, title: 'Tutor 2 Mata Kuliah', originalPrice: 'Rp 120.000', discountedPrice: 'Rp 93.500', discount: '22% off'),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  // Desain Asli Anda
-  Widget _buildTopSection(BuildContext context) {
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () => context.go('/freelancer/home'),
+            child: const Icon(Icons.arrow_back, color: Colors.white, size: 26),
+          ),
+          const SizedBox(width: 12),
+          const Text(
+            "SaturSun Freelance",
+            style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // WIDGET FILTER / SEARCH (MODIFIKASI UTAMA)
+  Widget _buildSearchSection(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+        borderRadius: BorderRadius.circular(20), 
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,18 +199,44 @@ class ExploreScreenFreelancer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Filter Pintar', style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Cari Proyek', style: textTheme.bodyLarge!.copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
               Switch(value: true, onChanged: (bool value) {}, activeThumbColor: Theme.of(context).colorScheme.surface, activeTrackColor: Theme.of(context).colorScheme.secondary, inactiveThumbColor: Colors.grey),
             ],
           ),
           const SizedBox(height: 15),
-          _buildFilterButton(context, icon: Icons.calendar_today, label: 'Hanya Akhir Pekan', onTap: () {}),
+          
+          // 1. Input Nama Proyek (Pengganti "Hanya Akhir Pekan")
+          _buildSearchInput(
+            context,
+            icon: Icons.search,
+            hint: 'Cari Nama Proyek...',
+            onChanged: (val) => setState(() => _searchName = val),
+          ),
+          
           const SizedBox(height: 15),
+          
           Row(
             children: [
-              Expanded(child: _buildFilterButton(context, icon: Icons.location_on, label: 'Lokasi: USU Medan', onTap: () {})),
+              // 2. Input Lokasi (Pengganti Tombol Lokasi)
+              Expanded(
+                child: _buildSearchInput(
+                  context,
+                  icon: Icons.location_on,
+                  hint: 'Cari Lokasi...',
+                  onChanged: (val) => setState(() => _searchLocation = val),
+                ),
+              ),
               const SizedBox(width: 10),
-              Expanded(child: _buildFilterButton(context, icon: Icons.account_balance_wallet_outlined, label: 'Harga: Rp 25k - 100k', onTap: () {})),
+              // 3. Input Harga Minimal (Pengganti Tombol Harga)
+              Expanded(
+                child: _buildSearchInput(
+                  context,
+                  icon: Icons.monetization_on_outlined,
+                  hint: 'Min Harga...',
+                  inputType: TextInputType.number,
+                  onChanged: (val) => setState(() => _searchMinPrice = val),
+                ),
+              ),
             ],
           ),
         ],
@@ -123,30 +244,32 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
-    final bool isWide = !label.contains(':');
-    final textTheme = Theme.of(context).textTheme;
-
-    return Material(
-      color: isWide ? Theme.of(context).colorScheme.surface : Theme.of(context).colorScheme.onPrimary,
-      borderRadius: BorderRadius.circular(15),
-      child: InkWell(
-        onTap: onTap,
+  // Widget Input Reusable yang didesain mirip tombol sebelumnya
+  Widget _buildSearchInput(
+    BuildContext context, {
+    required IconData icon,
+    required String hint,
+    required Function(String) onChanged,
+    TextInputType inputType = TextInputType.text,
+  }) {
+    // Styling konsisten dengan tombol sebelumnya: Border Abu-abu tipis & Background Putih
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: isWide ? Border.all(color: Colors.grey[300]!) : null,
-          ),
-          child: Row(
-            mainAxisAlignment: isWide ? MainAxisAlignment.start : MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
-              if (isWide) const SizedBox(width: 10),
-              Flexible(child: Text(label, style: textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
-            ],
-          ),
+        border: Border.all(color: Colors.grey[300]!), // Border konsisten
+      ),
+      child: TextField(
+        onChanged: onChanged,
+        keyboardType: inputType,
+        style: const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.w600),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(icon, color: Colors.black, size: 20),
+          hintText: hint,
+          hintStyle: TextStyle(fontSize: 12, color: Colors.grey[500]),
+          isDense: true,
         ),
       ),
     );
@@ -175,7 +298,6 @@ class ExploreScreenFreelancer extends StatelessWidget {
     );
   }
 
-  // DESAIN KARTU TETAP SAMA, DITAMBAH ONTAP
   Widget _buildJobRecommendationCard(BuildContext context, {
     required Map<String, dynamic> fullData, 
     required String title, 
@@ -193,7 +315,13 @@ class ExploreScreenFreelancer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15), 
+              blurRadius: 10, 
+              offset: const Offset(0, 4)
+            )
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,7 +351,13 @@ class ExploreScreenFreelancer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05), blurRadius: 5, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15), 
+            blurRadius: 10, 
+            offset: const Offset(0, 4)
+          )
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
