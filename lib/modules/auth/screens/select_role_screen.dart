@@ -24,58 +24,55 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Image.asset('assets/logo.png', height: 40),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Text(
-                "Pilih Peran",
-                style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.surface,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 40),
+              Center(child: Image.asset('assets/logo.png', height: 170)),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Pilih Peran",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
+              const SizedBox(height: 30),
 
-            Text(
-              "Silahkan pilih peran Anda",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.white70,
-                fontSize: 16,
+              Text(
+                "Silahkan pilih peran Anda",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Colors.white70,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            Text(
-              "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
-              textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge!.copyWith(color: Colors.white70),
-            ),
-            const SizedBox(height: 40),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildRoleCard(
+              Text(
+                "Peran yang Anda pilih tidak dapat diganti setelah pendaftaran selesai",
+                textAlign: TextAlign.center,
+                style: Theme.of(
                   context,
-                  'assets/freelancer_icon.png',
-                  "Freelancer",
-                ),
-                _buildRoleCard(context, 'assets/client_icon.png', "Klien"),
-              ],
-            ),
-          ],
+                ).textTheme.bodyLarge!.copyWith(color: Colors.white70),
+              ),
+              const SizedBox(height: 40),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildRoleCard(
+                    context,
+                    'assets/freelancer_icon.png',
+                    "Freelancer",
+                  ),
+                  _buildRoleCard(context, 'assets/client_icon.png', "Klien"),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -90,9 +87,7 @@ class _SelectRoleScreenState extends State<SelectRoleScreen> {
           await userService.setRoleOnce(role);
         } catch (e) {
           if (!mounted) return;
-           messenger.showSnackBar(
-          SnackBar(content: Text(e.toString())),
-          );
+          messenger.showSnackBar(SnackBar(content: Text(e.toString())));
         }
       },
       child: Card(
