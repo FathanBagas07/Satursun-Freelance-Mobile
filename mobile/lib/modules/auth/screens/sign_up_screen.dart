@@ -39,30 +39,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset('assets/logo.png', height: 140),
-      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
             // =====Judul=====
-            Center(
-              child: Text(
-                "Daftar",
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+            const SizedBox(height: 40),
+              Center(child: Image.asset('assets/logo.png', height: 170)),
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  "Daftar",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
             // ===== Form Data =====
             Row(
@@ -316,6 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ],
+          ),
         ),
       ),
     );
