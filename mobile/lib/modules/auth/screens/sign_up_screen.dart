@@ -13,7 +13,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   // Controller form
-  final TextEditingController _emailController = TextEditingController(); // Ini untuk Email
+  final TextEditingController _emailController =
+      TextEditingController(); // Ini untuk Email
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -97,6 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               isPassword: true,
             ),
             const SizedBox(height: 20),
+
             // ===== Checkbox =====
             Row(
               children: [
@@ -124,6 +126,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: Theme.of(context).colorScheme.secondary,
                             fontWeight: FontWeight.bold,
                           ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              PolicyDialogHelper.show(
+                                context,
+                                type: PolicyType.terms,
+                              );
+                            },
                         ),
                         const TextSpan(text: ' dan '),
                         TextSpan(
@@ -132,6 +141,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: Theme.of(context).colorScheme.secondary,
                             fontWeight: FontWeight.bold,
                           ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              PolicyDialogHelper.show(
+                                context,
+                                type: PolicyType.privacy,
+                              );
+                            },
                         ),
                       ],
                     ),
