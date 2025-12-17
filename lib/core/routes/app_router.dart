@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:satursun_app/core/services/auth_service.dart';
 import 'package:satursun_app/core/services/user_service.dart';
-import 'auth_listenable.dart';
+import '../../modules/auth/services/auth_listenable.dart';
 
 // Auth Screens
 import '../../modules/auth/screens/get_started_screen.dart';

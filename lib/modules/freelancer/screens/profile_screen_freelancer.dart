@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:satursun_app/core/services/auth_service.dart';
+import 'package:satursun_app/modules/auth/services/auth_service.dart';
 import '../../../core/widgets/custom_bottom_nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
