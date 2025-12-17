@@ -1,0 +1,4 @@
+enum PolicyType {
+  terms,
+  privacy,
+}
