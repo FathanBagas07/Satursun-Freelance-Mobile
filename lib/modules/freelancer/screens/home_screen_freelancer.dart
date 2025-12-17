@@ -7,90 +7,98 @@ class HomeScreenFreelancer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: _buildAppBar(context),
-      body: _buildBody(context),
+      // Navigasi Bar tetap di bawah
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    // Mengambil style dasar dari tema
-    final textTheme = Theme.of(context).textTheme;
-
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(100.0),
-      child: Container(
-        padding: const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 10),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF8AC1F5), Color(0xFFF8DC99)],
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Image.asset(
-              'assets/logo.png',
-              height: 30,
-              errorBuilder: (c, e, s) => Text(
-                "SATURSUN",
-                style: textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Halo, Saturfren!',
-              // Menggunakan style global (displayMedium biasanya untuk judul besar) tapi di-override sesuai desain asli (24)
-              style: textTheme.bodyLarge!.copyWith(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      
+      // Menggunakan Stack seperti di HomeScreenKlien
+      body: Stack(
         children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Trending Weekend Jobs',
-              style: textTheme.bodyLarge!.copyWith(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                // Menggunakan warna yang sama dengan Klien (Primary -> Secondary)
+                colors: [
+                  Theme.of(context).colorScheme.primary, 
+                  Theme.of(context).colorScheme.secondary
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          _buildTrendingJobsSection(context),
-          const SizedBox(height: 20),
-          _buildJobCard(
-            context,
-            title: 'Tutor Coding ASAP - Bayaran 2x',
-            deadline: null,
+          SafeArea(
+            child: SingleChildScrollView(
+              // Padding bawah besar agar konten tidak tertutup Nav Bar saat di-scroll mentok
+              padding: const EdgeInsets.only(bottom: 120), 
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // --- Header ---
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/logo.png',
+                          height: 30,
+                          errorBuilder: (c, e, s) => Text(
+                            "SATURSUN",
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Halo, Saturfren!',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            // Menggunakan onSurface agar kontras tetap terjaga
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // --- Judul Section ---
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      'Trending Weekend Jobs',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800], // Atau sesuaikan dengan onSurface
+                      ),
+                    ),
+                  ),
+                  
+                  // --- List Horizontal ---
+                  const SizedBox(height: 10),
+                  _buildTrendingJobsSection(context),
+                  
+                  // --- List Vertical (Job Cards) ---
+                  const SizedBox(height: 20),
+                  _buildJobCard(
+                    context,
+                    title: 'Tutor Coding ASAP - Bayaran 2x',
+                    deadline: null,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildJobCard(
+                    context,
+                    title: 'Desain Logo Event',
+                    deadline: 'Deadline jam 23.59 WIB',
+                  ),
+                  
+                ],
+              ),
+            ),
           ),
-          const SizedBox(height: 15),
-          _buildJobCard(
-            context,
-            title: 'Desain Logo Event',
-            deadline: 'Deadline jam 23.59 WIB',
-          ),
-          const SizedBox(height: 20),
         ],
       ),
     );
@@ -109,16 +117,17 @@ class HomeScreenFreelancer extends StatelessWidget {
             salary: 'Rp 100.000',
             note: '(per poster)',
             recommendation: 'Recommended for Teknik Industri',
+            // Variasi warna kartu agar menarik
             color: Theme.of(context).colorScheme.secondary,
           ),
           const SizedBox(width: 15),
           _buildTrendingJobCard(
             context,
             jobTitle: 'Tutor Mate\nDasar',
-            salary: 'Rp 75.00',
+            salary: 'Rp 75.000',
             note: '',
-            recommendation: 'Recommended...',
-            color: Theme.of(context).colorScheme.onPrimary,
+            recommendation: 'Recommended for Education',
+            color: Theme.of(context).colorScheme.primary,
           ),
         ],
       ),
@@ -139,11 +148,11 @@ class HomeScreenFreelancer extends StatelessWidget {
       width: 280,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.surface, // Kartu tetap putih/surface
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -171,6 +180,8 @@ class HomeScreenFreelancer extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Text(recommendation,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: textTheme.bodyMedium!.copyWith(fontSize: 12, color: color, fontWeight: FontWeight.bold)),
           ),
         ],
@@ -189,7 +200,7 @@ class HomeScreenFreelancer extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),

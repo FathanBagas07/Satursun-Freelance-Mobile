@@ -16,7 +16,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
   // Variabel Pencarian
   String _keywordName = "";
   // Variabel Lokasi & Skill (Dummy/Visual Saja)
+  // ignore: unused_field
   String _keywordLocation = "";
+  // ignore: unused_field
   String _keywordSkill = "";
 
   @override
