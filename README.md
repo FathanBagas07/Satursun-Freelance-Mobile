@@ -47,7 +47,7 @@ Halaman yang dilalui oleh semua pengguna sebelum masuk ke menu utama.
 
 | **Get Started** | **Login** | **Register** | **Role Selection** |
 |:---:|:---:|:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/cc25904d-22db-423d-871c-791b89e9fd3b" width="160" alt="Get Started"> | <img src="https://github.com/user-attachments/assets/0c8e6ff8-156b-4c17-89d4-b4d9dedd7fd2" width="160" alt="Login"> | <img src="https://github.com/user-attachments/assets/bbd543eb-451c-464a-81e3-565f9270b281" width="160" alt="Register"> | <img src="https://github.com/user-attachments/assets/61a57a7e-7049-491b-a7f0-f05e31fea677" width="160" alt="Select Role"> |
+| <img src="https://github.com/user-attachments/assets/cc25904d-22db-423d-871c-791b89e9fd3b" width="160" alt="Get Started"> | <img src="https://github.com/user-attachments/assets/0c8e6ff8-156b-4c17-89d4-b4d9dedd7fd2" width="160" alt="Login"> | <img src="https://github.com/user-attachments/assets/bbd543eb-451c-464a-81e3-565f9270b281" width="160" alt="Register"> | <img src="https://github.com/user-attachments/assets/fae5e016-e11b-4455-b1da-0bc96189245a" width="160" alt="Select Role"> |
 | *Halaman Awal* | *Masuk Akun* | *Daftar Akun* | *Pilih Peran* |
 
 <br>
