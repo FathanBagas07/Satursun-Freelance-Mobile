@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:satursun_app/modules/auth/services/auth_service.dart';
+import 'package:satursun_app/modules/auth/widgets/reset_password_dialog.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -144,6 +145,37 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
               ),
               const SizedBox(height: 20),
+
+              // FORGOT PASSWORD LINK
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text.rich(
+                  TextSpan(
+                    text: 'Lupa kata sandi? ',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: 'Ubah Sandi',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => const ResetPasswordDialog(),
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              const SizedBox(height: 30),
 
               // GOOGLE SIGN IN & REGISTER LINK
               Center(

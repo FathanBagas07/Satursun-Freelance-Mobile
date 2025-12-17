@@ -16,7 +16,9 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
   // Variabel Pencarian
   String _keywordName = "";
   // Variabel Lokasi & Skill (Dummy/Visual Saja)
+  // ignore: unused_field
   String _keywordLocation = "";
+  // ignore: unused_field
   String _keywordSkill = "";
 
   @override
@@ -190,7 +192,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -221,7 +223,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -282,7 +284,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.withOpacity(0.3)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -344,7 +346,7 @@ class _ExploreScreenKlienState extends State<ExploreScreenKlien> {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
           )

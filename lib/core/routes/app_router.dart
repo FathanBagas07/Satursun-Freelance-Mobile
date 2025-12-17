@@ -21,14 +21,14 @@ import '../../modules/freelancer/screens/job_detail_screen.dart';
 import '../../modules/freelancer/screens/task_submission_screen_freelancer.dart';
 
 // Klien Screens
-import '../../modules/klien/screens/home_screen_klien.dart';
-import '../../modules/klien/screens/explore_screen_klien.dart';
-import '../../modules/klien/screens/wallet_screen_klien.dart';
-import '../../modules/klien/screens/job_screen_klien.dart';
-import '../../modules/klien/screens/profile_screen_klien.dart';
-import '../../modules/klien/screens/job_post_first_screen_klien.dart';
-import '../../modules/klien/screens/job_post_second_screen_klien.dart';
-import '../../modules/klien/screens/job_detail_screen_klien.dart';
+import '../../modules/client/screens/home_screen_klien.dart';
+import '../../modules/client/screens/explore_screen_klien.dart';
+import '../../modules/client/screens/wallet_screen_klien.dart';
+import '../../modules/client/screens/job_screen_klien.dart';
+import '../../modules/client/screens/profile_screen_klien.dart';
+import '../../modules/client/screens/job_post_first_screen_klien.dart';
+import '../../modules/client/screens/job_post_second_screen_klien.dart';
+import '../../modules/client/screens/job_detail_screen_klien.dart';
 
 class AppRouter {
   static final _authListenable = AuthListenable();
