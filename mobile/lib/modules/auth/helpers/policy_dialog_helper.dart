@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satursun_app/modules/auth/enums/policy_type.dart';
 import '../widgets/policy_dialog.dart';
 
 class PolicyDialogHelper {
