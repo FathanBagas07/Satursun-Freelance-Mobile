@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1028200829212-lhpjh66uap6l7dgdb2pbrfvm29tb0qgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.satursun_app",
+            "certificate_hash": "a9b2d6cc7314a5c25006dd5de07eeb35b62ee6eb"
+          }
+        },
+        {
           "client_id": "1028200829212-o1g4sit65nnuov192tb8j1f9c3uvucsk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
