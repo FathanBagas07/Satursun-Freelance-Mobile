@@ -109,4 +109,4 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan lokal And
     ```
 
 ## E. Dokumen SRS
-<[SRS - Satursun Freelance Mobile](https://docs.google.com/document/d/110gueLJUb7vQvyj4AoQF_7T-cLLW1Q08yQvamL9Ta_E/edit?usp=sharing)>
+[SRS - Satursun Freelance Mobile](https://docs.google.com/document/d/110gueLJUb7vQvyj4AoQF_7T-cLLW1Q08yQvamL9Ta_E/edit?usp=sharing)
